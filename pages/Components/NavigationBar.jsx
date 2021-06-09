@@ -68,12 +68,12 @@ class NavigationBar extends React.Component {
 
   componentDidMount = () => {
     console.log("NavigationBar");
-    const companyNames = JSON.parse(localStorage.getItem("companyNames"));
-    if (companyNames != null) {
-      return;
-    }
+    // const companyNames = JSON.parse(localStorage.getItem("companyNames"));
+    // if (companyNames != null) {
+    //   return;
+    // }
 
-    this.getCompanyNames();
+    // this.getCompanyNames();
   };
 
   getCompanyNames = () => {
@@ -106,7 +106,7 @@ class NavigationBar extends React.Component {
     // details.push(email);
     // console.log(details);
     return (
-      <Grid container className={classes.root} spacing={1}>
+      <Grid container className={classes.root} spacing={1} justify="center">
         <Grid item className={classes.grid}>
           <NavLink
             to="/home"
@@ -147,7 +147,7 @@ class NavigationBar extends React.Component {
                 activeStyle={{ color: "blue" }}
               >
                 <Typography className={classes.typography} variant="h4">
-                  Comparision
+                  Comparison
                 </Typography>
               </NavLink>
             </Grid>
@@ -177,7 +177,7 @@ class NavigationBar extends React.Component {
           <span />
         )}
 
-        {logged === true ? (
+        {/* {logged === true ? (
           <Grid item className={classes.grid}>
             <Autocomplete
               style={{ width: "200px" }}
@@ -203,8 +203,8 @@ class NavigationBar extends React.Component {
           </Grid>
         ) : (
           <span />
-        )}
-        {logged == false ? (
+        )} */}
+        {logged == null || logged === false ? (
           <Grid item className={classes.grid}>
             <NavLink
               to="/login"
@@ -219,7 +219,7 @@ class NavigationBar extends React.Component {
         ) : (
           <span />
         )}
-        {logged == false ? (
+        {logged == null || logged === false ? (
           <Grid item className={classes.grid}>
             <NavLink
               to="/signup"
@@ -253,7 +253,6 @@ class NavigationBar extends React.Component {
         {logged == true ? (
           <Grid item>
             <Tooltip
-              leaveDelay={2000}
               classes={{ tooltip: classes.tooltip }}
               interactive
               title={
@@ -273,7 +272,8 @@ class NavigationBar extends React.Component {
                     <Button
                       variant="outlined"
                       onClick={() => {
-                        localStorage.setItem("logged", JSON.stringify(false));
+                        window.localStorage.clear();
+                        // localStorage.setItem("logged", JSON.stringify(false));
                         history.push("/");
                       }}
                     >

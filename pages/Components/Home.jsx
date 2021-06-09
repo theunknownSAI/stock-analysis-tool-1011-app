@@ -109,10 +109,10 @@ class Home extends React.Component {
   }
 
   componentDidMount = () => {
-    const logged = JSON.parse(localStorage.getItem("logged"));
-    if (logged == null) {
-      localStorage.setItem("logged", JSON.stringify(false));
-    }
+    // const logged = JSON.parse(localStorage.getItem("logged"));
+    // if (logged == null) {
+    //   localStorage.setItem("logged", JSON.stringify(false));
+    // }
     console.log("Home");
   };
 
@@ -127,7 +127,8 @@ class Home extends React.Component {
   render() {
     const { classes, theme } = this.props;
     const open = this.state.open;
-    const logged = JSON.parse(localStorage.getItem("logged"));
+    let logged = JSON.parse(localStorage.getItem("logged"));
+
     return (
       <React.Fragment>
         <CssBaseline />
@@ -145,6 +146,9 @@ class Home extends React.Component {
               aria-label="open drawer"
               onClick={this.handleDrawerOpen}
               edge="start"
+              style={{
+                display: logged == null || logged === false ? "none" : "",
+              }}
               className={clsx(classes.menuButton, open && classes.hide)}
             >
               <MenuIcon />
@@ -186,14 +190,32 @@ class Home extends React.Component {
             <Switch>
               <Route exact path="/" component={Main} />
               <Route exact path="/home" component={Main} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/signup" component={SignUp} />
+              <Route
+                exact
+                path="/login"
+                render={(props) => {
+                  if (logged == null || logged === false) {
+                    return <Login />;
+                  }
+                  return <Redirect to="/home" />;
+                }}
+              />
+              <Route
+                exact
+                path="/signup"
+                render={(props) => {
+                  if (logged == null || logged === false) {
+                    return <SignUp />;
+                  }
+                  return <Redirect to="/home" />;
+                }}
+              />
               <Route exact path="/about" component={About} />
               <Route
                 exact
                 path="/top/:num/:type"
                 render={(props) => {
-                  if (logged === false) {
+                  if (logged == null || logged === false) {
                     return <Redirect to="/login" />;
                   }
                   const {
@@ -208,7 +230,7 @@ class Home extends React.Component {
                 exact
                 path="/sectors"
                 render={(props) => {
-                  if (logged === false) {
+                  if (logged == null || logged === false) {
                     return <Redirect to="/login" />;
                   }
                   return <Sectors />;
@@ -218,7 +240,7 @@ class Home extends React.Component {
                 exact
                 path="/companydetails/:company"
                 render={(props) => {
-                  if (logged === false) {
+                  if (logged == null || logged === false) {
                     return <Redirect to="/login" />;
                   }
                   const {
@@ -235,7 +257,7 @@ class Home extends React.Component {
                 exact
                 path="/revenue"
                 render={(props) => {
-                  if (logged === false) {
+                  if (logged == null || logged === false) {
                     return <Redirect to="/login" />;
                   }
                   return <Revenue />;
@@ -245,7 +267,7 @@ class Home extends React.Component {
                 exact
                 path="/sp500"
                 render={(props) => {
-                  if (logged === false) {
+                  if (logged == null || logged === false) {
                     return <Redirect to="/login" />;
                   }
                   return <SP500 />;
@@ -255,7 +277,7 @@ class Home extends React.Component {
                 exact
                 path="/comparision"
                 render={(props) => {
-                  if (logged === false) {
+                  if (logged == null || logged === false) {
                     return <Redirect to="/login" />;
                   }
                   return <Comparision />;
@@ -265,7 +287,7 @@ class Home extends React.Component {
                 exact
                 path="/simulation"
                 render={(props) => {
-                  if (logged === false) {
+                  if (logged == null || logged === false) {
                     return <Redirect to="/login" />;
                   }
                   return <Simulation />;

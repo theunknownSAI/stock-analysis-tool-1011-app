@@ -17,11 +17,12 @@ async function run(email, password) {
     console.log("Connected correctly to server");
     const db = client.db(dbName);
     const col = db.collection("userdetails");
-    const present = await col.findOne({ email: email });
+    let present = await col.findOne({ email: email });
     let status = "";
 
     if (present == null) {
       status = "account doesnt exists";
+      present = {};
     } else {
       const passwordHash = present.password;
       const success = await bcrypt.compare(password, passwordHash);
@@ -29,6 +30,7 @@ async function run(email, password) {
         status = "login success";
       } else {
         status = "invalid credentials";
+        present = {};
       }
     }
     // await client.close();
@@ -36,7 +38,7 @@ async function run(email, password) {
   } catch (err) {
     // await client.close();
     console.log(err.stack);
-    return "error";
+    return ["error", {}];
   }
 }
 

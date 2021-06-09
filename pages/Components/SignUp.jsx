@@ -34,15 +34,16 @@ class SignUp extends React.Component {
       lastNameError: "",
       emailError: "",
       passwordError: "",
-      created: "",
+      signupstatus: "",
     };
   }
   componentDidMount = () => {
+    window.localStorage.clear();
     console.log("Sign Up");
   };
 
   verifyAndCreate = () => {
-    this.setState({ created: "" }, () => {});
+    this.setState({ signupstatus: "" }, () => {});
     const isValidFirstName = validator.isAlpha(this.state["firstName"]);
     const isValidLastName = validator.isAlpha(this.state["lastName"]);
     const isValidEmail = validator.isEmail(this.state["email"]);
@@ -106,7 +107,7 @@ class SignUp extends React.Component {
             password: "",
             firstName: "",
             lastName: "",
-            created: s.data["status"],
+            signupstatus: s.data["status"],
           },
           () => {}
         );
@@ -129,7 +130,7 @@ class SignUp extends React.Component {
           }}
         >
           <Typography component="h1" variant="h4">
-            {this.state.created}
+            {this.state.signupstatus}
           </Typography>
 
           <Grid container spacing={2} style={{ marginTop: "25px" }}>

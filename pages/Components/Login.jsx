@@ -31,7 +31,6 @@ class Login extends React.Component {
     this.state = {
       email: JSON.parse(localStorage.getItem("email")) || "",
       password: JSON.parse(localStorage.getItem("password")) || "",
-      created: JSON.parse(localStorage.getItem("created")) || "",
       loginstatus: "",
       emailError: "",
       passwordError: "",
@@ -39,9 +38,11 @@ class Login extends React.Component {
   }
   componentDidMount = () => {
     console.log("Login");
+    window.localStorage.clear();
   };
 
   verifyAndLogin = () => {
+    this.setState({ loginstatus: "" }, () => {});
     const { history } = this.props;
     const { email, password } = this.state;
     const prevemail = JSON.parse(localStorage.getItem("email"));
@@ -87,9 +88,6 @@ class Login extends React.Component {
           this.setState({ loginstatus: s["data"]["status"] }, () => {});
           localStorage.setItem("logged", JSON.stringify(false));
         }
-        this.setState({ created: s["data"]["status"] }, () => {
-          localStorage.setItem("created", JSON.stringify(this.state.created));
-        });
       })
       .catch((e) => {
         console.log(e);
