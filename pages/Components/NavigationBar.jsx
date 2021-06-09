@@ -5,11 +5,10 @@ import {
   Grid,
   Button,
   IconButton,
-  Dialog,
-  DialogContent,
   List,
   ListItem,
   ListItemText,
+  Tooltip,
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import React from "react";
@@ -41,6 +40,10 @@ const styles = (theme) => ({
     height: 60,
     fontSize: 25,
   },
+  tooltip: {
+    backgroundColor: "#15DB95",
+    maxWidth: "none",
+  },
 });
 
 class NavigationBar extends React.Component {
@@ -49,9 +52,6 @@ class NavigationBar extends React.Component {
     this.state = {
       selectedCompany: " ",
       companyNames: JSON.parse(localStorage.getItem("companyNames")) || [],
-      dialogopen: false,
-      xpos: "",
-      ypos: "",
     };
   }
 
@@ -94,13 +94,8 @@ class NavigationBar extends React.Component {
       .catch((e) => console.log(e));
   };
 
-  handleClose = (e) => {
-    const dialogopen = this.state.dialogopen;
-    this.setState({ dialogopen: !dialogopen }, () => {});
-  };
-
   render() {
-    const { classes, history } = this.props;
+    const { classes, history, theme } = this.props;
     const logged = JSON.parse(localStorage.getItem("logged"));
     let details = JSON.parse(localStorage.getItem("details")) || [];
     // const firstName = JSON.parse(localStorage.getItem("firstName"));
@@ -135,49 +130,80 @@ class NavigationBar extends React.Component {
             </Typography>
           </NavLink>
         </Grid>
-        <Grid item className={classes.grid}>
-          <NavLink
-            to="/comparision"
-            className={classes.link}
-            activeStyle={{ color: "blue" }}
+        {logged === true ? (
+          <Tooltip
+            classes={{ tooltip: classes.tooltip }}
+            title={
+              <Typography variant="h6">
+                to compare two or more companies
+              </Typography>
+            }
+            interactive
           >
-            <Typography className={classes.typography} variant="h4">
-              Comparision
-            </Typography>
-          </NavLink>
-        </Grid>
-        <Grid item className={classes.grid}>
-          <NavLink
-            to="/simulation"
-            className={classes.link}
-            activeStyle={{ color: "blue" }}
+            <Grid item className={classes.grid}>
+              <NavLink
+                to="/comparision"
+                className={classes.link}
+                activeStyle={{ color: "blue" }}
+              >
+                <Typography className={classes.typography} variant="h4">
+                  Comparision
+                </Typography>
+              </NavLink>
+            </Grid>
+          </Tooltip>
+        ) : (
+          <span />
+        )}
+        {logged === true ? (
+          <Tooltip
+            classes={{ tooltip: classes.tooltip }}
+            title={<Typography variant="h6">shows our analysis</Typography>}
+            interactive
           >
-            <Typography className={classes.typography} variant="h4">
-              Simulation
-            </Typography>
-          </NavLink>
-        </Grid>
-        <Grid item className={classes.grid}>
-          <Autocomplete
-            style={{ width: "200px" }}
-            // value={this.state.selectedCompany}
-            inputValue=""
-            onChange={(e, val) => {
-              this.selectedCompany(e, val);
-            }}
-            id="search for companies"
-            freeSolo
-            options={this.state.companyNames.map((companyname) => companyname)}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="search for companies"
-                margin="normal"
-                variant="outlined"
-              />
-            )}
-          />
-        </Grid>
+            <Grid item className={classes.grid}>
+              <NavLink
+                to="/simulation"
+                className={classes.link}
+                activeStyle={{ color: "blue" }}
+              >
+                <Typography className={classes.typography} variant="h4">
+                  Simulation
+                </Typography>
+              </NavLink>
+            </Grid>
+          </Tooltip>
+        ) : (
+          <span />
+        )}
+
+        {logged === true ? (
+          <Grid item className={classes.grid}>
+            <Autocomplete
+              style={{ width: "200px" }}
+              // value={this.state.selectedCompany}
+              inputValue=""
+              onChange={(e, val) => {
+                this.selectedCompany(e, val);
+              }}
+              id="search for companies"
+              freeSolo
+              options={this.state.companyNames.map(
+                (companyname) => companyname
+              )}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="search for companies"
+                  margin="normal"
+                  variant="outlined"
+                />
+              )}
+            />
+          </Grid>
+        ) : (
+          <span />
+        )}
         {logged == false ? (
           <Grid item className={classes.grid}>
             <NavLink
@@ -185,7 +211,7 @@ class NavigationBar extends React.Component {
               className={classes.link}
               activeStyle={{ color: "blue" }}
             >
-              <Typography className={classes.typography} variant="h6">
+              <Typography className={classes.typography} variant="h4">
                 Sign In
               </Typography>
             </NavLink>
@@ -200,7 +226,7 @@ class NavigationBar extends React.Component {
               className={classes.link}
               activeStyle={{ color: "blue" }}
             >
-              <Typography className={classes.typography} variant="h6">
+              <Typography className={classes.typography} variant="h4">
                 Sign Up
               </Typography>
             </NavLink>
@@ -226,43 +252,45 @@ class NavigationBar extends React.Component {
         )} */}
         {logged == true ? (
           <Grid item>
-            <IconButton onClick={this.handleClose}>
-              <AccountCircleIcon className={classes.largeIcon} />
-            </IconButton>
+            <Tooltip
+              leaveDelay={2000}
+              classes={{ tooltip: classes.tooltip }}
+              interactive
+              title={
+                <List>
+                  {Object.keys(details).map((key) => {
+                    if (key === "_id" || key == "password") {
+                      return;
+                    }
+                    const value = details[key];
+                    return (
+                      <ListItem key={key}>
+                        <ListItemText primary={value}></ListItemText>
+                      </ListItem>
+                    );
+                  })}
+                  <ListItem>
+                    <Button
+                      variant="outlined"
+                      onClick={() => {
+                        localStorage.setItem("logged", JSON.stringify(false));
+                        history.push("/");
+                      }}
+                    >
+                      Log Out
+                    </Button>
+                  </ListItem>
+                </List>
+              }
+            >
+              <IconButton>
+                <AccountCircleIcon className={classes.largeIcon} />
+              </IconButton>
+            </Tooltip>
           </Grid>
         ) : (
           <span />
         )}
-
-        <Dialog onClose={this.handleClose} open={this.state.dialogopen}>
-          <DialogContent>
-            <List>
-              {Object.keys(details).map((key) => {
-                if (key === "_id" || key == "password") {
-                  return;
-                }
-                const value = details[key];
-                return (
-                  <ListItem key={key}>
-                    <ListItemText primary={value}></ListItemText>
-                  </ListItem>
-                );
-              })}
-              <ListItem>
-                <Button
-                  variant="outlined"
-                  onClick={() => {
-                    this.setState({ dialogopen: false }, () => {});
-                    localStorage.setItem("logged", JSON.stringify(false));
-                    history.push("/");
-                  }}
-                >
-                  Log Out
-                </Button>
-              </ListItem>
-            </List>
-          </DialogContent>
-        </Dialog>
       </Grid>
     );
   }

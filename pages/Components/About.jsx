@@ -25,7 +25,6 @@ class About extends React.Component {
         <div
           style={{
             padding: "25px",
-            textAlign: "center",
             margin: "10px",
           }}
         >
@@ -34,31 +33,33 @@ class About extends React.Component {
             style={{
               color: "#0D19A3",
             }}
+            align="center"
           >
             About Us
           </Typography>
-          <Typography variant="h6">
+          <Typography variant="h6" align="left">
             <span style={{ backgroundColor: "#15DB95", color: "#0D19A3" }}>
               Stock Vestor
             </span>{" "}
-            is a tool for stock investors to optimize their returns by
-            predicting the stock price of the given company in midterm
-            investments. This tool considers each stock, understands the trend
-            of the stock for short and longer periods, evaluates volatility and
-            risk of the stock, assesses the effect of market sentiment and
-            corporate actions on the stock and advise investors on entry and
-            exit of that stock.
+            is a tool for investors to optimize their returns of the given
+            company in midterm investments. This tool considers each stock,
+            understands the trend of the stock for short and longer periods,
+            evaluates volatility and risk of the stock, assesses the effect of
+            market sentiment and corporate actions on the stock and advise
+            investors on entry and exit of that stock.
           </Typography>
-          <Typography variant="h6">
+          <Typography variant="h6" align="left" style={{ marginTop: "20px" }}>
             We are a team of analytics experts who utilize their skills in both
-            technology and social science to find trends and manage data.
+            technology find trends and manage data.
           </Typography>
           <Typography
             variant="h4"
             style={{
-              margin: "10px",
+              marginTop: "20px",
+              marginBottom: "20px",
               color: "#0D19A3",
             }}
+            align="center"
           >
             Team
           </Typography>
@@ -82,7 +83,7 @@ class About extends React.Component {
                 </Avatar>
               </Grid>
               <Grid item>
-                <Link>
+                <Link href="https://github.com/aparayatham">
                   <Avatar className={clsx(classes.large)}>
                     <GitHubIcon color="disabled" fontSize="large" />
                   </Avatar>

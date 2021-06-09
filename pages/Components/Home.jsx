@@ -104,8 +104,7 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      logged: JSON.parse(localStorage.getItem("logged")) || false,
-      open: true,
+      open: false,
     };
   }
 
@@ -141,6 +140,7 @@ class Home extends React.Component {
         >
           <Toolbar>
             <IconButton
+              disabled={!logged}
               color="inherit"
               aria-label="open drawer"
               onClick={this.handleDrawerOpen}
@@ -149,7 +149,6 @@ class Home extends React.Component {
             >
               <MenuIcon />
             </IconButton>
-
             <NavigationBar />
           </Toolbar>
         </AppBar>
@@ -194,7 +193,7 @@ class Home extends React.Component {
                 exact
                 path="/top/:num/:type"
                 render={(props) => {
-                  if (logged === undefined || logged === false) {
+                  if (logged === false) {
                     return <Redirect to="/login" />;
                   }
                   const {
@@ -209,7 +208,7 @@ class Home extends React.Component {
                 exact
                 path="/sectors"
                 render={(props) => {
-                  if (logged === undefined || logged === false) {
+                  if (logged === false) {
                     return <Redirect to="/login" />;
                   }
                   return <Sectors />;
@@ -219,7 +218,7 @@ class Home extends React.Component {
                 exact
                 path="/companydetails/:company"
                 render={(props) => {
-                  if (logged === undefined || logged === false) {
+                  if (logged === false) {
                     return <Redirect to="/login" />;
                   }
                   const {
@@ -236,7 +235,7 @@ class Home extends React.Component {
                 exact
                 path="/revenue"
                 render={(props) => {
-                  if (logged === undefined || logged === false) {
+                  if (logged === false) {
                     return <Redirect to="/login" />;
                   }
                   return <Revenue />;
@@ -246,7 +245,7 @@ class Home extends React.Component {
                 exact
                 path="/sp500"
                 render={(props) => {
-                  if (logged === undefined || logged === false) {
+                  if (logged === false) {
                     return <Redirect to="/login" />;
                   }
                   return <SP500 />;
@@ -256,7 +255,7 @@ class Home extends React.Component {
                 exact
                 path="/comparision"
                 render={(props) => {
-                  if (logged === undefined || logged === false) {
+                  if (logged === false) {
                     return <Redirect to="/login" />;
                   }
                   return <Comparision />;
@@ -266,7 +265,7 @@ class Home extends React.Component {
                 exact
                 path="/simulation"
                 render={(props) => {
-                  if (logged === undefined || logged === false) {
+                  if (logged === false) {
                     return <Redirect to="/login" />;
                   }
                   return <Simulation />;
