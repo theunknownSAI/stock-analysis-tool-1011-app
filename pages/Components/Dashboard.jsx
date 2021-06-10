@@ -6,6 +6,7 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 import { ButtonGroup, Button, Divider, withStyles } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
+import moment from "moment";
 
 import Loader from "react-loader-spinner";
 
@@ -159,18 +160,27 @@ class Dashboard extends React.Component {
       company = this.props.company;
     }
     const prevcompany = JSON.parse(localStorage.getItem("company"));
-
+    const curdate = moment().format("DD-MM-YYYY");
+    const prevdate =
+      localStorage.getItem("date") == null
+        ? curdate
+        : localStorage.getItem("date");
     if (
       prevcompany != null &&
       company !== "sp500" &&
       company === prevcompany &&
+      prevdate == curdate &&
       this.state.stockChartDetails.length != 0
     ) {
       this.setState({ details: this.state.stockChartDetails }, () => {});
       return;
     }
 
-    if (company === "sp500" && this.state.sp500ChartDetails.length != 0) {
+    if (
+      company === "sp500" &&
+      prevdate == curdate &&
+      this.state.sp500ChartDetails.length != 0
+    ) {
       this.setState({ details: this.state.sp500ChartDetails }, () => {});
       return;
     }

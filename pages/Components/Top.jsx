@@ -3,6 +3,7 @@ import axios from "axios";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import Loader from "react-loader-spinner";
+import moment from "moment";
 
 const styles = (theme) => ({
   paper: {
@@ -38,8 +39,17 @@ class Top extends React.Component {
     const prevnum = JSON.parse(localStorage.getItem("num"));
     const prevtype = JSON.parse(localStorage.getItem("type"));
     const topCompanies = JSON.parse(localStorage.getItem("topCompanies"));
-
-    if (prevtype === type && prevnum === num && topCompanies != null) {
+    const curdate = moment().format("DD-MM-YYYY");
+    const prevdate =
+      localStorage.getItem("date") == null
+        ? curdate
+        : localStorage.getItem("date");
+    if (
+      prevtype === type &&
+      prevnum === num &&
+      topCompanies != null &&
+      prevdate == curdate
+    ) {
       return;
     }
 

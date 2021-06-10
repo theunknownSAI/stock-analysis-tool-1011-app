@@ -1,4 +1,4 @@
-import { TextField, withStyles } from "@material-ui/core";
+import { TextField, withStyles, Grid } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import { withRouter } from "react-router-dom";
 import dynamic from "next/dynamic";
@@ -203,59 +203,72 @@ class Sectors extends React.Component {
             padding: "25px",
           }}
         >
-          <div className={classes.divchart}>
-            <Chart
-              options={this.state.options}
-              series={this.state.series}
-              key="chart"
-              type="bar"
-              className={classes.chart}
-            />
-          </div>
-          {this.state.sectors.length !== 0 && (
-            <Autocomplete
-              style={{
-                width: "50%",
-              }}
-              onChange={(e, val) => {
-                this.selectedSector(e, val);
-              }}
-              id="search for sector"
-              freeSolo
-              options={Object.keys(this.state.sectors).map((sector) => sector)}
-              getOptionLabel={(option) => option}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="search for sector"
-                  margin="normal"
-                  variant="outlined"
+          <div className={classes.divchart}></div>
+          <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+          >
+            <Grid item style={{ width: "75%" }}>
+              <Chart
+                options={this.state.options}
+                series={this.state.series}
+                key="chart"
+                type="bar"
+              />
+            </Grid>
+            <Grid item>
+              {this.state.sectors.length !== 0 && (
+                <Autocomplete
+                  style={{
+                    width: 400,
+                  }}
+                  onChange={(e, val) => {
+                    this.selectedSector(e, val);
+                  }}
+                  id="search for sector"
+                  freeSolo
+                  options={Object.keys(this.state.sectors).map(
+                    (sector) => sector
+                  )}
+                  getOptionLabel={(option) => option}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="search for sector"
+                      margin="normal"
+                      variant="outlined"
+                    />
+                  )}
                 />
               )}
-            />
-          )}
-          {this.state.selectedSectorCompanies.length !== 0 && (
-            <Autocomplete
-              style={{ width: "50%", align: "center" }}
-              onChange={(e, val) => {
-                this.selectedCompany(val);
-              }}
-              id="search for companies"
-              freeSolo
-              options={this.state.selectedSectorCompanies.map(
-                (company) => company
-              )}
-              getOptionLabel={(option) => option}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="search for company"
-                  margin="normal"
-                  variant="outlined"
+            </Grid>
+            <Grid item>
+              {this.state.selectedSectorCompanies.length !== 0 && (
+                <Autocomplete
+                  style={{ width: 400, align: "center" }}
+                  onChange={(e, val) => {
+                    this.selectedCompany(val);
+                  }}
+                  id="search for companies"
+                  freeSolo
+                  options={this.state.selectedSectorCompanies.map(
+                    (company) => company
+                  )}
+                  getOptionLabel={(option) => option}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="search for company"
+                      margin="normal"
+                      variant="outlined"
+                    />
+                  )}
                 />
               )}
-            />
-          )}
+            </Grid>
+          </Grid>
         </div>
       </React.Fragment>
     );

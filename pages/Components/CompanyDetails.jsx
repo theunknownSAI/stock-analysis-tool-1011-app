@@ -9,6 +9,7 @@ import {
 import React from "react";
 import axios from "axios";
 import Loader from "react-loader-spinner";
+import moment from "moment";
 
 import Dashboard from "./Dashboard";
 
@@ -58,8 +59,13 @@ class CompanyDetails extends React.Component {
     const { match } = this.props;
     const company = match.params.company;
     const prevcompany = JSON.parse(localStorage.getItem("selectedCompany"));
+    const curdate = moment().format("DD-MM-YYYY");
+    const prevdate =
+      localStorage.getItem("date") == null
+        ? curdate
+        : localStorage.getItem("date");
 
-    if (prevcompany === company) {
+    if (prevcompany === company && prevdate === curdate) {
       return;
     }
 

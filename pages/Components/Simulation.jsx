@@ -7,6 +7,8 @@ import {
   GridToolbarContainer,
   GridToolbarExport,
 } from "@material-ui/data-grid";
+import moment from "moment";
+
 class Simulation extends React.Component {
   constructor(props) {
     super(props);
@@ -24,9 +26,20 @@ class Simulation extends React.Component {
 
   onSelectDays = async (e) => {
     const days = e.target.value;
+    const prevdays = localStorage.getItem("days");
+    const curdate = moment().format("DD-MM-YYYY");
+    const prevdate =
+      localStorage.getItem("date") == null
+        ? curdate
+        : localStorage.getItem("date");
+
+    if (days == prevdays && prevdate == curdate) {
+      return;
+    }
     this.setState({ days: days }, () => {
       localStorage.setItem("days", JSON.stringify(this.state.days));
     });
+
     this.setState({ loading: true }, () => {});
     await axios
       .get("/api/simulationtop" + "?" + "days=" + days)

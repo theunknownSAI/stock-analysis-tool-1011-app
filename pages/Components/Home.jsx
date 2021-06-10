@@ -36,7 +36,7 @@ import Top from "./Top";
 import Simulation from "./Simulation";
 import Main from "./Main";
 import SignUp from "./SignUp";
-
+import moment from "moment";
 const drawerWidth = 300;
 
 const styles = (theme) => ({
@@ -110,6 +110,11 @@ class Home extends React.Component {
 
   componentDidMount = () => {
     console.log("Home");
+    const curdate =
+      localStorage.getItem("date") == null
+        ? moment().format("DD-MM-YYYY")
+        : localStorage.getItem("date");
+    localStorage.setItem("date", curdate);
   };
 
   handleDrawerOpen = () => {

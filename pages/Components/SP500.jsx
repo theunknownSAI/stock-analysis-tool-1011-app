@@ -29,7 +29,7 @@ class SP500 extends React.Component {
             padding: "25px",
           }}
         >
-          <Paper elevation={0} className={classes.paper}>
+          <Paper elevation={0} className={classes.paper} align="center">
             <Typography variant="h4">{"SP 500"}</Typography>
           </Paper>
           <Dashboard company="sp500" />

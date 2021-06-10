@@ -51,7 +51,7 @@ class NavigationBar extends React.Component {
     super(props);
     this.state = {
       selectedCompany: " ",
-      companyNames: JSON.parse(localStorage.getItem("companyNames")) || [],
+      // companyNames: JSON.parse(localStorage.getItem("companyNames")) || [],
     };
   }
 
@@ -76,23 +76,23 @@ class NavigationBar extends React.Component {
     // this.getCompanyNames();
   };
 
-  getCompanyNames = () => {
-    axios
-      .get("/api/companynames")
-      .then((s) => {
-        if (s.status === 200) {
-          this.setState({ companyNames: s.data }, () => {
-            localStorage.setItem(
-              "companyNames",
-              JSON.stringify(this.state.companyNames)
-            );
-          });
-        } else {
-          this.setState({ companyNames: [] });
-        }
-      })
-      .catch((e) => console.log(e));
-  };
+  // getCompanyNames = () => {
+  //   axios
+  //     .get("/api/companynames")
+  //     .then((s) => {
+  //       if (s.status === 200) {
+  //         this.setState({ companyNames: s.data }, () => {
+  //           localStorage.setItem(
+  //             "companyNames",
+  //             JSON.stringify(this.state.companyNames)
+  //           );
+  //         });
+  //       } else {
+  //         this.setState({ companyNames: [] });
+  //       }
+  //     })
+  //     .catch((e) => console.log(e));
+  // };
 
   render() {
     const { classes, history, theme } = this.props;
