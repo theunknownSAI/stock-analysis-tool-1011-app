@@ -24,7 +24,8 @@ class Revenue extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      topCompanies: JSON.parse(localStorage.getItem("topCompanies")) || [],
+      topCompaniesRevenue:
+        JSON.parse(localStorage.getItem("topCompaniesRevenue")) || [],
       num: JSON.parse(localStorage.getItem("num")) || 30,
       loading: false,
     };
@@ -33,8 +34,10 @@ class Revenue extends React.Component {
   componentDidMount = () => {
     console.log("Revenue");
     const num = JSON.parse(localStorage.getItem("num"));
-    const topCompanies = JSON.parse(localStorage.getItem("topCompanies"));
-    if (topCompanies != null && topCompanies.length !== 0) {
+    const topCompaniesRevenue = JSON.parse(
+      localStorage.getItem("topCompaniesRevenue")
+    );
+    if (topCompaniesRevenue != null && topCompaniesRevenue.length !== 0) {
       return;
     }
 
@@ -48,24 +51,27 @@ class Revenue extends React.Component {
             return a["Revenue"] - b["Revenue"];
           });
           companyStockDetails = companyStockDetails.slice(0, this.state.num);
-          let topCompanies = [];
+          let topCompaniesRevenue = [];
           for (let index = 0; index < companyStockDetails.length; index++) {
             const element = companyStockDetails[index];
-            topCompanies.push(element["Company"]);
+            topCompaniesRevenue.push(element["Company"]);
           }
-          this.setState({ topCompanies: topCompanies, loading: false }, () => {
-            localStorage.setItem(
-              "topCompanies",
-              JSON.stringify(this.state.topCompanies)
-            );
-          });
+          this.setState(
+            { topCompaniesRevenue: topCompaniesRevenue, loading: false },
+            () => {
+              localStorage.setItem(
+                "topCompaniesRevenue",
+                JSON.stringify(this.state.topCompaniesRevenue)
+              );
+            }
+          );
         } else {
-          this.setState({ topCompanies: [], loading: false }, () => {});
+          this.setState({ topCompaniesRevenue: [], loading: false }, () => {});
         }
       })
       .catch((e) => {
         console.log(e);
-        this.setState({ topCompanies: [], loading: false }, () => {});
+        this.setState({ topCompaniesRevenue: [], loading: false }, () => {});
       });
   };
 
@@ -87,7 +93,7 @@ class Revenue extends React.Component {
                   Top {this.state.num} Companies Revenue wise
                 </Typography>
               </Paper>
-              {this.state.topCompanies.map((company) => {
+              {this.state.topCompaniesRevenue.map((company) => {
                 return (
                   <NavLink
                     className={classes.navlink}
