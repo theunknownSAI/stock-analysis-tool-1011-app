@@ -274,6 +274,7 @@ class NavigationBar extends React.Component {
                       onClick={() => {
                         window.localStorage.clear();
                         // localStorage.setItem("logged", JSON.stringify(false));
+                        this.props.modifyOpen(false);
                         history.push("/");
                       }}
                     >

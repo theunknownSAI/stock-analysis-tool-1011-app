@@ -109,10 +109,6 @@ class Home extends React.Component {
   }
 
   componentDidMount = () => {
-    // const logged = JSON.parse(localStorage.getItem("logged"));
-    // if (logged == null) {
-    //   localStorage.setItem("logged", JSON.stringify(false));
-    // }
     console.log("Home");
   };
 
@@ -124,6 +120,9 @@ class Home extends React.Component {
     this.setState({ open: false });
   };
 
+  modifyOpen = (e) => {
+    this.setState({ open: false });
+  };
   render() {
     const { classes, theme } = this.props;
     const open = this.state.open;
@@ -153,7 +152,7 @@ class Home extends React.Component {
             >
               <MenuIcon />
             </IconButton>
-            <NavigationBar />
+            <NavigationBar modifyOpen={this.modifyOpen} />
           </Toolbar>
         </AppBar>
         <div className={classes.root}>
