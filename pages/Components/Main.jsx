@@ -1,25 +1,32 @@
-import { TextField, Typography, Tooltip, withStyles } from "@material-ui/core";
+import {
+  TextField,
+  Typography,
+  Tooltip,
+  withStyles,
+  Grid,
+  Avatar,
+} from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import React from "react";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
+
+import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 const styles = (theme) => ({
   tooltip: {
     backgroundColor: "inherit",
     color: "#ff0000",
     maxWidth: "none",
   },
-
-  heading: {
-    zIndex: 1,
-    position: "relative",
-    color: "#15DB95",
-    left: "25%",
-    top: 150,
-    display: "inline",
+  large: {
+    width: 200,
+    height: 200,
+  },
+  notchedOutline: {
+    borderWidth: "2px",
+    borderColor: "#ff0000 !important",
   },
 });
-
 class Main extends React.Component {
   constructor(props) {
     super(props);
@@ -74,66 +81,87 @@ class Main extends React.Component {
     const { classes } = this.props;
     return (
       <React.Fragment>
-        <div style={{ position: "relative" }}>
-          <img
-            src="/images/stockbg.png"
-            style={{
-              zIndex: -1,
-              position: "absolute",
-              width: "100%",
-            }}
-          />
-          <img
-            src="/images/logo.png"
-            style={{
-              position: "absolute",
-              width: "25%",
-              height: "100%",
-              left: "30%",
-              top: 25,
-              backgroundColor: "inherit",
-            }}
-          />
-          <Typography variant="h4" className={classes.heading}>
-            Stock analysis tool for investors in India.
-          </Typography>
-          <Tooltip
-            title={
-              logged == false ? (
-                <Typography variant="h5">sign in to access</Typography>
-              ) : (
-                <span />
-              )
-            }
-            classes={{ tooltip: classes.tooltip }}
-          >
-            <Autocomplete
-              disabled={!logged}
-              style={{
-                width: 400,
-                position: "relative",
-                left: "30%",
-                top: 150,
-              }}
-              id="search for companies"
-              freeSolo
-              onChange={(e, val) => {
-                this.selectedCompany(e, val);
-              }}
-              options={this.state.companyNames.map(
-                (companyname) => companyname
-              )}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="search for companies"
-                  margin="normal"
-                  variant="outlined"
-                />
-              )}
-            />
-          </Tooltip>
-        </div>
+        <img
+          src="/images/stockbg.png"
+          style={{
+            zIndex: -1,
+            position: "absolute",
+            width: "100%",
+          }}
+        />
+        <Grid
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
+          style={{ marginTop: "25px" }}
+        >
+          <Grid item container justify="center" alignItems="center">
+            <Grid item>
+              <Typography
+                variant="h4"
+                style={{
+                  fontFamily: "cursive",
+                  fontSize: 50,
+                }}
+              >
+                Stock Vestor
+              </Typography>
+            </Grid>
+            <Grid item>
+              <TrendingUpIcon style={{ fontSize: 80 }} />
+            </Grid>
+          </Grid>
+          <Grid item>
+            <Typography variant="h4">
+              Stock analysis tool for investors in India.
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Tooltip
+              title={
+                logged == null || logged == false ? (
+                  <Typography variant="h5">sign in to access</Typography>
+                ) : (
+                  <span />
+                )
+              }
+              classes={{ tooltip: classes.tooltip }}
+            >
+              <Autocomplete
+                disabled={logged != true}
+                style={{
+                  width: 400,
+                }}
+                id="search for companies"
+                freeSolo
+                onChange={(e, val) => {
+                  this.selectedCompany(e, val);
+                }}
+                options={this.state.companyNames.map(
+                  (companyname) => companyname
+                )}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="search for companies"
+                    margin="normal"
+                    variant="outlined"
+                    InputLabelProps={{
+                      style: { color: "#ff0000" },
+                    }}
+                    InputProps={{
+                      ...params.InputProps,
+                      classes: {
+                        notchedOutline: classes.notchedOutline,
+                      },
+                    }}
+                  />
+                )}
+              />
+            </Tooltip>
+          </Grid>
+        </Grid>
       </React.Fragment>
     );
   }
