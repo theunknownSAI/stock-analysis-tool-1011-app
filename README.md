@@ -21,6 +21,10 @@
 - npm install react-loader-spinner
 - npm install react-router-dom
 - npm install underscore
+- npm install mongodb
+- npm install validator
+- npm install moment
+- npm install bcrypt
 
 ## To start App
 
@@ -51,9 +55,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
    |-- package.json
    |-- README.md
    |-- vercel.json
-   |-- .github
-   |   |-- workflows
-   |       |-- codeql-analysis.yml
    |-- pages
    |   |-- 404.js
    |   |-- App.js
@@ -65,6 +66,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
    |   |   |-- comparision.js
    |   |   |-- previousdaystockdetails.js
    |   |   |-- sectors.js
+   |   |   |-- signin.js
+   |   |   |-- signup.js
    |   |   |-- simulationtop.js
    |   |   |-- sp500.js
    |   |   |-- stockdetails.js
@@ -84,19 +87,16 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
    |       |-- Revenue.jsx
    |       |-- Sectors.jsx
    |       |-- SideBar.jsx
+   |       |-- SignUp.jsx
    |       |-- Simulation.jsx
    |       |-- SP500.jsx
    |       |-- Top.jsx
    |-- public
    |   |-- favicon.ico
    |   |-- images
-   |       |-- logo.jpg
-   |       |-- mountains.jpg
+   |       |-- logo.png
    |       |-- sai.png
-   |       |-- stocks1.jpg
-   |       |-- stocks2.jpg
-   |       |-- stocks3.jpg
-   |       |-- stocks6.png
+   |       |-- stockbg.png
    |-- styles
        |-- globals.css
        |-- Home.module.css
