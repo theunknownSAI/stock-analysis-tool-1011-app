@@ -81,87 +81,96 @@ class Main extends React.Component {
     const { classes } = this.props;
     return (
       <React.Fragment>
-        <img
+        {/* <img
           src="/images/stockbg.png"
           style={{
             zIndex: -1,
             position: "absolute",
             width: "100%",
+            backgroundSize: "contain",
           }}
-        />
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          alignItems="center"
-          style={{ marginTop: "25px" }}
+        /> */}
+        <div
+          style={{
+            backgroundImage: `url(${"/images/stockbg.png"})`,
+            height: "600px",
+            width: "100%",
+            marginTop: 20,
+          }}
         >
-          <Grid item container justify="center" alignItems="center">
+          <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+          >
+            <Grid item container justify="center" alignItems="center">
+              <Grid item>
+                <Typography
+                  variant="h4"
+                  style={{
+                    fontFamily: "cursive",
+                    fontSize: 50,
+                  }}
+                >
+                  Stock Vestor
+                </Typography>
+              </Grid>
+              <Grid item>
+                <TrendingUpIcon style={{ fontSize: 80 }} />
+              </Grid>
+            </Grid>
             <Grid item>
-              <Typography
-                variant="h4"
-                style={{
-                  fontFamily: "cursive",
-                  fontSize: 50,
-                }}
-              >
-                Stock Vestor
+              <Typography variant="h4">
+                Stock analysis tool for investors in India.
               </Typography>
             </Grid>
             <Grid item>
-              <TrendingUpIcon style={{ fontSize: 80 }} />
+              <Tooltip
+                title={
+                  logged == null || logged == false ? (
+                    <Typography variant="h5">sign in to access</Typography>
+                  ) : (
+                    <span />
+                  )
+                }
+                classes={{ tooltip: classes.tooltip }}
+              >
+                <Autocomplete
+                  disabled={logged != true}
+                  style={{
+                    width: 400,
+                  }}
+                  id="search for companies"
+                  freeSolo
+                  onChange={(e, val) => {
+                    this.selectedCompany(e, val);
+                  }}
+                  options={this.state.companyNames.map(
+                    (companyname) => companyname
+                  )}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="search for companies"
+                      margin="normal"
+                      variant="outlined"
+                      InputLabelProps={{
+                        style: { color: "#ff0000" },
+                      }}
+                      InputProps={{
+                        ...params.InputProps,
+                        classes: {
+                          notchedOutline: classes.notchedOutline,
+                        },
+                      }}
+                    />
+                  )}
+                />
+              </Tooltip>
             </Grid>
           </Grid>
-          <Grid item>
-            <Typography variant="h4">
-              Stock analysis tool for investors in India.
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Tooltip
-              title={
-                logged == null || logged == false ? (
-                  <Typography variant="h5">sign in to access</Typography>
-                ) : (
-                  <span />
-                )
-              }
-              classes={{ tooltip: classes.tooltip }}
-            >
-              <Autocomplete
-                disabled={logged != true}
-                style={{
-                  width: 400,
-                }}
-                id="search for companies"
-                freeSolo
-                onChange={(e, val) => {
-                  this.selectedCompany(e, val);
-                }}
-                options={this.state.companyNames.map(
-                  (companyname) => companyname
-                )}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="search for companies"
-                    margin="normal"
-                    variant="outlined"
-                    InputLabelProps={{
-                      style: { color: "#ff0000" },
-                    }}
-                    InputProps={{
-                      ...params.InputProps,
-                      classes: {
-                        notchedOutline: classes.notchedOutline,
-                      },
-                    }}
-                  />
-                )}
-              />
-            </Tooltip>
-          </Grid>
-        </Grid>
+        </div>
       </React.Fragment>
     );
   }

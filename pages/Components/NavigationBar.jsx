@@ -41,11 +41,17 @@ const styles = (theme) => ({
     fontSize: 25,
   },
   tooltip: {
-    backgroundColor: "#15DB95",
+    // backgroundColor: "#15DB95",
+    backgroundColor: "#f0f0f0",
+    color: "#000000",
     maxWidth: "none",
   },
   primary: {
-    fontSize: 13,
+    fontSize: 14,
+  },
+  outline: {
+    borderWidth: "2px",
+    borderColor: "#ff0000 !important",
   },
 });
 
@@ -109,164 +115,167 @@ class NavigationBar extends React.Component {
     // details.push(email);
     // console.log(details);
     return (
-      <Grid container className={classes.root} spacing={1}>
-        <Grid item xs={11}>
-          <Grid container justify="center">
-            <Grid item className={classes.grid}>
-              <NavLink
-                to="/home"
-                className={classes.link}
-                activeStyle={{ color: "blue" }}
-              >
-                <Typography className={classes.typography} variant="h4">
-                  Home
-                </Typography>
-              </NavLink>
-            </Grid>
+      <React.Fragment>
+        <Grid container className={classes.root} spacing={1}>
+          <Grid item xs={11}>
+            <Grid container justify="center">
+              <Grid item className={classes.grid}>
+                <NavLink
+                  to="/home"
+                  className={classes.link}
+                  activeStyle={{ color: "blue" }}
+                >
+                  <Typography className={classes.typography} variant="h4">
+                    Home
+                  </Typography>
+                </NavLink>
+              </Grid>
 
-            <Grid item className={classes.grid}>
-              <NavLink
-                to="/about"
-                className={classes.link}
-                activeStyle={{ color: "blue" }}
-              >
-                <Typography className={classes.typography} variant="h4">
-                  About
-                </Typography>
-              </NavLink>
-            </Grid>
-            {logged === true ? (
-              <Tooltip
-                classes={{ tooltip: classes.tooltip }}
-                title={
-                  <Typography variant="h6" className={classes.primary}>
-                    to compare two or more companies
-                  </Typography>
-                }
-                interactive
-              >
-                <Grid item className={classes.grid}>
-                  <NavLink
-                    to="/comparision"
-                    className={classes.link}
-                    activeStyle={{ color: "blue" }}
-                  >
-                    <Typography className={classes.typography} variant="h4">
-                      Comparison
-                    </Typography>
-                  </NavLink>
-                </Grid>
-              </Tooltip>
-            ) : (
-              <span />
-            )}
-            {logged === true ? (
-              <Tooltip
-                classes={{ tooltip: classes.tooltip }}
-                title={
-                  <Typography variant="h6" className={classes.primary}>
-                    to know expected returns of each company
-                  </Typography>
-                }
-                interactive
-              >
-                <Grid item className={classes.grid}>
-                  <NavLink
-                    to="/simulation"
-                    className={classes.link}
-                    activeStyle={{ color: "blue" }}
-                  >
-                    <Typography className={classes.typography} variant="h4">
-                      Simulation
-                    </Typography>
-                  </NavLink>
-                </Grid>
-              </Tooltip>
-            ) : (
-              <span />
-            )}
-            {logged == null || logged === false ? (
               <Grid item className={classes.grid}>
                 <NavLink
-                  to="/login"
+                  to="/about"
                   className={classes.link}
                   activeStyle={{ color: "blue" }}
                 >
                   <Typography className={classes.typography} variant="h4">
-                    Sign In
+                    About
                   </Typography>
                 </NavLink>
               </Grid>
-            ) : (
-              <span />
-            )}
-            {logged == null || logged === false ? (
-              <Grid item className={classes.grid}>
-                <NavLink
-                  to="/signup"
-                  className={classes.link}
-                  activeStyle={{ color: "blue" }}
-                >
-                  <Typography className={classes.typography} variant="h4">
-                    Sign Up
-                  </Typography>
-                </NavLink>
-              </Grid>
-            ) : (
-              <span />
-            )}
-          </Grid>
-        </Grid>
-        <Grid item xs={1}>
-          <Grid container justify="flex-end">
-            {logged == true ? (
-              <Grid item>
+              {logged === true ? (
                 <Tooltip
                   classes={{ tooltip: classes.tooltip }}
-                  interactive
                   title={
-                    <List>
-                      {Object.keys(details).map((key) => {
-                        if (key === "_id" || key == "password") {
-                          return;
-                        }
-                        const value = details[key];
-                        return (
-                          <ListItem key={key}>
-                            <ListItemText
-                              primary={value}
-                              classes={{ primary: classes.primary }}
-                            ></ListItemText>
-                          </ListItem>
-                        );
-                      })}
-                      <ListItem>
-                        <Button
-                          variant="outlined"
-                          onClick={() => {
-                            window.localStorage.clear();
-                            // localStorage.setItem("logged", JSON.stringify(false));
-                            this.props.modifyOpen(false);
-                            history.push("/");
-                          }}
-                        >
-                          Log Out
-                        </Button>
-                      </ListItem>
-                    </List>
+                    <Typography variant="h6" className={classes.primary}>
+                      to compare two or more companies
+                    </Typography>
                   }
+                  interactive
                 >
-                  <IconButton>
-                    <AccountCircleIcon className={classes.largeIcon} />
-                  </IconButton>
+                  <Grid item className={classes.grid}>
+                    <NavLink
+                      to="/comparision"
+                      className={classes.link}
+                      activeStyle={{ color: "blue" }}
+                    >
+                      <Typography className={classes.typography} variant="h4">
+                        Comparison
+                      </Typography>
+                    </NavLink>
+                  </Grid>
                 </Tooltip>
-              </Grid>
-            ) : (
-              <span />
-            )}
+              ) : (
+                <span />
+              )}
+              {logged === true ? (
+                <Tooltip
+                  classes={{ tooltip: classes.tooltip }}
+                  title={
+                    <Typography variant="h6" className={classes.primary}>
+                      to know expected returns of each company
+                    </Typography>
+                  }
+                  interactive
+                >
+                  <Grid item className={classes.grid}>
+                    <NavLink
+                      to="/simulation"
+                      className={classes.link}
+                      activeStyle={{ color: "blue" }}
+                    >
+                      <Typography className={classes.typography} variant="h4">
+                        Simulation
+                      </Typography>
+                    </NavLink>
+                  </Grid>
+                </Tooltip>
+              ) : (
+                <span />
+              )}
+              {logged == null || logged === false ? (
+                <Grid item className={classes.grid}>
+                  <NavLink
+                    to="/login"
+                    className={classes.link}
+                    activeStyle={{ color: "blue" }}
+                  >
+                    <Typography className={classes.typography} variant="h4">
+                      Sign In
+                    </Typography>
+                  </NavLink>
+                </Grid>
+              ) : (
+                <span />
+              )}
+              {logged == null || logged === false ? (
+                <Grid item className={classes.grid}>
+                  <NavLink
+                    to="/signup"
+                    className={classes.link}
+                    activeStyle={{ color: "blue" }}
+                  >
+                    <Typography className={classes.typography} variant="h4">
+                      Sign Up
+                    </Typography>
+                  </NavLink>
+                </Grid>
+              ) : (
+                <span />
+              )}
+            </Grid>
+          </Grid>
+          <Grid item xs={1}>
+            <Grid container justify="flex-end">
+              {logged == true ? (
+                <Grid item>
+                  <Tooltip
+                    classes={{ tooltip: classes.tooltip }}
+                    interactive
+                    title={
+                      <List>
+                        {Object.keys(details).map((key) => {
+                          if (key === "_id" || key == "password") {
+                            return;
+                          }
+                          const value = details[key];
+                          return (
+                            <ListItem key={key}>
+                              <ListItemText
+                                primary={value}
+                                classes={{ primary: classes.primary }}
+                              ></ListItemText>
+                            </ListItem>
+                          );
+                        })}
+                        <ListItem>
+                          <Button
+                            variant="outlined"
+                            classes={{ outlined: classes.outline }}
+                            onClick={() => {
+                              window.localStorage.clear();
+                              // localStorage.setItem("logged", JSON.stringify(false));
+                              this.props.modifyOpen(false);
+                              history.push("/");
+                            }}
+                          >
+                            Log Out
+                          </Button>
+                        </ListItem>
+                      </List>
+                    }
+                  >
+                    <IconButton>
+                      <AccountCircleIcon className={classes.largeIcon} />
+                    </IconButton>
+                  </Tooltip>
+                </Grid>
+              ) : (
+                <span />
+              )}
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </React.Fragment>
     );
   }
 }
