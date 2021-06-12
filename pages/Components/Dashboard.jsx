@@ -340,6 +340,11 @@ class Dashboard extends React.Component {
                   value="7"
                   className={classes.button}
                   onClick={this.selectedPeriod}
+                  style={{
+                    backgroundColor:
+                      this.state.selectedPeriod == 7 ? "green" : "",
+                  }}
+                  selected
                 >
                   7D
                 </Button>
@@ -348,6 +353,10 @@ class Dashboard extends React.Component {
                   value="30"
                   className={classes.button}
                   onClick={this.selectedPeriod}
+                  style={{
+                    backgroundColor:
+                      this.state.selectedPeriod == 30 ? "green" : "",
+                  }}
                 >
                   1M
                 </Button>
@@ -356,6 +365,10 @@ class Dashboard extends React.Component {
                   value="90"
                   className={classes.button}
                   onClick={this.selectedPeriod}
+                  style={{
+                    backgroundColor:
+                      this.state.selectedPeriod == 90 ? "green" : "",
+                  }}
                 >
                   3M
                 </Button>
@@ -364,6 +377,10 @@ class Dashboard extends React.Component {
                   value="180"
                   className={classes.button}
                   onClick={this.selectedPeriod}
+                  style={{
+                    backgroundColor:
+                      this.state.selectedPeriod == 180 ? "green" : "",
+                  }}
                 >
                   6M
                 </Button>
@@ -372,6 +389,10 @@ class Dashboard extends React.Component {
                   value="360"
                   className={classes.button}
                   onClick={this.selectedPeriod}
+                  style={{
+                    backgroundColor:
+                      this.state.selectedPeriod == 360 ? "green" : "",
+                  }}
                 >
                   1Y
                 </Button>
@@ -380,6 +401,10 @@ class Dashboard extends React.Component {
                   value="1800"
                   className={classes.button}
                   onClick={this.selectedPeriod}
+                  style={{
+                    backgroundColor:
+                      this.state.selectedPeriod == 1800 ? "green" : "",
+                  }}
                 >
                   5Y
                 </Button>
@@ -388,6 +413,10 @@ class Dashboard extends React.Component {
                   value="all"
                   className={classes.button}
                   onClick={this.selectedPeriod}
+                  style={{
+                    backgroundColor:
+                      this.state.selectedPeriod == "all" ? "green" : "",
+                  }}
                 >
                   All
                 </Button>
