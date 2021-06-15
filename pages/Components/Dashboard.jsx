@@ -12,24 +12,24 @@ import Loader from "react-loader-spinner";
 
 const styles = (theme) => ({
   chart: {
-    width: "75%",
+    width: "75%"
   },
   divchart: {
     justifyContent: "center",
     alignItems: "center",
-    display: "flex",
+    display: "flex"
   },
   buttongroup: {
     display: "flex",
     justifyContent: "center",
-    margin: "10px",
+    margin: "10px"
   },
   button: {
     "&:hover": {
       backgroundColor: "red",
-      color: "#ffffff",
-    },
-  },
+      color: "#ffffff"
+    }
+  }
 });
 
 class Dashboard extends React.Component {
@@ -54,11 +54,11 @@ class Dashboard extends React.Component {
           zoom: {
             type: "x",
             enabled: true,
-            autoScaleYaxis: true,
+            autoScaleYaxis: true
           },
           toolbar: {
-            autoSelected: "zoom",
-          },
+            autoSelected: "zoom"
+          }
         },
         stroke: {
           show: true,
@@ -66,13 +66,13 @@ class Dashboard extends React.Component {
           lineCap: "butt",
           colors: undefined,
           width: 2,
-          dashArray: 0,
+          dashArray: 0
         },
         dataLabels: {
-          enabled: false,
+          enabled: false
         },
         markers: {
-          size: 0,
+          size: 0
         },
         title: {
           text: "Stock Price Movement",
@@ -83,8 +83,8 @@ class Dashboard extends React.Component {
             fontFamily: undefined,
             color: "blue",
             display: "flex",
-            justifyContent: "center",
-          },
+            justifyContent: "center"
+          }
         },
         fill: {
           type: "solid",
@@ -94,18 +94,18 @@ class Dashboard extends React.Component {
             inverseColors: false,
             opacityFrom: 1,
             opacityTo: 1,
-            stops: [0, 90, 100],
-          },
+            stops: [0, 90, 100]
+          }
         },
         yaxis: {
           labels: {
             formatter: (val) => {
               return val.toFixed();
-            },
+            }
           },
           title: {
-            text: "Price in Rs",
-          },
+            text: "Price in Rs"
+          }
         },
         xaxis: {
           type: "datetime",
@@ -119,11 +119,11 @@ class Dashboard extends React.Component {
                 "-" +
                 dt.getFullYear()
               );
-            },
+            }
           },
           title: {
-            text: "Time Period",
-          },
+            text: "Time Period"
+          }
         },
 
         tooltip: {
@@ -138,15 +138,15 @@ class Dashboard extends React.Component {
                 "-" +
                 dt.getFullYear()
               );
-            },
+            }
           },
           y: {
             formatter: (val) => {
               return val;
-            },
-          },
-        },
-      },
+            }
+          }
+        }
+      }
     };
   }
 
@@ -245,22 +245,22 @@ class Dashboard extends React.Component {
   createGraph = (days) => {
     let openPriceData = {
       name: "Open Price",
-      data: [],
+      data: []
     };
 
     let lowPriceData = {
       name: "Low Price",
-      data: [],
+      data: []
     };
 
     let highPriceData = {
       name: "High Price",
-      data: [],
+      data: []
     };
 
     let closePriceData = {
       name: "Close Price",
-      data: [],
+      data: []
     };
 
     days =
@@ -276,22 +276,22 @@ class Dashboard extends React.Component {
       const element = data[i];
       openPriceData.data.push({
         x: element["Date"],
-        y: element["Open Price"] || element["Open"],
+        y: element["Open Price"] || element["Open"]
       });
 
       lowPriceData.data.push({
         x: element["Date"],
-        y: element["Low Price"] || element["Low"],
+        y: element["Low Price"] || element["Low"]
       });
 
       highPriceData.data.push({
         x: element["Date"],
-        y: element["High Price"] || element["High"],
+        y: element["High Price"] || element["High"]
       });
 
       closePriceData.data.push({
         x: element["Date"],
-        y: element["Close Price"] || element["Close"],
+        y: element["Close Price"] || element["Close"]
       });
     }
     let options = this.state.options;
@@ -306,7 +306,7 @@ class Dashboard extends React.Component {
     this.setState(
       {
         series: series,
-        options: options,
+        options: options
       },
       () => {}
     );
@@ -343,6 +343,7 @@ class Dashboard extends React.Component {
                   style={{
                     backgroundColor:
                       this.state.selectedPeriod == 7 ? "green" : "",
+                    color: this.state.selectedPeriod == 7 ? "white" : ""
                   }}
                   selected
                 >
@@ -356,6 +357,7 @@ class Dashboard extends React.Component {
                   style={{
                     backgroundColor:
                       this.state.selectedPeriod == 30 ? "green" : "",
+                    color: this.state.selectedPeriod == 30 ? "white" : ""
                   }}
                 >
                   1M
@@ -368,6 +370,7 @@ class Dashboard extends React.Component {
                   style={{
                     backgroundColor:
                       this.state.selectedPeriod == 90 ? "green" : "",
+                    color: this.state.selectedPeriod == 90 ? "white" : ""
                   }}
                 >
                   3M
@@ -380,6 +383,7 @@ class Dashboard extends React.Component {
                   style={{
                     backgroundColor:
                       this.state.selectedPeriod == 180 ? "green" : "",
+                    color: this.state.selectedPeriod == 180 ? "white" : ""
                   }}
                 >
                   6M
@@ -392,6 +396,7 @@ class Dashboard extends React.Component {
                   style={{
                     backgroundColor:
                       this.state.selectedPeriod == 360 ? "green" : "",
+                    color: this.state.selectedPeriod == 360 ? "white" : ""
                   }}
                 >
                   1Y
@@ -404,6 +409,7 @@ class Dashboard extends React.Component {
                   style={{
                     backgroundColor:
                       this.state.selectedPeriod == 1800 ? "green" : "",
+                    color: this.state.selectedPeriod == 1800 ? "white" : ""
                   }}
                 >
                   5Y
@@ -416,6 +422,7 @@ class Dashboard extends React.Component {
                   style={{
                     backgroundColor:
                       this.state.selectedPeriod == "all" ? "green" : "",
+                    color: this.state.selectedPeriod == "all" ? "white" : ""
                   }}
                 >
                   All

@@ -10,13 +10,13 @@ import React from "react";
 
 const styles = (theme) => ({
   chart: {
-    width: "75%",
+    width: "75%"
   },
   divchart: {
     justifyContent: "center",
     alignItems: "center",
-    display: "flex",
-  },
+    display: "flex"
+  }
 });
 
 class Sectors extends React.Component {
@@ -36,17 +36,17 @@ class Sectors extends React.Component {
           zoom: {
             type: "x",
             enabled: true,
-            autoScaleYaxis: true,
+            autoScaleYaxis: true
           },
           toolbar: {
-            autoSelected: "zoom",
+            autoSelected: "zoom"
           },
-          width: "100%",
+          width: "100%"
         },
         plotOptions: {
           bar: {
-            horizontal: false,
-          },
+            horizontal: false
+          }
         },
         stroke: {
           show: true,
@@ -54,13 +54,13 @@ class Sectors extends React.Component {
           lineCap: "butt",
           colors: undefined,
           width: 0,
-          dashArray: 0,
+          dashArray: 0
         },
         dataLabels: {
-          enabled: false,
+          enabled: false
         },
         markers: {
-          size: 0,
+          size: 0
         },
 
         title: {
@@ -72,8 +72,8 @@ class Sectors extends React.Component {
             fontFamily: undefined,
             color: "blue",
             display: "flex",
-            justifyContent: "center",
-          },
+            justifyContent: "center"
+          }
         },
         fill: {
           type: "solid",
@@ -83,18 +83,18 @@ class Sectors extends React.Component {
             inverseColors: false,
             opacityFrom: 1,
             opacityTo: 1,
-            stops: [0, 90, 100],
-          },
+            stops: [0, 90, 100]
+          }
         },
         yaxis: {
           labels: {
             formatter: (val) => {
               return val;
-            },
+            }
           },
           title: {
-            text: "Number of Companies",
-          },
+            text: "Number of Companies"
+          }
         },
         xaxis: {
           labels: {
@@ -103,11 +103,11 @@ class Sectors extends React.Component {
             trim: true,
             formatter: (val) => {
               return val;
-            },
+            }
           },
           title: {
-            text: "Sectors",
-          },
+            text: "Sectors"
+          }
         },
 
         tooltip: {
@@ -115,15 +115,15 @@ class Sectors extends React.Component {
           x: {
             formatter: (val) => {
               return val;
-            },
+            }
           },
           y: {
             formatter: (val) => {
               return val;
-            },
-          },
-        },
-      },
+            }
+          }
+        }
+      }
     };
   }
 
@@ -152,7 +152,7 @@ class Sectors extends React.Component {
     const sectors = JSON.parse(localStorage.getItem("sectors"));
     let countdata = {
       name: "Number Of Companies",
-      data: [],
+      data: []
     };
     for (const key in sectors) {
       if (Object.hasOwnProperty.call(sectors, key)) {
@@ -177,7 +177,7 @@ class Sectors extends React.Component {
       this.setState(
         {
           selectedSector: val,
-          selectedSectorCompanies: this.state.sectors[val],
+          selectedSectorCompanies: this.state.sectors[val]
         },
         () => {}
       );
@@ -200,7 +200,7 @@ class Sectors extends React.Component {
       <React.Fragment>
         <div
           style={{
-            padding: "25px",
+            padding: "25px"
           }}
         >
           <div className={classes.divchart}></div>
@@ -210,19 +210,11 @@ class Sectors extends React.Component {
             justify="center"
             alignItems="center"
           >
-            <Grid item style={{ width: "75%" }}>
-              <Chart
-                options={this.state.options}
-                series={this.state.series}
-                key="chart"
-                type="bar"
-              />
-            </Grid>
             <Grid item>
               {this.state.sectors.length !== 0 && (
                 <Autocomplete
                   style={{
-                    width: 400,
+                    width: 400
                   }}
                   onChange={(e, val) => {
                     this.selectedSector(e, val);
@@ -267,6 +259,14 @@ class Sectors extends React.Component {
                   )}
                 />
               )}
+            </Grid>
+            <Grid item style={{ width: "75%" }}>
+              <Chart
+                options={this.state.options}
+                series={this.state.series}
+                key="chart"
+                type="bar"
+              />
             </Grid>
           </Grid>
         </div>

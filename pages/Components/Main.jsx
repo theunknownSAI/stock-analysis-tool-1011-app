@@ -4,7 +4,7 @@ import {
   Tooltip,
   withStyles,
   Grid,
-  Avatar,
+  Avatar
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import React from "react";
@@ -16,35 +16,32 @@ const styles = (theme) => ({
   tooltip: {
     backgroundColor: "inherit",
     color: "#ff0000",
-    maxWidth: "none",
+    maxWidth: "none"
   },
   large: {
     width: 200,
-    height: 200,
+    height: 200
   },
   notchedOutline: {
     borderWidth: "2px",
-    borderColor: "#ff0000 !important",
-  },
+    borderColor: "#ff0000 !important"
+  }
 });
 class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      companyNames: JSON.parse(localStorage.getItem("companyNames")) || [],
+      companyNames: JSON.parse(localStorage.getItem("companyNames")) || []
     };
   }
 
   componentDidMount = () => {
     console.log("Main");
-    const logged = JSON.parse(localStorage.getItem("logged"));
-    if (logged == true) {
-      const companyNames = JSON.parse(localStorage.getItem("companyNames"));
-      if (companyNames != null) {
-        return;
-      }
-      this.getCompanyNames();
+    const companyNames = JSON.parse(localStorage.getItem("companyNames"));
+    if (companyNames != null) {
+      return;
     }
+    this.getCompanyNames();
   };
 
   getCompanyNames = () => {
@@ -95,7 +92,7 @@ class Main extends React.Component {
             backgroundImage: `url(${"/images/stockbg.png"})`,
             height: "600px",
             width: "100%",
-            marginTop: 20,
+            marginTop: 20
           }}
         >
           <Grid
@@ -110,7 +107,7 @@ class Main extends React.Component {
                   variant="h4"
                   style={{
                     fontFamily: "cursive",
-                    fontSize: 50,
+                    fontSize: 50
                   }}
                 >
                   Stock Vestor
@@ -126,7 +123,7 @@ class Main extends React.Component {
               </Typography>
             </Grid>
             <Grid item>
-              <Tooltip
+              {/* <Tooltip
                 title={
                   logged == null || logged == false ? (
                     <Typography variant="h5">sign in to access</Typography>
@@ -135,39 +132,39 @@ class Main extends React.Component {
                   )
                 }
                 classes={{ tooltip: classes.tooltip }}
-              >
-                <Autocomplete
-                  disabled={logged != true}
-                  style={{
-                    width: 400,
-                  }}
-                  id="search for companies"
-                  freeSolo
-                  onChange={(e, val) => {
-                    this.selectedCompany(e, val);
-                  }}
-                  options={this.state.companyNames.map(
-                    (companyname) => companyname
-                  )}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="search for companies"
-                      margin="normal"
-                      variant="outlined"
-                      InputLabelProps={{
-                        style: { color: "#ff0000" },
-                      }}
-                      InputProps={{
-                        ...params.InputProps,
-                        classes: {
-                          notchedOutline: classes.notchedOutline,
-                        },
-                      }}
-                    />
-                  )}
-                />
-              </Tooltip>
+              > */}
+              <Autocomplete
+                // disabled={logged != true}
+                style={{
+                  width: 400
+                }}
+                id="search for companies"
+                freeSolo
+                onChange={(e, val) => {
+                  this.selectedCompany(e, val);
+                }}
+                options={this.state.companyNames.map(
+                  (companyname) => companyname
+                )}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="search for companies"
+                    margin="normal"
+                    variant="outlined"
+                    InputLabelProps={{
+                      style: { color: "#ff0000" }
+                    }}
+                    InputProps={{
+                      ...params.InputProps,
+                      classes: {
+                        notchedOutline: classes.notchedOutline
+                      }
+                    }}
+                  />
+                )}
+              />
+              {/* </Tooltip> */}
             </Grid>
           </Grid>
         </div>

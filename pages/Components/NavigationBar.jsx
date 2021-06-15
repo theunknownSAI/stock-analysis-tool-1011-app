@@ -8,7 +8,7 @@ import {
   List,
   ListItem,
   ListItemText,
-  Tooltip,
+  Tooltip
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import React from "react";
@@ -17,49 +17,49 @@ import axios from "axios";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 const styles = (theme) => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   paper: {
     textAlign: "center",
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.secondary
   },
   link: {
-    textDecoration: "initial",
+    textDecoration: "initial"
   },
   typography: {
-    padding: 20,
+    padding: 20
   },
   grid: {
     "&:hover": {
       backgroundColor: "#F4E4C1",
-      color: "#E4C580",
-    },
+      color: "#E4C580"
+    }
   },
   largeIcon: {
     width: 60,
     height: 60,
-    fontSize: 25,
+    fontSize: 25
   },
   tooltip: {
     // backgroundColor: "#15DB95",
     backgroundColor: "#f0f0f0",
     color: "#000000",
-    maxWidth: "none",
+    maxWidth: "none"
   },
   primary: {
-    fontSize: 14,
+    fontSize: 14
   },
   outline: {
     borderWidth: "2px",
-    borderColor: "#ff0000 !important",
-  },
+    borderColor: "#ff0000 !important"
+  }
 });
 
 class NavigationBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedCompany: " ",
+      selectedCompany: " "
       // companyNames: JSON.parse(localStorage.getItem("companyNames")) || [],
     };
   }
@@ -142,56 +142,48 @@ class NavigationBar extends React.Component {
                   </Typography>
                 </NavLink>
               </Grid>
-              {logged === true ? (
-                <Tooltip
-                  classes={{ tooltip: classes.tooltip }}
-                  title={
-                    <Typography variant="h6" className={classes.primary}>
-                      to compare two or more companies
+              <Tooltip
+                classes={{ tooltip: classes.tooltip }}
+                title={
+                  <Typography variant="h6" className={classes.primary}>
+                    to compare two or more companies
+                  </Typography>
+                }
+                interactive
+              >
+                <Grid item className={classes.grid}>
+                  <NavLink
+                    to="/comparision"
+                    className={classes.link}
+                    activeStyle={{ color: "blue" }}
+                  >
+                    <Typography className={classes.typography} variant="h4">
+                      Comparison
                     </Typography>
-                  }
-                  interactive
-                >
-                  <Grid item className={classes.grid}>
-                    <NavLink
-                      to="/comparision"
-                      className={classes.link}
-                      activeStyle={{ color: "blue" }}
-                    >
-                      <Typography className={classes.typography} variant="h4">
-                        Comparison
-                      </Typography>
-                    </NavLink>
-                  </Grid>
-                </Tooltip>
-              ) : (
-                <span />
-              )}
-              {logged === true ? (
-                <Tooltip
-                  classes={{ tooltip: classes.tooltip }}
-                  title={
-                    <Typography variant="h6" className={classes.primary}>
-                      to know expected returns of each company
+                  </NavLink>
+                </Grid>
+              </Tooltip>
+              <Tooltip
+                classes={{ tooltip: classes.tooltip }}
+                title={
+                  <Typography variant="h6" className={classes.primary}>
+                    to know expected returns of each company
+                  </Typography>
+                }
+                interactive
+              >
+                <Grid item className={classes.grid}>
+                  <NavLink
+                    to="/simulation"
+                    className={classes.link}
+                    activeStyle={{ color: "blue" }}
+                  >
+                    <Typography className={classes.typography} variant="h4">
+                      Simulation
                     </Typography>
-                  }
-                  interactive
-                >
-                  <Grid item className={classes.grid}>
-                    <NavLink
-                      to="/simulation"
-                      className={classes.link}
-                      activeStyle={{ color: "blue" }}
-                    >
-                      <Typography className={classes.typography} variant="h4">
-                        Simulation
-                      </Typography>
-                    </NavLink>
-                  </Grid>
-                </Tooltip>
-              ) : (
-                <span />
-              )}
+                  </NavLink>
+                </Grid>
+              </Tooltip>
               {logged == null || logged === false ? (
                 <Grid item className={classes.grid}>
                   <NavLink
@@ -254,7 +246,6 @@ class NavigationBar extends React.Component {
                             onClick={() => {
                               window.localStorage.clear();
                               // localStorage.setItem("logged", JSON.stringify(false));
-                              this.props.modifyOpen(false);
                               history.push("/");
                             }}
                           >

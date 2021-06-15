@@ -6,7 +6,7 @@ import {
   Toolbar,
   Typography,
   Divider,
-  IconButton,
+  IconButton
 } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -18,7 +18,7 @@ import {
   Switch,
   HashRouter,
   withRouter,
-  Redirect,
+  Redirect
 } from "react-router-dom";
 
 import About from "./About";
@@ -41,38 +41,38 @@ const drawerWidth = 300;
 
 const styles = (theme) => ({
   root: {
-    display: "flex",
+    display: "flex"
   },
   appBar: {
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
+      duration: theme.transitions.duration.leavingScreen
+    })
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
+      duration: theme.transitions.duration.enteringScreen
+    })
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(2)
   },
   hide: {
-    display: "none",
+    display: "none"
   },
   drawer: {
     width: drawerWidth,
-    flexShrink: 0,
+    flexShrink: 0
   },
   drawerPaper: {
-    width: drawerWidth,
+    width: drawerWidth
   },
   avatar: {
     width: theme.spacing(10),
-    height: theme.spacing(10),
+    height: theme.spacing(10)
   },
   drawerHeader: {
     display: "flex",
@@ -80,31 +80,31 @@ const styles = (theme) => ({
     padding: theme.spacing(2),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    justifyContent: "center",
+    justifyContent: "center"
   },
   content: {
     flexGrow: 1,
     // padding: theme.spacing(3),
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
+      duration: theme.transitions.duration.leavingScreen
     }),
-    marginLeft: -drawerWidth,
+    marginLeft: -drawerWidth
   },
   contentShift: {
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
+      duration: theme.transitions.duration.enteringScreen
     }),
-    marginLeft: 0,
-  },
+    marginLeft: 0
+  }
 });
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false,
+      open: false
     };
   }
 
@@ -139,20 +139,16 @@ class Home extends React.Component {
         <AppBar
           position="relative"
           className={clsx(classes.appBar, {
-            [classes.appBarShift]: open,
+            [classes.appBarShift]: open
           })}
           style={{ backgroundColor: "#15DB95", color: "#0D19A3" }}
         >
           <Toolbar>
             <IconButton
-              disabled={!logged}
               color="inherit"
               aria-label="open drawer"
               onClick={this.handleDrawerOpen}
               edge="start"
-              style={{
-                display: logged == null || logged === false ? "none" : "",
-              }}
               className={clsx(classes.menuButton, open && classes.hide)}
             >
               <MenuIcon />
@@ -167,7 +163,7 @@ class Home extends React.Component {
             anchor="left"
             open={open}
             classes={{
-              paper: classes.drawerPaper,
+              paper: classes.drawerPaper
             }}
           >
             <div
@@ -188,7 +184,7 @@ class Home extends React.Component {
           </Drawer>
           <main
             className={clsx(classes.content, {
-              [classes.contentShift]: open,
+              [classes.contentShift]: open
             })}
           >
             <Switch>
@@ -198,20 +194,14 @@ class Home extends React.Component {
                 exact
                 path="/login"
                 render={(props) => {
-                  if (logged == null || logged === false) {
-                    return <Login />;
-                  }
-                  return <Redirect to="/home" />;
+                  return <Login />;
                 }}
               />
               <Route
                 exact
                 path="/signup"
                 render={(props) => {
-                  if (logged == null || logged === false) {
-                    return <SignUp />;
-                  }
-                  return <Redirect to="/home" />;
+                  return <SignUp />;
                 }}
               />
               <Route exact path="/about" component={About} />
@@ -219,13 +209,10 @@ class Home extends React.Component {
                 exact
                 path="/top/:num/:type"
                 render={(props) => {
-                  if (logged == null || logged === false) {
-                    return <Redirect to="/login" />;
-                  }
                   const {
                     match: {
-                      params: { num, type },
-                    },
+                      params: { num, type }
+                    }
                   } = props;
                   return <Top key={`num=${num}&type=${type}`} {...props} />;
                 }}
@@ -234,9 +221,6 @@ class Home extends React.Component {
                 exact
                 path="/sectors"
                 render={(props) => {
-                  if (logged == null || logged === false) {
-                    return <Redirect to="/login" />;
-                  }
                   return <Sectors />;
                 }}
               />
@@ -244,13 +228,10 @@ class Home extends React.Component {
                 exact
                 path="/companydetails/:company"
                 render={(props) => {
-                  if (logged == null || logged === false) {
-                    return <Redirect to="/login" />;
-                  }
                   const {
                     match: {
-                      params: { company },
-                    },
+                      params: { company }
+                    }
                   } = props;
                   return (
                     <CompanyDetails key={`company=${company}`} {...props} />
@@ -261,9 +242,6 @@ class Home extends React.Component {
                 exact
                 path="/revenue"
                 render={(props) => {
-                  if (logged == null || logged === false) {
-                    return <Redirect to="/login" />;
-                  }
                   return <Revenue />;
                 }}
               />
@@ -271,9 +249,6 @@ class Home extends React.Component {
                 exact
                 path="/sp500"
                 render={(props) => {
-                  if (logged == null || logged === false) {
-                    return <Redirect to="/login" />;
-                  }
                   return <SP500 />;
                 }}
               />
@@ -281,9 +256,6 @@ class Home extends React.Component {
                 exact
                 path="/comparision"
                 render={(props) => {
-                  if (logged == null || logged === false) {
-                    return <Redirect to="/login" />;
-                  }
                   return <Comparision />;
                 }}
               />
@@ -291,9 +263,6 @@ class Home extends React.Component {
                 exact
                 path="/simulation"
                 render={(props) => {
-                  if (logged == null || logged === false) {
-                    return <Redirect to="/login" />;
-                  }
                   return <Simulation />;
                 }}
               />

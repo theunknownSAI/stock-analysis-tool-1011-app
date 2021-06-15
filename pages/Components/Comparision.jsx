@@ -14,10 +14,23 @@ import {
   TextField,
   Chip,
   Divider,
+  Tooltip
 } from "@material-ui/core";
 import Loader from "react-loader-spinner";
 import { NavLink } from "react-router-dom";
+import { withStyles } from "@material-ui/core/styles";
+
 import Dashboard from "./Dashboard";
+
+const styles = (theme) => ({
+  tooltip: {
+    // backgroundColor: "#15DB95",
+    backgroundColor: "#f0f0f0",
+    color: "#000000",
+    maxWidth: "none"
+  }
+});
+
 class Comparision extends React.Component {
   constructor(props) {
     super(props);
@@ -39,7 +52,7 @@ class Comparision extends React.Component {
         "Total Turnover (Rs.)",
         "% Deli. Qty to Traded Qty",
         "Spread High-Low",
-        "Spread Close-Open",
+        "Spread Close-Open"
       ],
       timePeriod: {
         "1 day": "1",
@@ -50,11 +63,12 @@ class Comparision extends React.Component {
         "1 year": "360",
         "2 years": "720",
         "5 years": "1800",
-        "10 years": "3600",
+        "10 years": "3600"
       },
       stockdetails: [],
       num: 10,
       error: "",
+      tooltipopen: false
     };
   }
 
@@ -139,11 +153,13 @@ class Comparision extends React.Component {
 
   render() {
     const period = underscore.invert(this.state.timePeriod);
+    let logged = JSON.parse(localStorage.getItem("logged"));
+    const { classes } = this.props;
     return (
       <React.Fragment>
         <div
           style={{
-            padding: "25px",
+            padding: "25px"
           }}
         >
           <Grid
@@ -225,13 +241,30 @@ class Comparision extends React.Component {
               />
             </Grid>
             <Grid item>
-              <Button
-                variant="outlined"
-                size="large"
-                onClick={this.onClickSubmit}
+              <Tooltip
+                open={this.state.tooltipopen}
+                classes={{ tooltip: classes.tooltip }}
+                title={
+                  <Typography variant="h6" className={classes.primary}>
+                    sign in to access
+                  </Typography>
+                }
+                interactive
               >
-                Submit
-              </Button>
+                <Button
+                  variant="outlined"
+                  size="large"
+                  onClick={() => {
+                    if (logged === true) {
+                      this.onClickSubmit();
+                    } else {
+                      this.setState({ tooltipopen: !this.state.tooltipopen });
+                    }
+                  }}
+                >
+                  Submit
+                </Button>
+              </Tooltip>
             </Grid>
           </Grid>
           <Divider />
@@ -256,12 +289,12 @@ class Comparision extends React.Component {
                           display: "flex",
                           padding: "15px",
                           margin: "15px",
-                          justifyContent: "center",
+                          justifyContent: "center"
                         }}
                       >
                         <NavLink
                           to={{
-                            pathname: "companydetails/" + element["company"],
+                            pathname: "companydetails/" + element["company"]
                           }}
                         >
                           <Typography variant="h6">
@@ -302,4 +335,4 @@ class Comparision extends React.Component {
   }
 }
 
-export default Comparision;
+export default withStyles(styles, { withTheme: true })(Comparision);

@@ -1,13 +1,30 @@
 import React from "react";
-import { FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Tooltip,
+  Typography
+} from "@material-ui/core";
 import axios from "axios";
 import Loader from "react-loader-spinner";
 import {
   DataGrid,
   GridToolbarContainer,
-  GridToolbarExport,
+  GridToolbarExport
 } from "@material-ui/data-grid";
 import moment from "moment";
+import { withStyles } from "@material-ui/core/styles";
+
+const styles = (theme) => ({
+  tooltip: {
+    // backgroundColor: "#15DB95",
+    backgroundColor: "#f0f0f0",
+    color: "#000000",
+    maxWidth: "none"
+  }
+});
 
 class Simulation extends React.Component {
   constructor(props) {
@@ -15,8 +32,9 @@ class Simulation extends React.Component {
     this.state = {
       cols: JSON.parse(localStorage.getItem("cols")) || [],
       loading: false,
+      tooltipopen: false,
       days: JSON.parse(localStorage.getItem("days")) || "",
-      rows: JSON.parse(localStorage.getItem("rows")) || [],
+      rows: JSON.parse(localStorage.getItem("rows")) || []
     };
   }
 
@@ -86,31 +104,55 @@ class Simulation extends React.Component {
 
   render() {
     const today = new Date();
+    let logged = JSON.parse(localStorage.getItem("logged"));
+    const { classes } = this.props;
     return (
       <React.Fragment>
         <div
           style={{
-            padding: "25px",
+            padding: "25px"
           }}
         >
-          <FormControl style={{ minWidth: "150px" }} variant="outlined">
-            <InputLabel>days</InputLabel>
-            <Select
-              style={{ width: "100%" }}
-              labelId="days"
-              id="days"
-              onChange={this.onSelectDays}
-              value={this.state.days}
-            >
-              {[30, 60, 90, 180, 360, 720, 1080].map((period) => {
-                return (
-                  <MenuItem key={period.toString()} value={period}>
-                    {period}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
+          <Tooltip
+            open={this.state.tooltipopen}
+            classes={{ tooltip: classes.tooltip }}
+            title={
+              <Typography variant="h6" className={classes.primary}>
+                sign in to access
+              </Typography>
+            }
+            interactive
+          >
+            <FormControl style={{ minWidth: "150px" }} variant="outlined">
+              <InputLabel>days</InputLabel>
+              <Select
+                style={{ width: "100%" }}
+                labelId="days"
+                id="days"
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (logged === true) {
+                    this.onSelectDays(e);
+                  } else {
+                    this.setState({
+                      days: val,
+                      tooltipopen: true
+                    });
+                  }
+                }}
+                value={this.state.days}
+              >
+                {[30, 60, 90, 180, 360, 720].map((period) => {
+                  return (
+                    <MenuItem key={period.toString()} value={period}>
+                      {period}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </Tooltip>
+
           {this.state.loading ? (
             <Loader />
           ) : (
@@ -123,7 +165,7 @@ class Simulation extends React.Component {
                 // hideFooterPagination
                 // hideFooter
                 components={{
-                  Toolbar: this.exportToCSV,
+                  Toolbar: this.exportToCSV
                 }}
               />
             )
@@ -134,4 +176,4 @@ class Simulation extends React.Component {
   }
 }
 
-export default Simulation;
+export default withStyles(styles, { withTheme: true })(Simulation);

@@ -4,7 +4,7 @@ import {
   Grid,
   Paper,
   Typography,
-  withStyles,
+  withStyles
 } from "@material-ui/core";
 import React from "react";
 import axios from "axios";
@@ -18,9 +18,9 @@ const styles = (theme) => ({
     display: "flex",
     padding: "15px",
     margin: "15px",
-    justifyContent: "center",
+    justifyContent: "center"
   },
-  chip: { margin: "5px", backgroundColor: "#ffffff", color: "#5F00E7" },
+  chip: { margin: "5px", backgroundColor: "#ffffff", color: "#5F00E7" }
 });
 
 class CompanyDetails extends React.Component {
@@ -48,9 +48,9 @@ class CompanyDetails extends React.Component {
         "% Deli. Qty to Traded Qty",
         "Spread High-Low",
         "Spread Close-Open",
-        "suggest",
+        "suggest"
       ],
-      stockdetails: JSON.parse(localStorage.getItem("stockdetails")) || [],
+      stockdetails: JSON.parse(localStorage.getItem("stockdetails")) || []
     };
   }
 
@@ -170,7 +170,7 @@ class CompanyDetails extends React.Component {
       <React.Fragment>
         <div
           style={{
-            padding: "25px",
+            padding: "25px"
           }}
         >
           {this.state.selectedCompany !== "" && (
@@ -206,7 +206,7 @@ class CompanyDetails extends React.Component {
                     style={{
                       backgroundColor: "green",
                       margin: "5px",
-                      color: "#ffffff",
+                      color: "#ffffff"
                     }}
                   />
                 </Grid>
