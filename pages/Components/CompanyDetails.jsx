@@ -1,10 +1,19 @@
 import {
-  Chip,
   Divider,
   Grid,
   Paper,
   Typography,
-  withStyles
+  withStyles,
+  Table,
+  TableCell,
+  TableBody,
+  TableContainer,
+  TableRow,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Tooltip,
+  Button
 } from "@material-ui/core";
 import React from "react";
 import axios from "axios";
@@ -19,6 +28,18 @@ const styles = (theme) => ({
     padding: "15px",
     margin: "15px",
     justifyContent: "center"
+  },
+  tooltip: {
+    // backgroundColor: "#15DB95",
+    backgroundColor: "#f0f0f0",
+    color: "#000000",
+    maxWidth: "none"
+  },
+  allitems: {
+    "&:hover": {
+      backgroundColor: "#15DB95",
+      color: "#0D19A3"
+    }
   },
   chip: { margin: "5px", backgroundColor: "#ffffff", color: "#5F00E7" }
 });
@@ -35,20 +56,21 @@ class CompanyDetails extends React.Component {
       companydetailsloading: false,
       stockdetailsloading: false,
       suggest: JSON.parse(localStorage.getItem("suggest")) || "",
-      stockkeys: [
+      necessarykeys: [
         "Date",
         "Open Price",
         "High Price",
         "Low Price",
-        "Close Price",
+        "Close Price"
+      ],
+      otherkeys: [
         "WAP",
         "No.of Shares",
         "No. of Trades",
         "Total Turnover (Rs.)",
         "% Deli. Qty to Traded Qty",
         "Spread High-Low",
-        "Spread Close-Open",
-        "suggest"
+        "Spread Close-Open"
       ],
       stockdetails: JSON.parse(localStorage.getItem("stockdetails")) || []
     };
@@ -155,7 +177,7 @@ class CompanyDetails extends React.Component {
         if (t.status === 200) {
           let suggest = t.data["suggest"];
           if (suggest.length === 0) {
-            suggest = "HOLD";
+            suggest = "hold";
           }
           this.setState({ suggest: suggest }, () => {
             localStorage.setItem("suggest", JSON.stringify(this.state.suggest));
@@ -187,60 +209,127 @@ class CompanyDetails extends React.Component {
               {this.state.companydetailsloading === true ? (
                 <Loader style={{ paddingLeft: "50%" }} />
               ) : (
-                <Grid container>
-                  {Object.keys(this.state.companyDetails).map((key) => {
-                    if (this.state.companyDetails[key] === null) {
-                      return <span key={key.toString()}></span>;
-                    }
-                    let res = key + " : " + this.state.companyDetails[key];
-                    return (
-                      <Chip
-                        key={key.toString()}
-                        variant="outlined"
-                        label={res}
-                        className={classes.chip}
-                      />
-                    );
-                  })}
-                  <Chip
-                    key={"suggest"}
-                    variant="outlined"
-                    label={"SUGGEST : " + this.state.suggest.toUpperCase()}
-                    style={{
-                      backgroundColor: "green",
-                      margin: "5px",
-                      color: "#ffffff"
-                    }}
-                  />
+                <Grid
+                  container
+                  spacing={3}
+                  justify="center"
+                  alignItems="center"
+                >
+                  <Grid item>
+                    <TableContainer component={Paper}>
+                      <Table>
+                        <TableBody>
+                          {Object.keys(this.state.companyDetails).map((key) => {
+                            if (this.state.companyDetails[key] === null) {
+                              return <span key={key.toString()}></span>;
+                            }
+                            return (
+                              <TableRow className={classes.allitems}>
+                                <TableCell>{key}</TableCell>
+                                <TableCell align="right">
+                                  {this.state.companyDetails[key]}
+                                </TableCell>
+                              </TableRow>
+                            );
+                          })}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Grid>
+                  <Grid item>
+                    <TableContainer component={Paper}>
+                      <Table>
+                        <TableBody>
+                          <TableRow>
+                            <TableCell>
+                              <Typography variant="h4">SUGGESTION</Typography>
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell
+                              style={{
+                                background:
+                                  this.state.suggest == "sell" ? "green" : "red"
+                              }}
+                            >
+                              <Typography variant="h4">SELL</Typography>
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell
+                              style={{
+                                background:
+                                  this.state.suggest == "buy" ? "green" : "red"
+                              }}
+                            >
+                              <Typography variant="h4">BUY</Typography>
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell
+                              style={{
+                                background:
+                                  this.state.suggest == "hold" ? "green" : "red"
+                              }}
+                            >
+                              <Typography variant="h4">HOLD</Typography>
+                            </TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Grid>
+                  <Grid item>
+                    {this.state.stockdetailsloading == true ||
+                    this.state.stockdetails.length == 0 ? (
+                      <Loader style={{ paddingLeft: "50%" }} />
+                    ) : (
+                      <TableContainer component={Paper}>
+                        <Table>
+                          <TableBody>
+                            {this.state.necessarykeys.map((key) => {
+                              return (
+                                <TableRow className={classes.allitems}>
+                                  <TableCell>{key}</TableCell>
+                                  <TableCell align="right">
+                                    {this.state.stockdetails[key]}
+                                  </TableCell>
+                                </TableRow>
+                              );
+                            })}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    )}
+                    <Tooltip
+                      classes={{ tooltip: classes.tooltip }}
+                      placement="bottom"
+                      title={
+                        <TableRow>
+                          {this.state.otherkeys.map((key) => {
+                            return (
+                              <TableRow>
+                                <TableCell>{key}</TableCell>
+                                <TableCell align="right">
+                                  {this.state.stockdetails[key]}
+                                </TableCell>
+                              </TableRow>
+                            );
+                          })}
+                        </TableRow>
+                      }
+                      interactive
+                    >
+                      <Button variant="contained" color="primary">
+                        more details
+                      </Button>
+                    </Tooltip>
+                  </Grid>
                 </Grid>
               )}
             </div>
           )}
-          <Divider />
-          <Divider />
-          {this.state.stockdetailsloading == true ||
-          this.state.stockdetails.length == 0 ? (
-            <Loader style={{ paddingLeft: "50%" }} />
-          ) : (
-            Object.keys(this.state.stockdetails).map((key) => {
-              let res = key + " : " + this.state.stockdetails[key];
-              if (
-                key.toLowerCase() == "code" ||
-                key.toLowerCase() == "company" ||
-                key.toLowerCase() == "unix date"
-              ) {
-                return;
-              }
-              return (
-                <Chip
-                  key={key.toString()}
-                  variant="outlined"
-                  label={res}
-                  className={classes.chip}
-                />
-              );
-            })
-          )}
+
           {this.state.selectedCompany !== "" &&
             this.state.stockdetails.length !== 0 && (
               <Dashboard company={this.state.selectedCompany} key="dashboard" />
