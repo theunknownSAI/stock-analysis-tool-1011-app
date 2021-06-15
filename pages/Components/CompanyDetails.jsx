@@ -153,8 +153,11 @@ class CompanyDetails extends React.Component {
       .get("/api/suggest?company=" + company)
       .then((t) => {
         if (t.status === 200) {
-          let suggest = t.data;
-          this.setState({ suggest: suggest["suggest"] }, () => {
+          let suggest = t.data["suggest"];
+          if (suggest.length === 0) {
+            suggest = "HOLD";
+          }
+          this.setState({ suggest: suggest }, () => {
             localStorage.setItem("suggest", JSON.stringify(this.state.suggest));
           });
         }
