@@ -21,7 +21,8 @@ export default async (req, res, next) => {
             .get(grstockdetailsURL + "/" + "gr" + code + ".csv")
             .then((t) => {
               if (t.status === 200) {
-                let nums = 0;
+                let posnums = 0;
+                let negnums = 0;
                 let stockdetails = [];
                 let rows = t.data.split("\n");
                 const header = rows[0].split(",");
@@ -31,15 +32,20 @@ export default async (req, res, next) => {
                   const row = rows[i];
                   const cols = row.split(",");
                   if (cols[cpgr] > rate) {
-                    nums = nums + 1;
+                    posnums = posnums + 1;
+                  }
+                  if (cols[cpgr] < -rate) {
+                    negnums = negnums + 1;
                   }
                 }
                 const response = {
                   company: company,
-                  numberOfDays: nums,
-                  percentOfDays: ((nums / days) * 100).toFixed(3),
+                  numberOfPositiveDays: posnums,
+                  percentOfPositiveDays: ((posnums / days) * 100).toFixed(3),
+                  numberOfNegativeDays: negnums,
+                  percentOfNegativeDays: ((negnums / days) * 100).toFixed(3),
                   totalNumberOfDays: days,
-                  rate: rate * 100,
+                  rate: rate * 100
                 };
                 res.send(response);
               }

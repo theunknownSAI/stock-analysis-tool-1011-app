@@ -304,8 +304,17 @@ class Comparision extends React.Component {
                       </Paper>
                       <Typography variant="h6">
                         In the last {period[element["totalNumberOfDays"]]}, for{" "}
-                        {element["percentOfDays"]} percent of trading days close
-                        price growth rate was more than {element["rate"]} %
+                        {element["percentOfPositiveDays"]} percent of trading
+                        days {","} positive close price growth rate was more
+                        than {element["rate"]} %
+                      </Typography>
+                      <Divider />
+                      <Divider />
+                      <Typography variant="h6">
+                        In the last {period[element["totalNumberOfDays"]]}, for{" "}
+                        {element["percentOfNegativeDays"]} percent of trading
+                        days {","} negative close price growth rate was less
+                        than {element["rate"]} %
                       </Typography>
                       <Dashboard company={element["company"]} />
                       {Object.keys(element).map((key) => {
