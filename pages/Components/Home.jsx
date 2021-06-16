@@ -23,7 +23,7 @@ import {
 
 import About from "./About";
 import CompanyDetails from "./CompanyDetails";
-import Comparision from "./Comparision";
+import Comparison from "./Comparison";
 import Login from "./Login";
 import NavigationBar from "./NavigationBar";
 import PageNotFound from "./PageNotFound";
@@ -153,7 +153,7 @@ class Home extends React.Component {
             >
               <MenuIcon />
             </IconButton>
-            <NavigationBar modifyOpen={this.modifyOpen} />
+            <NavigationBar />
           </Toolbar>
         </AppBar>
         <div className={classes.root}>
@@ -194,14 +194,20 @@ class Home extends React.Component {
                 exact
                 path="/login"
                 render={(props) => {
-                  return <Login />;
+                  if (logged == null || logged === false) {
+                    return <Login />;
+                  }
+                  return <Redirect to="/home" />;
                 }}
               />
               <Route
                 exact
                 path="/signup"
                 render={(props) => {
-                  return <SignUp />;
+                  if (logged == null || logged === false) {
+                    return <SignUp />;
+                  }
+                  return <Redirect to="/home" />;
                 }}
               />
               <Route exact path="/about" component={About} />
@@ -254,9 +260,9 @@ class Home extends React.Component {
               />
               <Route
                 exact
-                path="/comparision"
+                path="/comparison"
                 render={(props) => {
-                  return <Comparision />;
+                  return <Comparison />;
                 }}
               />
               <Route

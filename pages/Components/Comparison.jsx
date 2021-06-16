@@ -31,7 +31,7 @@ const styles = (theme) => ({
   }
 });
 
-class Comparision extends React.Component {
+class Comparison extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -73,7 +73,7 @@ class Comparision extends React.Component {
   }
 
   componentDidMount = () => {
-    console.log("Comparision");
+    console.log("Comparison");
     const companyNames = JSON.parse(localStorage.getItem("companyNames"));
 
     if (companyNames != null) {
@@ -129,7 +129,7 @@ class Comparision extends React.Component {
         });
       await axios
         .get(
-          "/api/comparision?days=" +
+          "/api/comparison?days=" +
             this.state.selectedTimePeriod +
             "&rate=" +
             this.state.rate +
@@ -258,7 +258,7 @@ class Comparision extends React.Component {
                     if (logged === true) {
                       this.onClickSubmit();
                     } else {
-                      this.setState({ tooltipopen: !this.state.tooltipopen });
+                      this.setState({ tooltipopen: true });
                     }
                   }}
                 >
@@ -344,4 +344,4 @@ class Comparision extends React.Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(Comparision);
+export default withStyles(styles, { withTheme: true })(Comparison);

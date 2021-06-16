@@ -153,7 +153,7 @@ class NavigationBar extends React.Component {
               >
                 <Grid item className={classes.grid}>
                   <NavLink
-                    to="/comparision"
+                    to="/comparison"
                     className={classes.link}
                     activeStyle={{ color: "blue" }}
                   >
