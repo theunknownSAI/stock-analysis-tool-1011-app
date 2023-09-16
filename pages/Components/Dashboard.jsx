@@ -9,7 +9,7 @@ import { styled } from '@mui/material/styles';
 import moment from "moment";
 import { withRouter } from "react-router-dom";
 
-import Loader from "react-loader-spinner";
+import * as Loader from "react-loader-spinner";
 
 const PREFIX = "Dashboard";
 
@@ -334,7 +334,7 @@ class Dashboard extends React.Component {
     return (
       <Root>
         {this.state.loading ? (
-          <Loader style={{ paddingLeft: "50%" }} />
+          <Loader.Audio style={{ paddingLeft: "50%" }} />
         ) : (
           this.state.error !== true && (
             <div>

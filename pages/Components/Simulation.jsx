@@ -15,7 +15,7 @@ import {
 import axios from "axios";
 import moment from "moment";
 import React from "react";
-import Loader from "react-loader-spinner";
+import * as Loader from "react-loader-spinner";
 
 const PREFIX = "Simulation";
 
@@ -159,7 +159,7 @@ class Simulation extends React.Component {
           </Tooltip>
 
           {this.state.loading ? (
-            <Loader />
+            <Loader.Audio />
           ) : (
             this.state.rows != 0 && (
               <DataGrid

@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import axios from "axios";
 import moment from "moment";
 import React from "react";
-import Loader from "react-loader-spinner";
+import * as Loader from "react-loader-spinner";
 import { NavLink } from "react-router-dom";
 
 const PREFIX = "Revenue";
@@ -104,7 +104,7 @@ class Revenue extends React.Component {
           }}
         >
           {this.state.loading ? (
-            <Loader style={{ paddingLeft: "50%" }} />
+            <Loader.Audio style={{ paddingLeft: "50%" }} />
           ) : (
             <div>
               <Paper elevation={0} className={classes.paper}>
