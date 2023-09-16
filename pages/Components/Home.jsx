@@ -15,7 +15,7 @@ import React from "react";
 import {
   Redirect,
   Route,
-  Switch
+  Routes
 } from "react-router-dom";
 import { withRouter } from "../Components/WithRouter";
 
@@ -186,7 +186,7 @@ class Home extends React.Component {
               [classes.contentShift]: open
             })}
           >
-            <Switch>
+            <Routes>
               <Route exact path="/" component={Main} />
               <Route exact path="/home" component={Main} />
               <Route
@@ -272,7 +272,7 @@ class Home extends React.Component {
                 }}
               />
               <Route component={PageNotFound} />
-            </Switch>
+            </Routes>
           </main>
         </div>
       </Root>
