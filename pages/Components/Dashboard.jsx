@@ -84,7 +84,7 @@ class Dashboard extends React.Component {
         title: {
           text: "Stock Price Movement",
           align: "center",
-          style: {
+          sx: {
             fontSize: "24px",
             fontWeight: "bold",
             fontFamily: undefined,
@@ -333,7 +333,7 @@ class Dashboard extends React.Component {
     return (
       <Root>
         {this.state.loading ? (
-          <Loader.Audio style={{ paddingLeft: "50%" }} />
+          <Loader.Audio sx={{ paddingLeft: "50%" }} />
         ) : (
           this.state.error !== true && (
             <div>
@@ -346,7 +346,7 @@ class Dashboard extends React.Component {
                   value="7"
                   className={classes.button}
                   onClick={this.selectedPeriod}
-                  style={{
+                  sx={{
                     backgroundColor:
                       this.state.selectedPeriod == 7 ? "green" : "",
                     color: this.state.selectedPeriod == 7 ? "white" : ""
@@ -360,7 +360,7 @@ class Dashboard extends React.Component {
                   value="30"
                   className={classes.button}
                   onClick={this.selectedPeriod}
-                  style={{
+                  sx={{
                     backgroundColor:
                       this.state.selectedPeriod == 30 ? "green" : "",
                     color: this.state.selectedPeriod == 30 ? "white" : ""
@@ -373,7 +373,7 @@ class Dashboard extends React.Component {
                   value="90"
                   className={classes.button}
                   onClick={this.selectedPeriod}
-                  style={{
+                  sx={{
                     backgroundColor:
                       this.state.selectedPeriod == 90 ? "green" : "",
                     color: this.state.selectedPeriod == 90 ? "white" : ""
@@ -386,7 +386,7 @@ class Dashboard extends React.Component {
                   value="180"
                   className={classes.button}
                   onClick={this.selectedPeriod}
-                  style={{
+                  sx={{
                     backgroundColor:
                       this.state.selectedPeriod == 180 ? "green" : "",
                     color: this.state.selectedPeriod == 180 ? "white" : ""
@@ -399,7 +399,7 @@ class Dashboard extends React.Component {
                   value="360"
                   className={classes.button}
                   onClick={this.selectedPeriod}
-                  style={{
+                  sx={{
                     backgroundColor:
                       this.state.selectedPeriod == 360 ? "green" : "",
                     color: this.state.selectedPeriod == 360 ? "white" : ""
@@ -412,7 +412,7 @@ class Dashboard extends React.Component {
                   value="1800"
                   className={classes.button}
                   onClick={this.selectedPeriod}
-                  style={{
+                  sx={{
                     backgroundColor:
                       this.state.selectedPeriod == 1800 ? "green" : "",
                     color: this.state.selectedPeriod == 1800 ? "white" : ""
@@ -425,7 +425,7 @@ class Dashboard extends React.Component {
                   value="all"
                   className={classes.button}
                   onClick={this.selectedPeriod}
-                  style={{
+                  sx={{
                     backgroundColor:
                       this.state.selectedPeriod == "all" ? "green" : "",
                     color: this.state.selectedPeriod == "all" ? "white" : ""

@@ -50,6 +50,11 @@ class About extends React.Component {
   render() {
     return (
       <Root>
+         <div
+         sx={{
+          padding: "25px",
+          margin: "10px",
+        }}>
           <Typography
             variant="h4"
             align="center"
@@ -137,6 +142,7 @@ class About extends React.Component {
               </Grid>
             </Grid>
           </Grid>
+          </div>
       </Root>
     );
   }

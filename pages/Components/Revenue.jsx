@@ -98,12 +98,12 @@ class Revenue extends React.Component {
     return (
       <Root>
         <div
-          style={{
+          sx={{
             padding: "25px",
           }}
         >
           {this.state.loading ? (
-            <Loader.Audio style={{ paddingLeft: "50%" }} />
+            <Loader.Audio sx={{ paddingLeft: "50%" }} />
           ) : (
             <div>
               <Paper elevation={0} className={classes.paper}>

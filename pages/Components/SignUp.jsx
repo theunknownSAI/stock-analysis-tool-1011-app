@@ -132,7 +132,7 @@ class SignUp extends React.Component {
     return (
       <Root>
         <div
-          style={{
+          sx={{
             padding: "25px",
             textAlign: "center",
             margin: "10px",
@@ -142,7 +142,7 @@ class SignUp extends React.Component {
             {this.state.signupstatus}
           </Typography>
 
-          <Grid container spacing={2} style={{ marginTop: "25px" }}>
+          <Grid container spacing={2} sx={{ marginTop: "25px" }}>
             <Grid item xs={12} sm={6}>
               <TextField
                 autoComplete="fname"
@@ -226,7 +226,7 @@ class SignUp extends React.Component {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <NavLink to="/login" style={{ color: "blue" }}>
+              <NavLink to="/login" sx={{ color: "blue" }}>
                 Already have an account? Sign in
               </NavLink>
             </Grid>

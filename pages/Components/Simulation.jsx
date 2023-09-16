@@ -113,7 +113,7 @@ class Simulation extends React.Component {
     return (
       <Root>
         <div
-          style={{
+          sx={{
             padding: "25px"
           }}
         >
@@ -127,10 +127,10 @@ class Simulation extends React.Component {
             }
             interactive
           >
-            <FormControl style={{ minWidth: "150px" }} variant="outlined">
+            <FormControl sx={{ minWidth: "150px" }} variant="outlined">
               <InputLabel>days</InputLabel>
               <Select
-                style={{ width: "100%" }}
+                sx={{ width: "100%" }}
                 labelId="days"
                 id="days"
                 onChange={(e) => {

@@ -74,7 +74,7 @@ class Sectors extends React.Component {
         title: {
           text: "Sectors Overview",
           align: "center",
-          style: {
+          sx: {
             fontSize: "24px",
             fontWeight: "bold",
             fontFamily: undefined,
@@ -206,7 +206,7 @@ class Sectors extends React.Component {
     return (
       <Root>
         <div
-          style={{
+          sx={{
             padding: "25px"
           }}
         >
@@ -220,7 +220,7 @@ class Sectors extends React.Component {
             <Grid item>
               {this.state.sectors.length !== 0 && (
                 <Autocomplete
-                  style={{
+                  sx={{
                     width: 400
                   }}
                   onChange={(e, val) => {
@@ -246,7 +246,7 @@ class Sectors extends React.Component {
             <Grid item>
               {this.state.selectedSectorCompanies.length !== 0 && (
                 <Autocomplete
-                  style={{ width: 400, align: "center" }}
+                  sx={{ width: 400, align: "center" }}
                   onChange={(e, val) => {
                     this.selectedCompany(val);
                   }}
@@ -267,7 +267,7 @@ class Sectors extends React.Component {
                 />
               )}
             </Grid>
-            <Grid item style={{ width: "75%" }}>
+            <Grid item sx={{ width: "75%" }}>
               <Chart
                 options={this.state.options}
                 series={this.state.series}

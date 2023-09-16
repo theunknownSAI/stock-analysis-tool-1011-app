@@ -162,7 +162,7 @@ class Comparison extends React.Component {
     return (
       <Root>
         <div
-          style={{
+          sx={{
             padding: "25px"
           }}
         >
@@ -204,10 +204,10 @@ class Comparison extends React.Component {
               />
             </Grid>
             <Grid item>
-              <FormControl style={{ minWidth: "150px" }} variant="outlined">
+              <FormControl sx={{ minWidth: "150px" }} variant="outlined">
                 <InputLabel>trading period</InputLabel>
                 <Select
-                  style={{ width: "100%" }}
+                  sx={{ width: "100%" }}
                   labelId="trading period"
                   id="trading"
                   onChange={(e) => {
@@ -234,7 +234,7 @@ class Comparison extends React.Component {
             <Grid item xs={2}>
               <TextField
                 type="number"
-                style={{ width: "100%" }}
+                sx={{ width: "100%" }}
                 inputProps={{ min: "-100", max: "100", step: "0.01" }}
                 label="rate of growth"
                 variant="outlined"
@@ -274,7 +274,7 @@ class Comparison extends React.Component {
           <Divider />
           <Divider />
           {this.state.loading ? (
-            <Loader.Audio style={{ paddingLeft: "50%" }} />
+            <Loader.Audio sx={{ paddingLeft: "50%" }} />
           ) : (
             this.state.stockdetails.length !== 0 && (
               <Grid
@@ -289,7 +289,7 @@ class Comparison extends React.Component {
                   return (
                     <Grid item xs={6} key={company.toString()}>
                       <Paper
-                        style={{
+                        sx={{
                           display: "flex",
                           padding: "15px",
                           margin: "15px",
@@ -332,7 +332,7 @@ class Comparison extends React.Component {
                             color="primary"
                             variant="outlined"
                             label={res}
-                            style={{ margin: "5px" }}
+                            sx={{ margin: "5px" }}
                           />
                         );
                       })}

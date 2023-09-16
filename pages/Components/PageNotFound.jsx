@@ -10,7 +10,7 @@ class PageNotFound extends React.Component {
     return (
       <React.Fragment>
         <div
-          style={{
+          sx={{
             padding: "25px",
           }}
         >

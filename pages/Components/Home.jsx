@@ -140,7 +140,7 @@ class Home extends React.Component {
           className={clsx(classes.appBar, {
             [classes.appBarShift]: open
           })}
-          style={{ backgroundColor: "#15DB95", color: "#0D19A3" }}
+          sx={{ backgroundColor: "#15DB95", color: "#0D19A3" }}
         >
           <Toolbar>
             <IconButton
@@ -167,7 +167,7 @@ class Home extends React.Component {
           >
             <div
               className={classes.drawerHeader}
-              style={{ backgroundColor: "#15DB95", color: "#0D19A3" }}
+              sx={{ backgroundColor: "#15DB95", color: "#0D19A3" }}
             >
               <Typography variant="h4">Stock Vestor</Typography>
               <IconButton onClick={this.handleDrawerClose}>

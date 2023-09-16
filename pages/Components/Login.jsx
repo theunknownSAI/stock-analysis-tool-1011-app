@@ -106,7 +106,7 @@ class Login extends React.Component {
     return (
       <Root>
         <div
-          style={{
+          sx={{
             padding: "25px",
             textAlign: "center",
             margin: "10px",
@@ -159,7 +159,7 @@ class Login extends React.Component {
           </Button>
           <Grid container>
             <Grid item>
-              <NavLink to="/signup" variant="body2" style={{ color: "blue" }}>
+              <NavLink to="/signup" variant="body2" sx={{ color: "blue" }}>
                 {"Don't have an account? Sign Up"}
               </NavLink>
             </Grid>

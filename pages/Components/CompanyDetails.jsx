@@ -197,7 +197,7 @@ class CompanyDetails extends React.Component {
     return (
       <Root>
         <div
-          style={{
+          sx={{
             padding: "25px"
           }}
         >
@@ -210,7 +210,7 @@ class CompanyDetails extends React.Component {
               </Paper>
               <Divider />
               {this.state.companydetailsloading === true ? (
-                <Loader.Audio style={{ paddingLeft: "50%" }} />
+                <Loader.Audio sx={{ paddingLeft: "50%" }} />
               ) : (
                 <Grid
                   container
@@ -250,7 +250,7 @@ class CompanyDetails extends React.Component {
                           </TableRow>
                           <TableRow>
                             <TableCell
-                              style={{
+                              sx={{
                                 background:
                                   this.state.suggest == "sell" ? "green" : "red"
                               }}
@@ -260,7 +260,7 @@ class CompanyDetails extends React.Component {
                           </TableRow>
                           <TableRow>
                             <TableCell
-                              style={{
+                              sx={{
                                 background:
                                   this.state.suggest == "buy" ? "green" : "red"
                               }}
@@ -270,7 +270,7 @@ class CompanyDetails extends React.Component {
                           </TableRow>
                           <TableRow>
                             <TableCell
-                              style={{
+                              sx={{
                                 background:
                                   this.state.suggest == "hold" ? "green" : "red"
                               }}
@@ -285,7 +285,7 @@ class CompanyDetails extends React.Component {
                   <Grid item>
                     {this.state.stockdetailsloading == true ||
                     this.state.stockdetails.length == 0 ? (
-                      <Loader.Audio style={{ paddingLeft: "50%" }} />
+                      <Loader.Audio sx={{ paddingLeft: "50%" }} />
                     ) : (
                       <TableContainer component={Paper}>
                         <Table>

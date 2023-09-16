@@ -59,7 +59,7 @@ class SideBar extends React.Component {
   render() {
     return (
       <Root>
-        <div style={{ backgroundColor: "#15DB95", height: "100%" }}>
+        <div sx={{ backgroundColor: "#15DB95", height: "100%" }}>
           <Paper className={classes.paper} elevation={0}>
             <Accordion className={classes.accordion}>
               <AccordionSummary aria-controls="panel1a-content" id="top10">

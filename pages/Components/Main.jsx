@@ -87,7 +87,7 @@ class Main extends React.Component {
       <Root>
         {/* <img
           src="/images/stockbg.png"
-          style={{
+          sx={{
             zIndex: -1,
             position: "absolute",
             width: "100%",
@@ -95,7 +95,7 @@ class Main extends React.Component {
           }}
         /> */}
         <div
-          style={{
+          sx={{
             backgroundImage: `url(${"/images/stockbg.png"})`,
             height: "600px",
             width: "100%",
@@ -112,7 +112,7 @@ class Main extends React.Component {
               <Grid item>
                 <Typography
                   variant="h4"
-                  style={{
+                  sx={{
                     fontFamily: "cursive",
                     fontSize: 50
                   }}
@@ -121,7 +121,7 @@ class Main extends React.Component {
                 </Typography>
               </Grid>
               <Grid item>
-                {/* <TrendingUpIcon style={{ fontSize: 80 }} /> */}
+                {/* <TrendingUpIcon sx={{ fontSize: 80 }} /> */}
               </Grid>
             </Grid>
             <Grid item>
@@ -142,7 +142,7 @@ class Main extends React.Component {
               > */}
               <Autocomplete
                 // disabled={logged != true}
-                style={{
+                sx={{
                   width: 400
                 }}
                 id="search for companies"
@@ -160,7 +160,7 @@ class Main extends React.Component {
                     margin="normal"
                     variant="outlined"
                     InputLabelProps={{
-                      style: { color: "#ff0000" }
+                      sx: { color: "#ff0000" }
                     }}
                     InputProps={{
                       ...params.InputProps,
