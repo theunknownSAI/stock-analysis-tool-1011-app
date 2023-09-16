@@ -12,7 +12,7 @@ import {
 import { styled } from '@mui/material/styles';
 import React from "react";
 import { NavLink, } from "react-router-dom";
-import { withRouter } from "./WithRouter";
+import { withRouter } from "../../utils/WithRouter"
 const PREFIX = "NavigationBar";
 
 const classes = {
