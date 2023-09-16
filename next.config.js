@@ -2,7 +2,6 @@ const path = require("path");
 
 module.exports = {
   trailingSlash: true,
-  target: "serverless",
   exportPathMap: async () => {
     return {
       "/home": { page: "/Components/Home" },
