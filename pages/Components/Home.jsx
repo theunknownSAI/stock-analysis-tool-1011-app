@@ -13,7 +13,7 @@ import React from "react";
 // import ChevronLeftIcon from " @mui/icons-material/ChevronLeft";
 // import ChevronRightIcon from " @mui/icons-material/ChevronRight";
 import {
-  Redirect,
+  Navigate,
   Route,
   Routes
 } from "react-router-dom";
@@ -196,7 +196,7 @@ class Home extends React.Component {
                   if (logged == null || logged === false) {
                     return <Login />;
                   }
-                  return <Redirect to="/home" />;
+                  return <Navigate to="/home" />;
                 }}
               />
               <Route
@@ -206,7 +206,7 @@ class Home extends React.Component {
                   if (logged == null || logged === false) {
                     return <SignUp />;
                   }
-                  return <Redirect to="/home" />;
+                  return <Navigate to="/home" />;
                 }}
               />
               <Route exact path="/about" component={About} />
