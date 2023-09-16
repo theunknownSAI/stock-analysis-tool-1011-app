@@ -5,28 +5,39 @@ import {
   withStyles,
   Grid,
   Avatar
-} from "@material-ui/core";
-import { Autocomplete } from "@material-ui/lab";
+} from "@mui/material";
+import { Autocomplete } from "@mui/lab";
 import React from "react";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
+import { styled } from '@mui/material/styles';
 
-import TrendingUpIcon from "@material-ui/icons/TrendingUp";
-const styles = (theme) => ({
-  tooltip: {
+import TrendingUpIcon from " @mui/icons-material/TrendingUp";
+
+const PREFIX = "SP500";
+
+const classes = {
+  tooltip: `${PREFIX}-tooltip`,
+  large: `${PREFIX}-large`,
+  notchedOutline: `${PREFIX}-notchedOutline`,
+}
+
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.tooltip}`]: {
     backgroundColor: "inherit",
     color: "#ff0000",
     maxWidth: "none"
   },
-  large: {
+  [`& .${classes.large}`]: {
     width: 200,
     height: 200
   },
-  notchedOutline: {
+  [`& .${classes.notchedOutline}`]: {
     borderWidth: "2px",
     borderColor: "#ff0000 !important"
   }
-});
+}));
+
 class Main extends React.Component {
   constructor(props) {
     super(props);
@@ -77,7 +88,7 @@ class Main extends React.Component {
     const logged = JSON.parse(localStorage.getItem("logged"));
     const { classes } = this.props;
     return (
-      <React.Fragment>
+      <Root>
         {/* <img
           src="/images/stockbg.png"
           style={{
@@ -168,9 +179,9 @@ class Main extends React.Component {
             </Grid>
           </Grid>
         </div>
-      </React.Fragment>
+      </Root>
     );
   }
 }
 
-export default withStyles(styles, { withTheme: true })(withRouter(Main));
+export default withRouter(Main);

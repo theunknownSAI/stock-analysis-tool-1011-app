@@ -1,29 +1,36 @@
-import { Button, TextField, Typography, Grid } from "@material-ui/core";
+import { Button, TextField, Typography, Grid } from "@mui/material";
 import axios from "axios";
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@mui/material/styles";
 import validator from "validator";
 import { withRouter, NavLink } from "react-router-dom";
+import { styled } from '@mui/material/styles';
 
-const styles = (theme) => ({
-  paper: {
+const PREFIX = "Login";
+
+const classes = {
+  paper: `${PREFIX}-paper`,
+  avatar: `${PREFIX}-avatar`,
+  form: `${PREFIX}-form`,
+  submit: `${PREFIX}-submit`,
+}
+
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.paper}`]: {
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-  },
-  avatar: {
+  },[`& .${classes.avatar}`]: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
+  },[`& .${classes.form}`]: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
-  },
-  submit: {
+  },[`& .${classes.submit}`]: {
     margin: theme.spacing(3, 0, 2),
-  },
-});
+  }
+}));
 
 class Login extends React.Component {
   constructor(props) {
@@ -98,7 +105,7 @@ class Login extends React.Component {
     const logged = JSON.parse(localStorage.getItem("logged"));
     const { classes } = this.props;
     return (
-      <React.Fragment>
+      <Root>
         <div
           style={{
             padding: "25px",
@@ -159,9 +166,9 @@ class Login extends React.Component {
             </Grid>
           </Grid>
         </div>
-      </React.Fragment>
+      </Root>
     );
   }
 }
 
-export default withStyles(styles, { withTheme: true })(withRouter(Login));
+export default withRouter(Login);

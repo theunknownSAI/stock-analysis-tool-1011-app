@@ -1,23 +1,31 @@
-import { TextField, withStyles, Grid } from "@material-ui/core";
-import { Autocomplete } from "@material-ui/lab";
+import { TextField, withStyles, Grid } from "@mui/material";
+import { Autocomplete } from "@mui/lab";
 import { withRouter } from "react-router-dom";
 import dynamic from "next/dynamic";
+import { styled } from '@mui/material/styles';
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 import axios from "axios";
 import React from "react";
 
-const styles = (theme) => ({
-  chart: {
+const PREFIX = "Sectors";
+
+const classes = {
+  chart: `${PREFIX}-chart`,
+  divchart: `${PREFIX}-divchart`
+}
+
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.chart}`]: {
     width: "75%"
   },
-  divchart: {
+  [`& .${classes.divchart}`]: {
     justifyContent: "center",
     alignItems: "center",
     display: "flex"
   }
-});
+}));
 
 class Sectors extends React.Component {
   constructor(props) {
@@ -197,7 +205,7 @@ class Sectors extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <React.Fragment>
+      <Root>
         <div
           style={{
             padding: "25px"
@@ -270,9 +278,9 @@ class Sectors extends React.Component {
             </Grid>
           </Grid>
         </div>
-      </React.Fragment>
+      </Root>
     );
   }
 }
 
-export default withStyles(styles, { withTheme: true })(withRouter(Sectors));
+export default withRouter(Sectors);

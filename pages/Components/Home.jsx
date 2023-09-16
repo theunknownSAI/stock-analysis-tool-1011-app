@@ -7,12 +7,12 @@ import {
   Typography,
   Divider,
   IconButton
-} from "@material-ui/core";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import { withStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import MenuIcon from " @mui/icons-material/Menu";
+import ChevronLeftIcon from " @mui/icons-material/ChevronLeft";
+import ChevronRightIcon from " @mui/icons-material/ChevronRight";
+import { withStyles } from "@mui/material/styles";
 import {
   Route,
   Switch,
@@ -20,6 +20,7 @@ import {
   withRouter,
   Redirect
 } from "react-router-dom";
+import { styled } from '@mui/material/styles';
 
 import About from "./About";
 import CompanyDetails from "./CompanyDetails";
@@ -37,52 +38,53 @@ import Simulation from "./Simulation";
 import Main from "./Main";
 import SignUp from "./SignUp";
 import moment from "moment";
+
 const drawerWidth = 300;
 
-const styles = (theme) => ({
-  root: {
+const PREFIX = "Home";
+
+const classes = {
+  root: `${PREFIX}-root`,
+  appBar: `${PREFIX}-appBar`,
+  appBarShift: `${PREFIX}-appBarShift`,
+  menuButton: `${PREFIX}-menuButton`,
+  hide: `${PREFIX}-hide`,
+  drawer: `${PREFIX}-drawer`,
+  drawerPaper: `${PREFIX}-drawerPaper`,
+  avatar: `${PREFIX}-avatar`,
+  drawerHeader: `${PREFIX}-drawerHeader`,
+  content: `${PREFIX}-content`,
+  contentShift: `${PREFIX}-contentShift`,
+}
+
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.root}`]: {
     display: "flex"
-  },
-  appBar: {
+  },[`& .${classes.appBar}`]: {
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
     })
-  },
-  appBarShift: {
+  },[`& .${classes.appBarShift}`]: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen
     })
-  },
-  menuButton: {
+  },[`& .${classes.menuButton}`]: {
     marginRight: theme.spacing(2)
-  },
-  hide: {
+  },[`& .${classes.hide}`]: {
     display: "none"
-  },
-  drawer: {
+  },[`& .${classes.drawer}`]: {
     width: drawerWidth,
     flexShrink: 0
-  },
-  drawerPaper: {
+  },[`& .${classes.drawerPaper}`]: {
     width: drawerWidth
-  },
-  avatar: {
+  },[`& .${classes.avatar}`]: {
     width: theme.spacing(10),
     height: theme.spacing(10)
-  },
-  drawerHeader: {
-    display: "flex",
-    alignItems: "center",
-    padding: theme.spacing(2),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: "center"
-  },
-  content: {
+  },[`& .${classes.content}`]: {
     flexGrow: 1,
     // padding: theme.spacing(3),
     transition: theme.transitions.create("margin", {
@@ -90,15 +92,14 @@ const styles = (theme) => ({
       duration: theme.transitions.duration.leavingScreen
     }),
     marginLeft: -drawerWidth
-  },
-  contentShift: {
+  },[`& .${classes.contentShift}`]: {
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen
     }),
     marginLeft: 0
   }
-});
+}));
 
 class Home extends React.Component {
   constructor(props) {
@@ -134,7 +135,7 @@ class Home extends React.Component {
     let logged = JSON.parse(localStorage.getItem("logged"));
 
     return (
-      <React.Fragment>
+      <Root>
         <CssBaseline />
         <AppBar
           position="relative"
@@ -276,8 +277,8 @@ class Home extends React.Component {
             </Switch>
           </main>
         </div>
-      </React.Fragment>
+      </Root>
     );
   }
 }
-export default withStyles(styles, { withTheme: true })(withRouter(Home));
+export default withRouter(Home);

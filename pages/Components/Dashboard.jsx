@@ -4,33 +4,40 @@ import axios from "axios";
 import dynamic from "next/dynamic";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-import { ButtonGroup, Button, Divider, withStyles } from "@material-ui/core";
+import { ButtonGroup, Button, Divider, withStyles } from "@mui/material";
 import { withRouter } from "react-router-dom";
 import moment from "moment";
+import { styled } from '@mui/material/styles';
 
 import Loader from "react-loader-spinner";
 
-const styles = (theme) => ({
-  chart: {
+const PREFIX = "Dashboard";
+
+const classes = {
+  chart: `${PREFIX}-chart`,
+  divchart: `${PREFIX}-divchart`,
+  buttongroup: `${PREFIX}-buttongroup`,
+  button: `${PREFIX}-button`,
+}
+
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.chart}`]: {
     width: "75%"
-  },
-  divchart: {
+  },[`& .${classes.divchart}`]: {
     justifyContent: "center",
     alignItems: "center",
     display: "flex"
-  },
-  buttongroup: {
+  },[`& .${classes.buttongroup}`]: {
     display: "flex",
     justifyContent: "center",
     margin: "10px"
-  },
-  button: {
+  },[`& .${classes.button}`]: {
     "&:hover": {
       backgroundColor: "red",
       color: "#ffffff"
     }
   }
-});
+}));
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -325,7 +332,7 @@ class Dashboard extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <React.Fragment>
+      <Root>
         {this.state.loading ? (
           <Loader style={{ paddingLeft: "50%" }} />
         ) : (
@@ -439,9 +446,9 @@ class Dashboard extends React.Component {
             </div>
           )
         )}
-      </React.Fragment>
+      </Root>
     );
   }
 }
 
-export default withStyles(styles, { withTheme: true })(withRouter(Dashboard));
+export default withRouter(Dashboard);

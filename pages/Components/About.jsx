@@ -1,18 +1,47 @@
 import React from "react";
-import { Typography, Grid, Avatar, withStyles, Link } from "@material-ui/core";
-import GitHubIcon from "@material-ui/icons/GitHub";
+import { Typography, Grid, Avatar, Link } from "@mui/material";
+import {GitHubIcon} from " @mui/icons-material/GitHub";
 import clsx from "clsx";
+import { styled } from '@mui/material/styles';
 
-const styles = (theme) => ({
-  large: {
+const PREFIX = "About";
+
+const classes = {
+  typo1: `${PREFIX}-typo1`,
+  typo2: `${PREFIX}-typo2`,
+  typo3: `${PREFIX}-typo3`,
+  typo4: `${PREFIX}-typo4`,
+  large: `${PREFIX}-large`,
+  color: `${PREFIX}-color`,
+}
+
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.typo1}`]: {
+      color: "#0D19A3",
+  },
+  [`& .${classes.typo2}`]: {
+      backgroundColor: "#15DB95", 
+      color: "#0D19A3"
+  },
+  [`& .${classes.typo3}`]: {
+      marginTop: "20px"
+  },
+  [`& .${classes.typo4}`]: {
+    marginTop: "20px",
+    marginBottom: "20px",
+    color: "#0D19A3",
+  },
+  [`& .${classes.large}`]: {
     width: 50,
     height: 50,
   },
-  color: {
+  [`& .${classes.color}`]: {
     color: "#ffffff",
     backgroundColor: "#FF8C00",
-  },
-});
+  }
+}));
+
+
 class About extends React.Component {
   componentDidMount = () => {
     console.log("About");
@@ -21,24 +50,16 @@ class About extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <React.Fragment>
-        <div
-          style={{
-            padding: "25px",
-            margin: "10px",
-          }}
-        >
+      <Root>
           <Typography
             variant="h4"
-            style={{
-              color: "#0D19A3",
-            }}
             align="center"
+            className={classes.typo1}
           >
             About Us
           </Typography>
           <Typography variant="h6" align="left">
-            <span style={{ backgroundColor: "#15DB95", color: "#0D19A3" }}>
+            <span className={classes.typo2}>
               Stock Vestor
             </span>{" "}
             is a tool for investors to optimize their returns of the given
@@ -48,17 +69,13 @@ class About extends React.Component {
             market sentiment and corporate actions on the stock and advise
             investors on entry and exit of that stock.
           </Typography>
-          <Typography variant="h6" align="left" style={{ marginTop: "20px" }}>
+          <Typography variant="h6" align="left" className={classes.typo3}>
             We are a team of analytics experts who utilize their skills in both
             technology find trends and manage data.
           </Typography>
           <Typography
             variant="h4"
-            style={{
-              marginTop: "20px",
-              marginBottom: "20px",
-              color: "#0D19A3",
-            }}
+            className={classes.typo4}
             align="center"
           >
             Team
@@ -70,31 +87,6 @@ class About extends React.Component {
             justify="center"
             alignItems="center"
           >
-            <Grid container item spacing={3}>
-              <Grid item>
-                <Avatar
-                  className={clsx(classes.large, classes.color)}
-                  alt="Arun Kumar Parayatham"
-                  src="/images/arun.png"
-                >
-                  <Typography variant="h2" component="h2">
-                    A
-                  </Typography>
-                </Avatar>
-              </Grid>
-              <Grid item>
-                <Link href="https://github.com/aparayatham">
-                  <Avatar className={clsx(classes.large)}>
-                    <GitHubIcon color="disabled" fontSize="large" />
-                  </Avatar>
-                </Link>
-              </Grid>
-              <Grid item>
-                <Typography variant="h4" component="h4">
-                  Arun Kumar Parayatham
-                </Typography>
-              </Grid>
-            </Grid>
             <Grid container item spacing={3}>
               <Grid item>
                 <Avatar
@@ -146,10 +138,9 @@ class About extends React.Component {
               </Grid>
             </Grid>
           </Grid>
-        </div>
-      </React.Fragment>
+      </Root>
     );
   }
 }
 
-export default withStyles(styles, { withTheme: true })(About);
+export default About;

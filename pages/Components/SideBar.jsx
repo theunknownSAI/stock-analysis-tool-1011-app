@@ -5,38 +5,49 @@ import {
   Paper,
   withStyles,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import React from "react";
 import { NavLink } from "react-router-dom";
-const styles = (theme) => ({
-  root: {
+import { styled } from '@mui/material/styles';
+
+const PREFIX = "SideBar";
+
+const classes = {
+  root: `${PREFIX}-root`,
+  heading: `${PREFIX}-heading`,
+  link: `${PREFIX}-link`,
+  paper: `${PREFIX}-paper`,
+  accordion: `${PREFIX}-accordion`
+}
+
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.paper}`]: {
     width: "100%",
   },
-  heading: {
+  [`& .${classes.heading}`]: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
   },
-  link: {
+  [`& .${classes.link}`]: {
     textDecoration: "none",
   },
-  paper: {
+  [`& .${classes.paper}`]: {
     display: "flex",
-    "& > *": {
-      padding: theme.spacing(2),
-      // margin: theme.spacing(1),
-      width: "100%",
-      height: "100%",
-    },
+  "& > *": {
+    padding: theme.spacing(2),
+    // margin: theme.spacing(1),
+    width: "100%",
+    height: "100%",
+  },
+  backgroundColor: "#15DB95",
+  color: "#0D19A3",
+},
+[`& .${classes.accordion}`]: {
+  border: "none",
     backgroundColor: "#15DB95",
     color: "#0D19A3",
-  },
-
-  accordion: {
-    border: "none",
-    backgroundColor: "#15DB95",
-    color: "#0D19A3",
-  },
-});
+}
+}));
 
 class SideBar extends React.Component {
   constructor(props) {
@@ -50,7 +61,7 @@ class SideBar extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <React.Fragment>
+      <Root>
         <div style={{ backgroundColor: "#15DB95", height: "100%" }}>
           <Paper className={classes.paper} elevation={0}>
             <Accordion className={classes.accordion}>
@@ -128,9 +139,9 @@ class SideBar extends React.Component {
             </NavLink>
           </Paper>
         </div>
-      </React.Fragment>
+      </Root>
     );
   }
 }
 
-export default withStyles(styles, { withTheme: true })(SideBar);
+export default SideBar;

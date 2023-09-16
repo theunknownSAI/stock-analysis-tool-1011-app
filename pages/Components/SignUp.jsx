@@ -1,26 +1,34 @@
-import { Button, TextField, Typography, Grid } from "@material-ui/core";
+import { Button, TextField, Typography, Grid } from "@mui/material";
 import axios from "axios";
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@mui/material/styles";
 import validator from "validator";
 import { withRouter, NavLink } from "react-router-dom";
+import { styled } from '@mui/material/styles';
 
-const styles = (theme) => ({
-  paper: {
+const PREFIX = "SignUp";
+
+const classes = {
+  paper: `${PREFIX}-paper`,
+  avatar: `${PREFIX}-avatar`,
+  submit: `${PREFIX}-submit`
+}
+
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.paper}`]: {
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
   },
-  avatar: {
+  [`& .${classes.avatar}`]: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
-
-  submit: {
+  [`& .${classes.submit}`]: {
     margin: theme.spacing(3, 0, 2),
-  },
-});
+  }
+}));
 
 class SignUp extends React.Component {
   constructor(props) {
@@ -121,7 +129,7 @@ class SignUp extends React.Component {
     const logged = JSON.parse(localStorage.getItem("logged"));
     const { classes } = this.props;
     return (
-      <React.Fragment>
+      <Root>
         <div
           style={{
             padding: "25px",
@@ -223,9 +231,9 @@ class SignUp extends React.Component {
             </Grid>
           </Grid>
         </div>
-      </React.Fragment>
+      </Root>
     );
   }
 }
 
-export default withStyles(styles, { withTheme: true })(withRouter(SignUp));
+export default withRouter(SignUp);

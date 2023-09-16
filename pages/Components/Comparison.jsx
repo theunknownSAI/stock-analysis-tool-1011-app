@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import underscore from "underscore";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import Autocomplete from "@mui/lab/Autocomplete";
 import {
   FormControl,
   Grid,
@@ -15,21 +15,27 @@ import {
   Chip,
   Divider,
   Tooltip
-} from "@material-ui/core";
+} from "@mui/material";
 import Loader from "react-loader-spinner";
 import { NavLink } from "react-router-dom";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@mui/material/styles";
+import { styled } from '@mui/material/styles';
 
 import Dashboard from "./Dashboard";
 
-const styles = (theme) => ({
-  tooltip: {
-    // backgroundColor: "#15DB95",
+const PREFIX = "Comparison";
+
+const classes = {
+  tooltip: `${PREFIX}-tooltip`
+}
+
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.tooltip}`]: {
     backgroundColor: "#f0f0f0",
     color: "#000000",
     maxWidth: "none"
   }
-});
+}));
 
 class Comparison extends React.Component {
   constructor(props) {
@@ -156,7 +162,7 @@ class Comparison extends React.Component {
     let logged = JSON.parse(localStorage.getItem("logged"));
     const { classes } = this.props;
     return (
-      <React.Fragment>
+      <Root>
         <div
           style={{
             padding: "25px"
@@ -339,9 +345,9 @@ class Comparison extends React.Component {
             )
           )}
         </div>
-      </React.Fragment>
+      </Root>
     );
   }
 }
 
-export default withStyles(styles, { withTheme: true })(Comparison);
+export default Comparison;

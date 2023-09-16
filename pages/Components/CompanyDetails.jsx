@@ -14,35 +14,44 @@ import {
   AccordionSummary,
   Tooltip,
   Button
-} from "@material-ui/core";
+} from "@mui/material";
 import React from "react";
 import axios from "axios";
 import Loader from "react-loader-spinner";
 import moment from "moment";
+import { styled } from '@mui/material/styles';
 
 import Dashboard from "./Dashboard";
 
-const styles = (theme) => ({
-  paper: {
+const PREFIX = "CompanyDetails";
+
+const classes = {
+  paper: `${PREFIX}-paper`,
+  tooltip: `${PREFIX}-tooltip`,
+  allitems: `${PREFIX}-allitems`,
+  chip: `${PREFIX}-chip`,
+}
+
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.paper}`]: {
     display: "flex",
     padding: "15px",
     margin: "15px",
     justifyContent: "center"
   },
-  tooltip: {
-    // backgroundColor: "#15DB95",
+  [`& .${classes.tooltip}`]: {
     backgroundColor: "#f0f0f0",
     color: "#000000",
     maxWidth: "none"
-  },
-  allitems: {
+  },[`& .${classes.allitems}`]: {
     "&:hover": {
       backgroundColor: "#15DB95",
       color: "#0D19A3"
     }
-  },
-  chip: { margin: "5px", backgroundColor: "#ffffff", color: "#5F00E7" }
-});
+  },[`& .${classes.chip}`]: {
+    margin: "5px", backgroundColor: "#ffffff", color: "#5F00E7"
+  }
+}));
 
 class CompanyDetails extends React.Component {
   constructor(props) {
@@ -192,7 +201,7 @@ class CompanyDetails extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <React.Fragment>
+      <Root>
         <div
           style={{
             padding: "25px"
@@ -335,9 +344,9 @@ class CompanyDetails extends React.Component {
               <Dashboard company={this.state.selectedCompany} key="dashboard" />
             )}
         </div>
-      </React.Fragment>
+      </Root>
     );
   }
 }
 
-export default withStyles(styles, { withTheme: true })(CompanyDetails);
+export default CompanyDetails;

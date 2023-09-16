@@ -1,12 +1,20 @@
-import { Paper, Typography, withStyles } from "@material-ui/core";
+import { Paper, Typography, withStyles } from "@mui/material";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 import Loader from "react-loader-spinner";
 import moment from "moment";
+import { styled } from '@mui/material/styles';
 
-const styles = (theme) => ({
-  paper: {
+const PREFIX = "Revenue";
+
+const classes = {
+  paper: `${PREFIX}-paper`,
+  navlink: `${PREFIX}-navlink`
+}
+
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.paper}`]: {
     display: "flex",
     padding: "15px",
     justifyContent: "center",
@@ -14,12 +22,12 @@ const styles = (theme) => ({
     "&:hover": {
       backgroundColor: "#15DB95",
       color: "#0D19A3",
-    },
+    }
   },
-  navlink: {
+  [`& .${classes.navlink}`]: {
     textDecoration: "none",
-  },
-});
+  }
+}));
 
 class Revenue extends React.Component {
   constructor(props) {
@@ -89,7 +97,7 @@ class Revenue extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <React.Fragment>
+      <Root>
         <div
           style={{
             padding: "25px",
@@ -122,9 +130,9 @@ class Revenue extends React.Component {
             </div>
           )}
         </div>
-      </React.Fragment>
+      </Root>
     );
   }
 }
 
-export default withStyles(styles, { withTheme: true })(Revenue);
+export default Revenue;

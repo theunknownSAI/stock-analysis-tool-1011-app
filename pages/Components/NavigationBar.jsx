@@ -1,4 +1,4 @@
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@mui/material/styles";
 import {
   TextField,
   Typography,
@@ -9,51 +9,59 @@ import {
   ListItem,
   ListItemText,
   Tooltip
-} from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+} from "@mui/material";
+import Autocomplete from "@mui/lab/Autocomplete";
 import React from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import axios from "axios";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-const styles = (theme) => ({
-  root: {
+import AccountCircleIcon from " @mui/icons-material/AccountCircle";
+import { styled } from '@mui/material/styles';
+
+const PREFIX = "NavigationBar";
+
+const classes = {
+  root: `${PREFIX}-root`,
+  paper: `${PREFIX}-paper`,
+  link: `${PREFIX}-link`,
+  grid: `${PREFIX}-grid`,
+  typography: `${PREFIX}-typography`,
+  largeIcon: `${PREFIX}-largeIcon`,
+  tooltip: `${PREFIX}-tooltip`,
+  primary: `${PREFIX}-primary`,
+  outline: `${PREFIX}-outline`,
+}
+
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.root}`]: {
     flexGrow: 1
-  },
-  paper: {
+  }, [`& .${classes.paper}`]: {
     textAlign: "center",
     color: theme.palette.text.secondary
-  },
-  link: {
+  }, [`& .${classes.link}`]: {
     textDecoration: "initial"
-  },
-  typography: {
-    padding: 20
-  },
-  grid: {
+  }, [`& .${classes.grid}`]: {
     "&:hover": {
       backgroundColor: "#F4E4C1",
       color: "#E4C580"
     }
-  },
-  largeIcon: {
+  }, [`& .${classes.typography}`]: {
+    padding: 20
+  }, [`& .${classes.largeIcon}`]: {
     width: 60,
     height: 60,
     fontSize: 25
-  },
-  tooltip: {
-    // backgroundColor: "#15DB95",
+  },[`& .${classes.tooltip}`]: {
     backgroundColor: "#f0f0f0",
     color: "#000000",
     maxWidth: "none"
-  },
-  primary: {
+  },[`& .${classes.tooltip}`]: {
     fontSize: 14
-  },
-  outline: {
-    borderWidth: "2px",
-    borderColor: "#ff0000 !important"
+  },[`& .${classes.tooltip}`]: {
+    backgroundColor: "#f0f0f0",
+    color: "#000000",
+    maxWidth: "none"
   }
-});
+}));
 
 class NavigationBar extends React.Component {
   constructor(props) {
@@ -115,7 +123,7 @@ class NavigationBar extends React.Component {
     // details.push(email);
     // console.log(details);
     return (
-      <React.Fragment>
+      <Root>
         <Grid container className={classes.root} spacing={1}>
           <Grid item xs={11}>
             <Grid container justify="center">
@@ -266,10 +274,8 @@ class NavigationBar extends React.Component {
             </Grid>
           </Grid>
         </Grid>
-      </React.Fragment>
+      </Root>
     );
   }
 }
-export default withStyles(styles, { withTheme: true })(
-  withRouter(NavigationBar)
-);
+export default withRouter(NavigationBar);

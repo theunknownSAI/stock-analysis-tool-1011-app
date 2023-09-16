@@ -1,17 +1,25 @@
 import React from "react";
-import { Paper, Typography, withStyles } from "@material-ui/core";
+import { Paper, Typography } from "@mui/material";
+import { styled } from '@mui/material/styles';
 
 import Dashboard from "./Dashboard";
 
-const styles = (theme) => ({
-  paper: {
+const PREFIX = "SP500";
+
+const classes = {
+  paper: `${PREFIX}-paper`
+}
+
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.paper}`]: {
     display: "flex",
     padding: "15px",
     margin: "15px",
     justifyContent: "center",
     backgroundColor: "inherit",
-  },
-});
+  }
+}));
+
 class SP500 extends React.Component {
   constructor(props) {
     super(props);
@@ -23,20 +31,14 @@ class SP500 extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <React.Fragment>
-        <div
-          style={{
-            padding: "25px",
-          }}
-        >
-          <Paper elevation={0} className={classes.paper} align="center">
+      <Root>
+        <Paper elevation={0} className={classes.paper} align="center">
             <Typography variant="h4">{"SP 500"}</Typography>
           </Paper>
           <Dashboard company="sp500" />
-        </div>
-      </React.Fragment>
+      </Root>
     );
   }
 }
 
-export default withStyles(styles, { withTheme: true })(SP500);
+export default SP500;

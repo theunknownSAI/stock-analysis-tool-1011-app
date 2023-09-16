@@ -6,25 +6,31 @@ import {
   MenuItem,
   Tooltip,
   Typography
-} from "@material-ui/core";
+} from "@mui/material";
 import axios from "axios";
 import Loader from "react-loader-spinner";
 import {
   DataGrid,
   GridToolbarContainer,
   GridToolbarExport
-} from "@material-ui/data-grid";
+} from "@mui/x-data-grid";
 import moment from "moment";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@mui/material/styles";
+import { styled } from '@mui/material/styles';
 
-const styles = (theme) => ({
-  tooltip: {
-    // backgroundColor: "#15DB95",
+const PREFIX = "Simulation";
+
+const classes = {
+  tooltip: `${PREFIX}-tooltip`
+}
+
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.tooltip}`]: {
     backgroundColor: "#f0f0f0",
     color: "#000000",
     maxWidth: "none"
   }
-});
+}));
 
 class Simulation extends React.Component {
   constructor(props) {
@@ -107,7 +113,7 @@ class Simulation extends React.Component {
     let logged = JSON.parse(localStorage.getItem("logged"));
     const { classes } = this.props;
     return (
-      <React.Fragment>
+      <Root>
         <div
           style={{
             padding: "25px"
@@ -171,9 +177,9 @@ class Simulation extends React.Component {
             )
           )}
         </div>
-      </React.Fragment>
+      </Root>
     );
   }
 }
 
-export default withStyles(styles, { withTheme: true })(Simulation);
+export default Simulation;
