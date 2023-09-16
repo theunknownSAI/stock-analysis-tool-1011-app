@@ -9,9 +9,9 @@ import {
   IconButton
 } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import MenuIcon from " @mui/icons-material/Menu";
-import ChevronLeftIcon from " @mui/icons-material/ChevronLeft";
-import ChevronRightIcon from " @mui/icons-material/ChevronRight";
+// import MenuIcon from " @mui/icons-material/Menu";
+// import ChevronLeftIcon from " @mui/icons-material/ChevronLeft";
+// import ChevronRightIcon from " @mui/icons-material/ChevronRight";
 import {
   Route,
   Switch, withRouter,
@@ -148,7 +148,7 @@ class Home extends React.Component {
               edge="start"
               className={clsx(classes.menuButton, open && classes.hide)}
             >
-              <MenuIcon />
+              {/* <MenuIcon /> */}
             </IconButton>
             <NavigationBar />
           </Toolbar>
@@ -169,11 +169,11 @@ class Home extends React.Component {
             >
               <Typography variant="h4">Stock Vestor</Typography>
               <IconButton onClick={this.handleDrawerClose}>
-                {theme.direction === "ltr" ? (
+                {/* {theme.direction === "ltr" ? (
                   <ChevronLeftIcon />
                 ) : (
                   <ChevronRightIcon />
-                )}
+                )} */}
               </IconButton>
             </div>
             <Divider />

@@ -1,4 +1,4 @@
-import AccountCircleIcon from " @mui/icons-material/AccountCircle";
+// import AccountCircleIcon from " @mui/icons-material/AccountCircle";
 import {
   Button,
   Grid,
@@ -260,7 +260,7 @@ class NavigationBar extends React.Component {
                     }
                   >
                     <IconButton>
-                      <AccountCircleIcon className={classes.largeIcon} />
+                      {/* <AccountCircleIcon className={classes.largeIcon} /> */}
                     </IconButton>
                   </Tooltip>
                 </Grid>

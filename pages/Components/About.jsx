@@ -1,4 +1,4 @@
-import GitHubIcon from " @mui/icons-material/GitHub";
+// import GitHubIcon from " @mui/icons-material/GitHub";
 import { Avatar, Grid, Link, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import clsx from "clsx";
@@ -102,7 +102,7 @@ class About extends React.Component {
               <Grid item>
                 <Link href="https://github.com/VenuGopalJilla">
                   <Avatar className={clsx(classes.large)}>
-                    <GitHubIcon color="disabled" fontSize="large" />
+                    {/* <GitHubIcon color="disabled" fontSize="large" /> */}
                   </Avatar>
                 </Link>
               </Grid>
@@ -127,7 +127,7 @@ class About extends React.Component {
               <Grid item>
                 <Link href="https://www.github.com/saikr789">
                   <Avatar className={clsx(classes.large)}>
-                    <GitHubIcon color="disabled" fontSize="large" />
+                    {/* <GitHubIcon color="disabled" fontSize="large" /> */}
                   </Avatar>
                 </Link>
               </Grid>
