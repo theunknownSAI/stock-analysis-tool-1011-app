@@ -12,7 +12,6 @@ import { NavLink } from "react-router-dom";
 const PREFIX = "SideBar";
 
 const classes = {
-  root: `${PREFIX}-root`,
   heading: `${PREFIX}-heading`,
   link: `${PREFIX}-link`,
   paper: `${PREFIX}-paper`,
@@ -58,7 +57,6 @@ class SideBar extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
     return (
       <Root>
         <div style={{ backgroundColor: "#15DB95", height: "100%" }}>

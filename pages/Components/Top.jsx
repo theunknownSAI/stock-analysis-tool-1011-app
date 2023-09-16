@@ -87,7 +87,6 @@ class Top extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
     return (
       <Root>
         <div

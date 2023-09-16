@@ -110,7 +110,6 @@ class Simulation extends React.Component {
   render() {
     const today = new Date();
     let logged = JSON.parse(localStorage.getItem("logged"));
-    const { classes } = this.props;
     return (
       <Root>
         <div

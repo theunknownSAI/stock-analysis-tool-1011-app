@@ -29,7 +29,6 @@ class SP500 extends React.Component {
     console.log("SP500");
   };
   render() {
-    const { classes } = this.props;
     return (
       <Root>
         <Paper elevation={0} className={classes.paper} align="center">

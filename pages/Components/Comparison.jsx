@@ -159,7 +159,6 @@ class Comparison extends React.Component {
   render() {
     const period = underscore.invert(this.state.timePeriod);
     let logged = JSON.parse(localStorage.getItem("logged"));
-    const { classes } = this.props;
     return (
       <Root>
         <div

@@ -42,7 +42,7 @@ const drawerWidth = 300;
 const PREFIX = "Home";
 
 const classes = {
-  root: `${PREFIX}-root`,
+  div1: `${PREFIX}-div1`,
   appBar: `${PREFIX}-appBar`,
   appBarShift: `${PREFIX}-appBarShift`,
   menuButton: `${PREFIX}-menuButton`,
@@ -56,7 +56,7 @@ const classes = {
 }
 
 const Root = styled('div')(({ theme }) => ({
-  [`& .${classes.root}`]: {
+  [`& .${classes.div1}`]: {
     display: "flex"
   },[`& .${classes.appBar}`]: {
     transition: theme.transitions.create(["margin", "width"], {
@@ -128,7 +128,7 @@ class Home extends React.Component {
     this.setState({ open: false });
   };
   render() {
-    const { classes, theme } = this.props;
+    const { theme } = this.props;
     const open = this.state.open;
     let logged = JSON.parse(localStorage.getItem("logged"));
 
@@ -155,7 +155,7 @@ class Home extends React.Component {
             <NavigationBar />
           </Toolbar>
         </AppBar>
-        <div className={classes.root}>
+        <div className={classes.div1}>
           <Drawer
             className={classes.drawer}
             variant="persistent"

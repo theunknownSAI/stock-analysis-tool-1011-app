@@ -83,7 +83,6 @@ class Main extends React.Component {
 
   render() {
     const logged = JSON.parse(localStorage.getItem("logged"));
-    const { classes } = this.props;
     return (
       <Root>
         {/* <img

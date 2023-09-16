@@ -16,7 +16,7 @@ import { withRouter } from "../../utils/WithRouter"
 const PREFIX = "NavigationBar";
 
 const classes = {
-  root: `${PREFIX}-root`,
+  grid1: `${PREFIX}-grid1`,
   paper: `${PREFIX}-paper`,
   link: `${PREFIX}-link`,
   grid: `${PREFIX}-grid`,
@@ -28,7 +28,7 @@ const classes = {
 }
 
 const Root = styled('div')(({ theme }) => ({
-  [`& .${classes.root}`]: {
+  [`& .${classes.grid1}`]: {
     flexGrow: 1
   }, [`& .${classes.paper}`]: {
     textAlign: "center",
@@ -108,7 +108,7 @@ class NavigationBar extends React.Component {
   // };
 
   render() {
-    const { classes, history, theme } = this.props;
+    const { history, theme } = this.props;
     const logged = JSON.parse(localStorage.getItem("logged"));
     let details = JSON.parse(localStorage.getItem("details")) || [];
     // const firstName = JSON.parse(localStorage.getItem("firstName"));
@@ -120,7 +120,7 @@ class NavigationBar extends React.Component {
     // console.log(details);
     return (
       <Root>
-        <Grid container className={classes.root} spacing={1}>
+        <Grid container className={classes.grid1} spacing={1}>
           <Grid item xs={11}>
             <Grid container justify="center">
               <Grid item className={classes.grid}>

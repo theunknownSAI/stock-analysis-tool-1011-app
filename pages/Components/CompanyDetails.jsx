@@ -194,7 +194,6 @@ class CompanyDetails extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
     return (
       <Root>
         <div
