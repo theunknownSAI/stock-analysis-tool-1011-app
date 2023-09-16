@@ -1,8 +1,8 @@
-import React from "react";
-import { Typography, Grid, Avatar, Link } from "@mui/material";
-import {GitHubIcon} from " @mui/icons-material/GitHub";
-import clsx from "clsx";
+import GitHubIcon from " @mui/icons-material/GitHub";
+import { Avatar, Grid, Link, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
+import clsx from "clsx";
+import React from "react";
 
 const PREFIX = "About";
 

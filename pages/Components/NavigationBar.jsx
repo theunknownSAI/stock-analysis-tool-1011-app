@@ -1,21 +1,17 @@
-import { withStyles } from "@mui/material/styles";
+import AccountCircleIcon from " @mui/icons-material/AccountCircle";
 import {
-  TextField,
-  Typography,
-  Grid,
   Button,
+  Grid,
   IconButton,
   List,
   ListItem,
   ListItemText,
-  Tooltip
+  Tooltip,
+  Typography
 } from "@mui/material";
-import Autocomplete from "@mui/lab/Autocomplete";
+import { styled } from '@mui/material/styles';
 import React from "react";
 import { NavLink, withRouter } from "react-router-dom";
-import axios from "axios";
-import AccountCircleIcon from " @mui/icons-material/AccountCircle";
-import { styled } from '@mui/material/styles';
 
 const PREFIX = "NavigationBar";
 

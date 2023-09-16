@@ -3,12 +3,11 @@ import {
   AccordionDetails,
   AccordionSummary,
   Paper,
-  withStyles,
-  Typography,
+  Typography
 } from "@mui/material";
+import { styled } from '@mui/material/styles';
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { styled } from '@mui/material/styles';
 
 const PREFIX = "SideBar";
 

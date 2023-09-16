@@ -1,22 +1,21 @@
-import React from "react";
 import {
   FormControl,
   InputLabel,
-  Select,
   MenuItem,
+  Select,
   Tooltip,
   Typography
 } from "@mui/material";
-import axios from "axios";
-import Loader from "react-loader-spinner";
+import { styled } from '@mui/material/styles';
 import {
   DataGrid,
   GridToolbarContainer,
   GridToolbarExport
 } from "@mui/x-data-grid";
+import axios from "axios";
 import moment from "moment";
-import { withStyles } from "@mui/material/styles";
-import { styled } from '@mui/material/styles';
+import React from "react";
+import Loader from "react-loader-spinner";
 
 const PREFIX = "Simulation";
 

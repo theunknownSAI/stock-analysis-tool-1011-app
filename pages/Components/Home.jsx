@@ -12,12 +12,9 @@ import CssBaseline from "@mui/material/CssBaseline";
 import MenuIcon from " @mui/icons-material/Menu";
 import ChevronLeftIcon from " @mui/icons-material/ChevronLeft";
 import ChevronRightIcon from " @mui/icons-material/ChevronRight";
-import { withStyles } from "@mui/material/styles";
 import {
   Route,
-  Switch,
-  HashRouter,
-  withRouter,
+  Switch, withRouter,
   Redirect
 } from "react-router-dom";
 import { styled } from '@mui/material/styles';
@@ -28,7 +25,6 @@ import Comparison from "./Comparison";
 import Login from "./Login";
 import NavigationBar from "./NavigationBar";
 import PageNotFound from "./PageNotFound";
-import Performance from "./Performance";
 import Revenue from "./Revenue";
 import Sectors from "./Sectors";
 import SideBar from "./SideBar";
