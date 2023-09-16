@@ -7,7 +7,7 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import { Button, ButtonGroup, Divider } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import moment from "moment";
-import { withRouter } from "../Components/WithRouter"
+import { withRouter } from "./WithRouter"
 
 import * as Loader from "react-loader-spinner";
 

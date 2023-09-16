@@ -17,7 +17,7 @@ import {
   Route,
   Routes
 } from "react-router-dom";
-import { withRouter } from "../Components/WithRouter";
+import { withRouter } from "./WithRouter";
 
 import { styled } from '@mui/material/styles';
 

@@ -4,7 +4,7 @@ import axios from "axios";
 import React from "react";
 import { NavLink, } from "react-router-dom";
 import validator from "validator";
-import { withRouter } from "../Components/WithRouter";
+import { withRouter } from "./WithRouter";
 
 const PREFIX = "Login";
 
