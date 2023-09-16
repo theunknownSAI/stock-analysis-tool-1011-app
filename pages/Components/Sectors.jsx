@@ -2,7 +2,7 @@ import { Autocomplete } from "@mui/lab";
 import { Grid, TextField } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import dynamic from "next/dynamic";
-import { withRouter } from "react-router-dom";
+import { withRouter } from "../Components/WithRouter";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 

@@ -2,7 +2,10 @@ import { Button, Grid, TextField, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import axios from "axios";
 import React from "react";
-import { NavLink, withRouter } from "react-router-dom";
+import { NavLink, } from "react-router-dom";
+
+import { withRouter } from "../Components/WithRouter";
+
 import validator from "validator";
 
 const PREFIX = "SignUp";

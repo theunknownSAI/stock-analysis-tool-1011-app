@@ -1,39 +1,41 @@
-import React from "react";
-import clsx from "clsx";
 import {
-  Drawer,
   AppBar,
-  Toolbar,
-  Typography,
   Divider,
-  IconButton
+  Drawer,
+  IconButton,
+  Toolbar,
+  Typography
 } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
+import clsx from "clsx";
+import React from "react";
 // import MenuIcon from " @mui/icons-material/Menu";
 // import ChevronLeftIcon from " @mui/icons-material/ChevronLeft";
 // import ChevronRightIcon from " @mui/icons-material/ChevronRight";
 import {
+  Redirect,
   Route,
-  Switch, withRouter,
-  Redirect
+  Switch
 } from "react-router-dom";
+import { withRouter } from "../Components/WithRouter";
+
 import { styled } from '@mui/material/styles';
 
+import moment from "moment";
 import About from "./About";
 import CompanyDetails from "./CompanyDetails";
 import Comparison from "./Comparison";
 import Login from "./Login";
+import Main from "./Main";
 import NavigationBar from "./NavigationBar";
 import PageNotFound from "./PageNotFound";
 import Revenue from "./Revenue";
+import SP500 from "./SP500";
 import Sectors from "./Sectors";
 import SideBar from "./SideBar";
-import SP500 from "./SP500";
-import Top from "./Top";
-import Simulation from "./Simulation";
-import Main from "./Main";
 import SignUp from "./SignUp";
-import moment from "moment";
+import Simulation from "./Simulation";
+import Top from "./Top";
 
 const drawerWidth = 300;
 

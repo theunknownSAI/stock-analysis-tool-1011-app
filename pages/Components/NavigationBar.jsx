@@ -11,8 +11,8 @@ import {
 } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import React from "react";
-import { NavLink, withRouter } from "react-router-dom";
-
+import { NavLink, } from "react-router-dom";
+import withRouter from "../Components/WithRouter";
 const PREFIX = "NavigationBar";
 
 const classes = {
