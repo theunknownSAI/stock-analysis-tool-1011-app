@@ -5,13 +5,14 @@ import dynamic from "next/dynamic";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 import { Button, ButtonGroup, Divider } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { createTheme, styled } from '@mui/material/styles';
 import moment from "moment";
-import { withRouter } from "../../utils/WithRouter"
+import { withRouter } from "../../utils/WithRouter";
 
 import * as Loader from "react-loader-spinner";
 
 const PREFIX = "Dashboard";
+const theme = createTheme();
 
 const classes = {
   chart: `${PREFIX}-chart`,

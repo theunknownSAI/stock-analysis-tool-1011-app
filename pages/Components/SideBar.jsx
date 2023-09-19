@@ -5,12 +5,12 @@ import {
   Paper,
   Typography
 } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { createTheme, styled } from '@mui/material/styles';
 import React from "react";
 import { NavLink } from "react-router-dom";
 
 const PREFIX = "SideBar";
-
+const theme = createTheme();
 const classes = {
   heading: `${PREFIX}-heading`,
   link: `${PREFIX}-link`,

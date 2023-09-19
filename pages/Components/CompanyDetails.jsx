@@ -10,13 +10,15 @@ import {
   TableRow, Tooltip,
   Typography
 } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { createTheme, styled } from '@mui/material/styles';
 import axios from "axios";
 import moment from "moment";
 import React from "react";
 import * as Loader from "react-loader-spinner";
 
 import Dashboard from "./Dashboard";
+
+const theme = createTheme();
 
 const PREFIX = "CompanyDetails";
 

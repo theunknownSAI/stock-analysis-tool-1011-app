@@ -9,11 +9,14 @@ import {
   Tooltip,
   Typography
 } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { createTheme, styled } from '@mui/material/styles';
 import React from "react";
 import { NavLink, } from "react-router-dom";
 import { withRouter } from "../../utils/WithRouter"
+
+
 const PREFIX = "NavigationBar";
+const theme = createTheme();
 
 const classes = {
   grid1: `${PREFIX}-grid1`,

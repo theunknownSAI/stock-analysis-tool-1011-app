@@ -1,5 +1,5 @@
 import { Button, Grid, TextField, Typography } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { createTheme, styled } from '@mui/material/styles';
 import axios from "axios";
 import React from "react";
 import { NavLink, } from "react-router-dom";
@@ -9,6 +9,8 @@ import { withRouter } from "../../utils/WithRouter"
 import validator from "validator";
 
 const PREFIX = "SignUp";
+
+const theme = createTheme();
 
 const classes = {
   paper: `${PREFIX}-paper`,

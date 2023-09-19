@@ -1,6 +1,6 @@
 import { Autocomplete } from "@mui/lab";
 import { Grid, TextField } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { createTheme, styled } from '@mui/material/styles';
 import dynamic from "next/dynamic";
 import { withRouter } from "../../utils/WithRouter"
 
@@ -10,6 +10,7 @@ import axios from "axios";
 import React from "react";
 
 const PREFIX = "Sectors";
+const theme = createTheme();
 
 const classes = {
   chart: `${PREFIX}-chart`,

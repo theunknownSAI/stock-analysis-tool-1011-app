@@ -13,7 +13,7 @@ import {
   Tooltip,
   Typography
 } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { createTheme, styled } from '@mui/material/styles';
 import axios from "axios";
 import React from "react";
 import * as Loader from "react-loader-spinner";
@@ -21,6 +21,8 @@ import { NavLink } from "react-router-dom";
 import underscore from "underscore";
 
 import Dashboard from "./Dashboard";
+
+const theme = createTheme();
 
 const PREFIX = "Comparison";
 

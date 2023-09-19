@@ -1,3 +1,6 @@
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
   Divider,
@@ -9,18 +12,14 @@ import {
 import CssBaseline from "@mui/material/CssBaseline";
 import clsx from "clsx";
 import React from "react";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import {
   Navigate,
   Route,
   Routes
 } from "react-router-dom";
-import { withRouter } from "../../utils/WithRouter"
+import { withRouter } from "../../utils/WithRouter";
 
-import { styled } from '@mui/material/styles';
-
+import { createTheme, styled } from '@mui/material/styles';
 import moment from "moment";
 import About from "./About";
 import CompanyDetails from "./CompanyDetails";
@@ -37,8 +36,8 @@ import SignUp from "./SignUp";
 import Simulation from "./Simulation";
 import Top from "./Top";
 
+const theme = createTheme();
 const drawerWidth = 300;
-
 const PREFIX = "Home";
 
 const classes = {
@@ -125,12 +124,11 @@ class Home extends React.Component {
     this.setState({ open: false });
   };
   render() {
-    const { theme } = this.props;
     const open = this.state.open;
     let logged = JSON.parse(localStorage.getItem("logged"));
 
     return (
-      <Root>
+      <Root >
         <CssBaseline />
         <AppBar
           position="relative"

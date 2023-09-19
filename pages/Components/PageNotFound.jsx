@@ -1,5 +1,15 @@
 import { Typography } from "@mui/material";
+import { createTheme, styled } from '@mui/material/styles';
 import React from "react";
+
+const PREFIX = "PageNotFound";
+
+const theme = createTheme();
+const classes = {
+}
+
+const Root = styled('div')(({ theme }) => ({
+}));
 
 class PageNotFound extends React.Component {
   componentDidMount = () => {
@@ -8,7 +18,7 @@ class PageNotFound extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
+      <Root>
         <div
           sx={{
             padding: "25px",
@@ -16,7 +26,7 @@ class PageNotFound extends React.Component {
         >
           <Typography variant="h4">PageNotFound</Typography>
         </div>
-      </React.Fragment>
+      </Root>
     );
   }
 }

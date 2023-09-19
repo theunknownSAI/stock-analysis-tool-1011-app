@@ -1,9 +1,10 @@
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { Avatar, Grid, Link, Typography } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { createTheme, styled } from '@mui/material/styles';
 import clsx from "clsx";
 import React from "react";
 
+const theme = createTheme();
 const PREFIX = "About";
 
 const classes = {

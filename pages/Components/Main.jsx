@@ -4,7 +4,7 @@ import {
   TextField,
   Typography
 } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { createTheme, styled } from '@mui/material/styles';
 import axios from "axios";
 import React from "react";
 import { withRouter } from "../../utils/WithRouter"
@@ -12,6 +12,7 @@ import { withRouter } from "../../utils/WithRouter"
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 
 const PREFIX = "SP500";
+const theme = createTheme();
 
 const classes = {
   tooltip: `${PREFIX}-tooltip`,

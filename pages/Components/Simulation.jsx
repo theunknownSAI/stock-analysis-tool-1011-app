@@ -6,7 +6,7 @@ import {
   Tooltip,
   Typography
 } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { createTheme, styled } from '@mui/material/styles';
 import {
   DataGrid,
   GridToolbarContainer,
@@ -18,6 +18,7 @@ import React from "react";
 import * as Loader from "react-loader-spinner";
 
 const PREFIX = "Simulation";
+const theme = createTheme();
 
 const classes = {
   tooltip: `${PREFIX}-tooltip`

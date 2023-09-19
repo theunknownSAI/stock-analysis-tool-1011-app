@@ -1,11 +1,11 @@
 import { Paper, Typography } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { createTheme, styled } from '@mui/material/styles';
 import React from "react";
 
 import Dashboard from "./Dashboard";
 
 const PREFIX = "SP500";
-
+const theme = createTheme();
 const classes = {
   paper: `${PREFIX}-paper`
 }
