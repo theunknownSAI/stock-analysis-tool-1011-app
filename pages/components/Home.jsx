@@ -1,15 +1,17 @@
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import MenuIcon from "@mui/icons-material/Menu";
+import {
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon,
+  Menu as MenuIcon
+} from "@mui/icons-material";
 import {
   AppBar,
+  CssBaseline,
   Divider,
   Drawer,
   IconButton,
   Toolbar,
   Typography
 } from "@mui/material";
-import CssBaseline from "@mui/material/CssBaseline";
 import clsx from "clsx";
 import React from "react";
 import {

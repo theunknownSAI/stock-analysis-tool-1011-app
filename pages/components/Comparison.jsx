@@ -1,4 +1,4 @@
-import Autocomplete from "@mui/lab/Autocomplete";
+import {Autocomplete} from "@mui/lab";
 import {
   Button,
   Chip,

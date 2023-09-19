@@ -1,4 +1,4 @@
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { AccountCircle as AccountCircleIcon } from "@mui/icons-material";
 import {
   Button,
   Grid,
