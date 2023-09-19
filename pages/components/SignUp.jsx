@@ -16,14 +16,15 @@ const classes = {
   root: `${PREFIX}-root`,
   paper: `${PREFIX}-paper`,
   avatar: `${PREFIX}-avatar`,
-  submit: `${PREFIX}-submit`
+  submit: `${PREFIX}-submit`,
+  helperText: `${PREFIX}-helperText`
 }
 
 const Root = styled('div')(({ theme }) => ({
   [`& .${classes.root}`]: {
     padding: "25px",
     textAlign: "center",
-    margin: "10px",
+    margin: "25px",
   },
   [`& .${classes.paper}`]: {
     marginTop: theme.spacing(8),
@@ -37,6 +38,13 @@ const Root = styled('div')(({ theme }) => ({
   },
   [`& .${classes.submit}`]: {
     margin: theme.spacing(3, 0, 2),
+  },
+  [`& .${classes.helperText}`]: {
+    "& .MuiFormHelperText-root": {
+      display: "flex",
+      justifyContent: "flex-end",
+      width:"180px"
+    },
   }
 }));
 
@@ -56,8 +64,10 @@ class SignUp extends React.Component {
     };
   }
   componentDidMount = () => {
-    window.localStorage.clear();
-    console.log("Sign Up");
+    localStorage.removeItem("email");
+    localStorage.removeItem("password");
+    localStorage.removeItem("firstName");
+    localStorage.removeItem("lastName");
   };
 
   verifyAndCreate = () => {
@@ -96,7 +106,6 @@ class SignUp extends React.Component {
     if (isvalid == false) {
       return;
     }
-    const { email, password, firstName, lastName } = this.state;
     const prevemail = JSON.parse(localStorage.getItem("email"));
     const prevpassword = JSON.parse(localStorage.getItem("password"));
     if (prevemail == email && prevpassword == password) {
@@ -139,13 +148,16 @@ class SignUp extends React.Component {
     const logged = JSON.parse(localStorage.getItem("logged"));
     return (
       <Root className={classes.root}>
-        <Typography component="h1" variant="h4">
-          {this.state.signupstatus}
-        </Typography>
-        <Grid container spacing={2} sx={{ marginTop: "25px" }}>
-          <Grid item xs={12} sm={6}>
+        <Grid container direction="column" justify="center" alignItems="center">
+          <Grid item>
+            <Typography component="h6" variant="h6">
+              {this.state.signupstatus}
+            </Typography>
+          </Grid>
+          <Grid item>
             <TextField
               autoComplete="fname"
+              margin="normal"
               name="firstName"
               variant="outlined"
               required
@@ -161,9 +173,10 @@ class SignUp extends React.Component {
               helperText={this.state.firstNameError}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item>
             <TextField
               variant="outlined"
+              margin="normal"
               required
               fullWidth
               id="lastName"
@@ -178,9 +191,10 @@ class SignUp extends React.Component {
               helperText={this.state.lastNameError}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item>
             <TextField
               variant="outlined"
+              margin="normal"
               required
               fullWidth
               id="email"
@@ -195,9 +209,10 @@ class SignUp extends React.Component {
               helperText={this.state.emailError}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item>
             <TextField
               variant="outlined"
+              margin="normal"
               required
               fullWidth
               name="password"
@@ -211,23 +226,26 @@ class SignUp extends React.Component {
               }}
               error={this.state.passwordError.length !== 0 ? true : false}
               helperText={this.state.passwordError}
+              className = {classes.helperText}
             />
           </Grid>
-        </Grid>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-          onClick={this.verifyAndCreate}
-        >
-          Sign Up
-        </Button>
-        <Grid container justify="flex-end">
+          <Grid item>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={this.verifyAndCreate}
+            >
+            Sign Up
+            </Button>
+          </Grid>
           <Grid item>
             <NavLink to="/login" sx={{ color: "blue" }}>
-              Already have an account? Sign in
+              <Typography variant="h6" sx={{ color: "blue" }}>
+                {"Already have an account? Sign in"}
+              </Typography>
             </NavLink>
           </Grid>
         </Grid>
