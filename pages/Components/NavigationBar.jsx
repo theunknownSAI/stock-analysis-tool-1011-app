@@ -53,9 +53,9 @@ const Root = styled('div')(({ theme }) => ({
     backgroundColor: "#f0f0f0",
     color: "#000000",
     maxWidth: "none"
-  },[`& .${classes.tooltip}`]: {
+  },[`& .${classes.primary}`]: {
     fontSize: 14
-  },[`& .${classes.tooltip}`]: {
+  },[`& .${classes.outline}`]: {
     backgroundColor: "#f0f0f0",
     color: "#000000",
     maxWidth: "none"
@@ -124,153 +124,146 @@ class NavigationBar extends React.Component {
     return (
       <Root>
         <Grid container className={classes.grid1} spacing={1}>
-          <Grid item xs={11}>
-            <Grid container justify="center">
-              <Grid item className={classes.grid}>
-                <NavLink
-                  to="/home"
-                  className={classes.link}
-                  activeStyle={{ color: "blue" }}
-                >
-                  <Typography className={classes.typography} variant="h4">
-                    Home
-                  </Typography>
-                </NavLink>
-              </Grid>
-
-              <Grid item className={classes.grid}>
-                <NavLink
-                  to="/about"
-                  className={classes.link}
-                  activeStyle={{ color: "blue" }}
-                >
-                  <Typography className={classes.typography} variant="h4">
-                    About
-                  </Typography>
-                </NavLink>
-              </Grid>
-              <Tooltip
-                classes={{ tooltip: classes.tooltip }}
-                title={
-                  <Typography variant="h6" className={classes.primary}>
-                    to compare two or more companies
-                  </Typography>
-                }
-                interactive
-              >
-                <Grid item className={classes.grid}>
-                  <NavLink
-                    to="/comparison"
-                    className={classes.link}
-                    activeStyle={{ color: "blue" }}
-                  >
-                    <Typography className={classes.typography} variant="h4">
-                      Comparison
-                    </Typography>
-                  </NavLink>
-                </Grid>
-              </Tooltip>
-              <Tooltip
-                classes={{ tooltip: classes.tooltip }}
-                title={
-                  <Typography variant="h6" className={classes.primary}>
-                    to know expected returns of each company
-                  </Typography>
-                }
-                interactive
-              >
-                <Grid item className={classes.grid}>
-                  <NavLink
-                    to="/simulation"
-                    className={classes.link}
-                    activeStyle={{ color: "blue" }}
-                  >
-                    <Typography className={classes.typography} variant="h4">
-                      Simulation
-                    </Typography>
-                  </NavLink>
-                </Grid>
-              </Tooltip>
-              {logged == null || logged === false ? (
-                <Grid item className={classes.grid}>
-                  <NavLink
-                    to="/login"
-                    className={classes.link}
-                    activeStyle={{ color: "blue" }}
-                  >
-                    <Typography className={classes.typography} variant="h4">
-                      Sign In
-                    </Typography>
-                  </NavLink>
-                </Grid>
-              ) : (
-                <span />
-              )}
-              {logged == null || logged === false ? (
-                <Grid item className={classes.grid}>
-                  <NavLink
-                    to="/signup"
-                    className={classes.link}
-                    activeStyle={{ color: "blue" }}
-                  >
-                    <Typography className={classes.typography} variant="h4">
-                      Sign Up
-                    </Typography>
-                  </NavLink>
-                </Grid>
-              ) : (
-                <span />
-              )}
-            </Grid>
+          <Grid item className={classes.grid}>
+            <NavLink
+              to="/home"
+              className={classes.link}
+              activeStyle={{ color: "blue" }}
+            >
+              <Typography className={classes.typography} variant="h4">
+                Home
+              </Typography>
+            </NavLink>
           </Grid>
-          <Grid item xs={1}>
-            <Grid container justify="flex-end">
-              {logged == true ? (
-                <Grid item>
-                  <Tooltip
-                    classes={{ tooltip: classes.tooltip }}
-                    interactive
-                    title={
-                      <List>
-                        {Object.keys(details).map((key) => {
-                          if (key === "_id" || key == "password") {
-                            return;
-                          }
-                          const value = details[key];
-                          return (
-                            <ListItem key={key}>
-                              <ListItemText
-                                primary={value}
-                                classes={{ primary: classes.primary }}
-                              ></ListItemText>
-                            </ListItem>
-                          );
-                        })}
-                        <ListItem>
-                          <Button
-                            variant="outlined"
-                            classes={{ outlined: classes.outline }}
-                            onClick={() => {
-                              window.localStorage.clear();
-                              // localStorage.setItem("logged", JSON.stringify(false));
-                              history.push("/");
-                            }}
-                          >
-                            Log Out
-                          </Button>
-                        </ListItem>
-                      </List>
-                    }
-                  >
-                    <IconButton>
-                      <AccountCircleIcon className={classes.largeIcon} />
-                    </IconButton>
-                  </Tooltip>
-                </Grid>
-              ) : (
-                <span />
-              )}
+          <Grid item className={classes.grid}>
+            <NavLink
+              to="/about"
+              className={classes.link}
+              activeStyle={{ color: "blue" }}
+            >
+              <Typography className={classes.typography} variant="h4">
+                About
+              </Typography>
+            </NavLink>
+          </Grid>
+          <Tooltip
+            classes={{ tooltip: classes.tooltip }}
+            title={
+              <Typography variant="h6" className={classes.primary}>
+                to compare two or more companies
+              </Typography>
+            }
+            interactive
+          >
+            <Grid item className={classes.grid}>
+              <NavLink
+                to="/comparison"
+                className={classes.link}
+                activeStyle={{ color: "blue" }}
+              >
+                <Typography className={classes.typography} variant="h4">
+                  Comparison
+                </Typography>
+              </NavLink>
             </Grid>
+          </Tooltip>
+          <Tooltip
+            classes={{ tooltip: classes.tooltip }}
+            title={
+              <Typography variant="h6" className={classes.primary}>
+                to know expected returns of each company
+              </Typography>
+            }
+            interactive
+          >
+            <Grid item className={classes.grid}>
+              <NavLink
+                to="/simulation"
+                className={classes.link}
+                activeStyle={{ color: "blue" }}
+              >
+                <Typography className={classes.typography} variant="h4">
+                  Simulation
+                </Typography>
+              </NavLink>
+            </Grid>
+          </Tooltip>
+          {logged == null || logged === false ? (
+            <Grid item className={classes.grid}>
+              <NavLink
+                to="/login"
+                className={classes.link}
+                activeStyle={{ color: "blue" }}
+              >
+                <Typography className={classes.typography} variant="h4">
+                  Sign In
+                </Typography>
+              </NavLink>
+            </Grid>
+          ) : (
+            <span />
+          )}
+          {logged == null || logged === false ? (
+            <Grid item className={classes.grid}>
+              <NavLink
+                to="/signup"
+                className={classes.link}
+                activeStyle={{ color: "blue" }}
+              >
+                <Typography className={classes.typography} variant="h4">
+                  Sign Up
+                </Typography>
+              </NavLink>
+            </Grid>
+          ) : (
+            <span />
+          )}
+          <Grid container justify="flex-end">
+            {logged == true ? (
+              <Grid item>
+                <Tooltip
+                  classes={{ tooltip: classes.tooltip }}
+                  interactive
+                  title={
+                    <List>
+                      {Object.keys(details).map((key) => {
+                        if (key === "_id" || key == "password") {
+                          return;
+                        }
+                        const value = details[key];
+                        return (
+                          <ListItem key={key}>
+                            <ListItemText
+                              primary={value}
+                              classes={{ primary: classes.primary }}
+                            ></ListItemText>
+                          </ListItem>
+                        );
+                      })}
+                      <ListItem>
+                        <Button
+                          variant="outlined"
+                          classes={{ outlined: classes.outline }}
+                          onClick={() => {
+                            window.localStorage.clear();
+                            // localStorage.setItem("logged", JSON.stringify(false));
+                            history.push("/");
+                          }}
+                        >
+                          Log Out
+                        </Button>
+                      </ListItem>
+                    </List>
+                  }
+                >
+                  <IconButton>
+                    <AccountCircleIcon className={classes.largeIcon} />
+                  </IconButton>
+                </Tooltip>
+              </Grid>
+            ) : (
+              <span />
+            )}
           </Grid>
         </Grid>
       </Root>
