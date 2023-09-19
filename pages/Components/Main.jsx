@@ -9,7 +9,7 @@ import axios from "axios";
 import React from "react";
 import { withRouter } from "../../utils/WithRouter"
 
-// import TrendingUpIcon from " @mui/icons-material/TrendingUp";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 
 const PREFIX = "SP500";
 
@@ -121,7 +121,7 @@ class Main extends React.Component {
                 </Typography>
               </Grid>
               <Grid item>
-                {/* <TrendingUpIcon sx={{ fontSize: 80 }} /> */}
+                <TrendingUpIcon sx={{ fontSize: 80 }} />
               </Grid>
             </Grid>
             <Grid item>
