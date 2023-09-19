@@ -128,7 +128,13 @@ class NavigationBar extends React.Component {
             <NavLink
               to="/home"
               className={classes.link}
-              activeStyle={{ color: "blue" }}
+              style= {
+                ({isActive}) => {
+                    return {
+                        color : isActive ? "blue":""
+                    }
+                }
+              }
             >
               <Typography className={classes.typography} variant="h4">
                 Home
@@ -139,7 +145,13 @@ class NavigationBar extends React.Component {
             <NavLink
               to="/about"
               className={classes.link}
-              activeStyle={{ color: "blue" }}
+              style= {
+                ({isActive}) => {
+                    return {
+                        color : isActive ? "blue":""
+                    }
+                }
+              }
             >
               <Typography className={classes.typography} variant="h4">
                 About
@@ -159,7 +171,13 @@ class NavigationBar extends React.Component {
               <NavLink
                 to="/comparison"
                 className={classes.link}
-                activeStyle={{ color: "blue" }}
+                style= {
+                  ({isActive}) => {
+                      return {
+                          color : isActive ? "blue":""
+                      }
+                  }
+                }
               >
                 <Typography className={classes.typography} variant="h4">
                   Comparison
@@ -180,7 +198,13 @@ class NavigationBar extends React.Component {
               <NavLink
                 to="/simulation"
                 className={classes.link}
-                activeStyle={{ color: "blue" }}
+                style= {
+                  ({isActive}) => {
+                      return {
+                          color : isActive ? "blue":""
+                      }
+                  }
+                }
               >
                 <Typography className={classes.typography} variant="h4">
                   Simulation
@@ -193,7 +217,13 @@ class NavigationBar extends React.Component {
               <NavLink
                 to="/login"
                 className={classes.link}
-                activeStyle={{ color: "blue" }}
+                style= {
+                  ({isActive}) => {
+                      return {
+                          color : isActive ? "blue":""
+                      }
+                  }
+                }
               >
                 <Typography className={classes.typography} variant="h4">
                   Sign In
@@ -208,7 +238,13 @@ class NavigationBar extends React.Component {
               <NavLink
                 to="/signup"
                 className={classes.link}
-                activeStyle={{ color: "blue" }}
+                style= {
+                  ({isActive}) => {
+                      return {
+                          color : isActive ? "blue":""
+                      }
+                  }
+                }
               >
                 <Typography className={classes.typography} variant="h4">
                   Sign Up
