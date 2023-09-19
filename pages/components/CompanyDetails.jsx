@@ -23,6 +23,7 @@ const theme = createTheme();
 const PREFIX = "CompanyDetails";
 
 const classes = {
+  root: `${PREFIX}-root`,
   paper: `${PREFIX}-paper`,
   tooltip: `${PREFIX}-tooltip`,
   allitems: `${PREFIX}-allitems`,
@@ -30,6 +31,9 @@ const classes = {
 }
 
 const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.root}`]: {
+    padding: "25px"
+  },
   [`& .${classes.paper}`]: {
     display: "flex",
     padding: "15px",
@@ -40,12 +44,14 @@ const Root = styled('div')(({ theme }) => ({
     backgroundColor: "#f0f0f0",
     color: "#000000",
     maxWidth: "none"
-  },[`& .${classes.allitems}`]: {
+  },
+  [`& .${classes.allitems}`]: {
     "&:hover": {
       backgroundColor: "#15DB95",
       color: "#0D19A3"
     }
-  },[`& .${classes.chip}`]: {
+  },
+  [`& .${classes.chip}`]: {
     margin: "5px", backgroundColor: "#ffffff", color: "#5F00E7"
   }
 }));
@@ -197,123 +203,99 @@ class CompanyDetails extends React.Component {
 
   render() {
     return (
-      <Root>
-        <div
-          sx={{
-            padding: "25px"
-          }}
-        >
-          {this.state.selectedCompany !== "" && (
-            <div>
-              <Paper elevation={3} className={classes.paper}>
-                <Typography variant="h4">
-                  {this.state.selectedCompany}
-                </Typography>
-              </Paper>
-              <Divider />
-              {this.state.companydetailsloading === true ? (
-                <Loader.Audio sx={{ paddingLeft: "50%" }} />
-              ) : (
-                <Grid
-                  container
-                  spacing={3}
-                  justify="center"
-                  alignItems="center"
-                >
-                  <Grid item>
+      <Root className={classes.root}>
+        {this.state.selectedCompany !== "" && (
+          <div>
+            <Paper elevation={3} className={classes.paper}>
+              <Typography variant="h4">
+                {this.state.selectedCompany}
+              </Typography>
+            </Paper>
+            <Divider />
+            {this.state.companydetailsloading === true ? (
+              <Loader.Audio sx={{ paddingLeft: "50%" }} />
+            ) : (
+              <Grid
+                container
+                spacing={3}
+                justify="center"
+                alignItems="center"
+              >
+                <Grid item>
+                  <TableContainer component={Paper}>
+                    <Table>
+                      <TableBody>
+                        {Object.keys(this.state.companyDetails).map((key) => {
+                          if (this.state.companyDetails[key] === null) {
+                            return <span key={key.toString()}></span>;
+                          }
+                          return (
+                            <TableRow className={classes.allitems}>
+                              <TableCell>{key}</TableCell>
+                              <TableCell align="right">
+                                {this.state.companyDetails[key]}
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Grid>
+                <Grid item>
+                  <TableContainer component={Paper}>
+                    <Table>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell>
+                            <Typography variant="h4">SUGGESTION</Typography>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell
+                            sx={{
+                              background:
+                                this.state.suggest == "sell" ? "green" : "red"
+                            }}
+                          >
+                            <Typography variant="h4">SELL</Typography>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell
+                            sx={{
+                              background:
+                                this.state.suggest == "buy" ? "green" : "red"
+                            }}
+                          >
+                            <Typography variant="h4">BUY</Typography>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell
+                            sx={{
+                              background:
+                                this.state.suggest == "hold" ? "green" : "red"
+                            }}
+                          >
+                            <Typography variant="h4">HOLD</Typography>
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Grid>
+                <Grid item>
+                  {this.state.stockdetailsloading == true ||
+                  this.state.stockdetails.length == 0 ? (
+                    <Loader.Audio sx={{ paddingLeft: "50%" }} />
+                  ) : (
                     <TableContainer component={Paper}>
                       <Table>
                         <TableBody>
-                          {Object.keys(this.state.companyDetails).map((key) => {
-                            if (this.state.companyDetails[key] === null) {
-                              return <span key={key.toString()}></span>;
-                            }
+                          {this.state.necessarykeys.map((key) => {
                             return (
                               <TableRow className={classes.allitems}>
-                                <TableCell>{key}</TableCell>
-                                <TableCell align="right">
-                                  {this.state.companyDetails[key]}
-                                </TableCell>
-                              </TableRow>
-                            );
-                          })}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </Grid>
-                  <Grid item>
-                    <TableContainer component={Paper}>
-                      <Table>
-                        <TableBody>
-                          <TableRow>
-                            <TableCell>
-                              <Typography variant="h4">SUGGESTION</Typography>
-                            </TableCell>
-                          </TableRow>
-                          <TableRow>
-                            <TableCell
-                              sx={{
-                                background:
-                                  this.state.suggest == "sell" ? "green" : "red"
-                              }}
-                            >
-                              <Typography variant="h4">SELL</Typography>
-                            </TableCell>
-                          </TableRow>
-                          <TableRow>
-                            <TableCell
-                              sx={{
-                                background:
-                                  this.state.suggest == "buy" ? "green" : "red"
-                              }}
-                            >
-                              <Typography variant="h4">BUY</Typography>
-                            </TableCell>
-                          </TableRow>
-                          <TableRow>
-                            <TableCell
-                              sx={{
-                                background:
-                                  this.state.suggest == "hold" ? "green" : "red"
-                              }}
-                            >
-                              <Typography variant="h4">HOLD</Typography>
-                            </TableCell>
-                          </TableRow>
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </Grid>
-                  <Grid item>
-                    {this.state.stockdetailsloading == true ||
-                    this.state.stockdetails.length == 0 ? (
-                      <Loader.Audio sx={{ paddingLeft: "50%" }} />
-                    ) : (
-                      <TableContainer component={Paper}>
-                        <Table>
-                          <TableBody>
-                            {this.state.necessarykeys.map((key) => {
-                              return (
-                                <TableRow className={classes.allitems}>
-                                  <TableCell>{key}</TableCell>
-                                  <TableCell align="right">
-                                    {this.state.stockdetails[key]}
-                                  </TableCell>
-                                </TableRow>
-                              );
-                            })}
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
-                    )}
-                    <Tooltip
-                      classes={{ tooltip: classes.tooltip }}
-                      placement="bottom"
-                      title={
-                        <TableRow>
-                          {this.state.otherkeys.map((key) => {
-                            return (
-                              <TableRow>
                                 <TableCell>{key}</TableCell>
                                 <TableCell align="right">
                                   {this.state.stockdetails[key]}
@@ -321,25 +303,43 @@ class CompanyDetails extends React.Component {
                               </TableRow>
                             );
                           })}
-                        </TableRow>
-                      }
-                      interactive
-                    >
-                      <Button variant="contained" color="primary">
-                        more details
-                      </Button>
-                    </Tooltip>
-                  </Grid>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  )}
+                  <Tooltip
+                    classes={{ tooltip: classes.tooltip }}
+                    placement="bottom"
+                    title={
+                      <TableRow>
+                        {this.state.otherkeys.map((key) => {
+                          return (
+                            <TableRow>
+                              <TableCell>{key}</TableCell>
+                              <TableCell align="right">
+                                {this.state.stockdetails[key]}
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
+                      </TableRow>
+                    }
+                    interactive
+                  >
+                    <Button variant="contained" color="primary">
+                      more details
+                    </Button>
+                  </Tooltip>
                 </Grid>
-              )}
-            </div>
-          )}
-
-          {this.state.selectedCompany !== "" &&
-            this.state.stockdetails.length !== 0 && (
-              <Dashboard company={this.state.selectedCompany} key="dashboard" />
+              </Grid>
             )}
-        </div>
+          </div>
+        )}
+
+        {this.state.selectedCompany !== "" &&
+          this.state.stockdetails.length !== 0 && (
+            <Dashboard company={this.state.selectedCompany} key="dashboard" />
+        )}
       </Root>
     );
   }

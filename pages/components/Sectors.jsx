@@ -2,7 +2,7 @@ import { Autocomplete } from "@mui/lab";
 import { Grid, TextField } from "@mui/material";
 import { createTheme, styled } from '@mui/material/styles';
 import dynamic from "next/dynamic";
-import { withRouter } from "../../utils/WithRouter"
+import { withRouter } from "../../utils/WithRouter";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -13,11 +13,15 @@ const PREFIX = "Sectors";
 const theme = createTheme();
 
 const classes = {
+  root: `${PREFIX}-root`,
   chart: `${PREFIX}-chart`,
   divchart: `${PREFIX}-divchart`
 }
 
 const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.root}`]: {
+    padding: "25px",
+  },
   [`& .${classes.chart}`]: {
     width: "75%"
   },
@@ -205,79 +209,73 @@ class Sectors extends React.Component {
   };
   render() {
     return (
-      <Root>
-        <div
-          sx={{
-            padding: "25px"
-          }}
+      <Root className={classes.root}>
+        <div className={classes.divchart}></div>
+        <Grid
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
         >
-          <div className={classes.divchart}></div>
-          <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-          >
-            <Grid item>
-              {this.state.sectors.length !== 0 && (
-                <Autocomplete
-                  sx={{
-                    width: 400
-                  }}
-                  onChange={(e, val) => {
-                    this.selectedSector(e, val);
-                  }}
-                  id="search for sector"
-                  freeSolo
-                  options={Object.keys(this.state.sectors).map(
-                    (sector) => sector
-                  )}
-                  getOptionLabel={(option) => option}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="search for sector"
-                      margin="normal"
-                      variant="outlined"
-                    />
-                  )}
-                />
-              )}
-            </Grid>
-            <Grid item>
-              {this.state.selectedSectorCompanies.length !== 0 && (
-                <Autocomplete
-                  sx={{ width: 400, align: "center" }}
-                  onChange={(e, val) => {
-                    this.selectedCompany(val);
-                  }}
-                  id="search for companies"
-                  freeSolo
-                  options={this.state.selectedSectorCompanies.map(
-                    (company) => company
-                  )}
-                  getOptionLabel={(option) => option}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="search for company"
-                      margin="normal"
-                      variant="outlined"
-                    />
-                  )}
-                />
-              )}
-            </Grid>
-            <Grid item sx={{ width: "75%" }}>
-              <Chart
-                options={this.state.options}
-                series={this.state.series}
-                key="chart"
-                type="bar"
+          <Grid item>
+            {this.state.sectors.length !== 0 && (
+              <Autocomplete
+                sx={{
+                  width: 400
+                }}
+                onChange={(e, val) => {
+                  this.selectedSector(e, val);
+                }}
+                id="search for sector"
+                freeSolo
+                options={Object.keys(this.state.sectors).map(
+                  (sector) => sector
+                )}
+                getOptionLabel={(option) => option}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="search for sector"
+                    margin="normal"
+                    variant="outlined"
+                  />
+                )}
               />
-            </Grid>
+            )}
           </Grid>
-        </div>
+          <Grid item>
+            {this.state.selectedSectorCompanies.length !== 0 && (
+              <Autocomplete
+                sx={{ width: 400, align: "center" }}
+                onChange={(e, val) => {
+                  this.selectedCompany(val);
+                }}
+                id="search for companies"
+                freeSolo
+                options={this.state.selectedSectorCompanies.map(
+                  (company) => company
+                )}
+                getOptionLabel={(option) => option}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="search for company"
+                    margin="normal"
+                    variant="outlined"
+                  />
+                )}
+              />
+            )}
+          </Grid>
+          <Grid item sx={{ width: "75%" }}>
+            <Chart
+              options={this.state.options}
+              series={this.state.series}
+              key="chart"
+              type="bar"
+            />
+          </Grid>
+        </Grid>
       </Root>
     );
   }

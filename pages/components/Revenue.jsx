@@ -9,11 +9,15 @@ import { NavLink } from "react-router-dom";
 const PREFIX = "Revenue";
 const theme = createTheme();
 const classes = {
+  root: `${PREFIX}-root`,
   paper: `${PREFIX}-paper`,
   navlink: `${PREFIX}-navlink`
 }
 
 const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.root}`]: {
+    padding: "25px",
+  },
   [`& .${classes.paper}`]: {
     display: "flex",
     padding: "15px",
@@ -96,39 +100,33 @@ class Revenue extends React.Component {
 
   render() {
     return (
-      <Root>
-        <div
-          sx={{
-            padding: "25px",
-          }}
-        >
-          {this.state.loading ? (
-            <Loader.Audio sx={{ paddingLeft: "50%" }} />
-          ) : (
-            <div>
-              <Paper elevation={0} className={classes.paper}>
-                <Typography variant="h4">
-                  Top {this.state.num} Companies Revenue wise
-                </Typography>
-              </Paper>
-              {this.state.topCompaniesRevenue.map((company) => {
-                return (
-                  <NavLink
-                    className={classes.navlink}
-                    key={company.toString()}
-                    to={{
-                      pathname: "/companydetails/" + company,
-                    }}
-                  >
-                    <Paper elevation={0} className={classes.paper}>
-                      <Typography variant="h6">{company}</Typography>
-                    </Paper>
-                  </NavLink>
-                );
-              })}
-            </div>
-          )}
-        </div>
+      <Root className={classes.root}>
+        {this.state.loading ? (
+          <Loader.Audio sx={{ paddingLeft: "50%" }} />
+        ) : (
+          <div>
+            <Paper elevation={0} className={classes.paper}>
+              <Typography variant="h4">
+                Top {this.state.num} Companies Revenue wise
+              </Typography>
+            </Paper>
+            {this.state.topCompaniesRevenue.map((company) => {
+              return (
+                <NavLink
+                  className={classes.navlink}
+                  key={company.toString()}
+                  to={{
+                    pathname: "/companydetails/" + company,
+                  }}
+                >
+                  <Paper elevation={0} className={classes.paper}>
+                    <Typography variant="h6">{company}</Typography>
+                  </Paper>
+                </NavLink>
+              );
+            })}
+          </div>
+        )}
       </Root>
     );
   }

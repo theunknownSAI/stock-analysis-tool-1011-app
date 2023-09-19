@@ -7,10 +7,14 @@ import Dashboard from "./Dashboard";
 const PREFIX = "SP500";
 const theme = createTheme();
 const classes = {
+  root: `${PREFIX}-root`,
   paper: `${PREFIX}-paper`
 }
 
 const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.root}`]: {
+    padding: "25px",
+  },
   [`& .${classes.paper}`]: {
     display: "flex",
     padding: "15px",
@@ -30,17 +34,11 @@ class SP500 extends React.Component {
   };
   render() {
     return (
-      <Root>
-        <div
-          sx={{
-            padding: "25px",
-          }}
-        >
+      <Root className={classes.root}>
         <Paper elevation={0} className={classes.paper} align="center">
-            <Typography variant="h4">{"SP 500"}</Typography>
-          </Paper>
-          <Dashboard company="sp500" />
-          </div>
+          <Typography variant="h4">{"SP 500"}</Typography>
+        </Paper>
+        <Dashboard company="sp500" />
       </Root>
     );
   }

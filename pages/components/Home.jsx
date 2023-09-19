@@ -42,6 +42,7 @@ const PREFIX = "Home";
 
 const classes = {
   root: `${PREFIX}-root`,
+  sidebar: `${PREFIX}-sidebar`,
   appBar: `${PREFIX}-appBar`,
   appBarShift: `${PREFIX}-appBarShift`,
   menuButton: `${PREFIX}-menuButton`,
@@ -57,6 +58,8 @@ const classes = {
 
 const Root = styled('div')(({ theme }) => ({
   [`& .${classes.root}`]: {
+  },
+  [`& .${classes.sidebar}`]: {
     display: "flex"
   },
   [`& .${classes.appBar}`]: {
@@ -64,26 +67,33 @@ const Root = styled('div')(({ theme }) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
     })
-  },[`& .${classes.appBarShift}`]: {
+  },
+  [`& .${classes.appBarShift}`]: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen
     })
-  },[`& .${classes.menuButton}`]: {
+  },
+  [`& .${classes.menuButton}`]: {
     marginRight: theme.spacing(2)
-  },[`& .${classes.hide}`]: {
+  },
+  [`& .${classes.hide}`]: {
     display: "none"
-  },[`& .${classes.drawer}`]: {
+  },
+  [`& .${classes.drawer}`]: {
     width: drawerWidth,
     flexShrink: 0
-  },[`& .${classes.drawerPaper}`]: {
+  },
+  [`& .${classes.drawerPaper}`]: {
     width: drawerWidth
-  },[`& .${classes.avatar}`]: {
+  },
+  [`& .${classes.avatar}`]: {
     width: theme.spacing(10),
     height: theme.spacing(10)
-  },[`& .${classes.content}`]: {
+  },
+  [`& .${classes.content}`]: {
     flexGrow: 1,
     // padding: theme.spacing(3),
     transition: theme.transitions.create("margin", {
@@ -91,17 +101,20 @@ const Root = styled('div')(({ theme }) => ({
       duration: theme.transitions.duration.leavingScreen
     }),
     marginLeft: -drawerWidth
-  },[`& .${classes.contentShift}`]: {
+  },
+  [`& .${classes.contentShift}`]: {
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen
     }),
     marginLeft: 0
-  },[`& .${classes.largeIcon}`]: {
+  },
+  [`& .${classes.largeIcon}`]: {
     width: 60,
     height: 60,
     fontSize: 25
-  },[`& .${classes.drawerHeader}`]: {
+  },
+  [`& .${classes.drawerHeader}`]: {
     display: "flex",
     alignItems: "center",
     padding: theme.spacing(2),
@@ -109,7 +122,6 @@ const Root = styled('div')(({ theme }) => ({
     ...theme.mixins.toolbar,
     justifyContent: "center"
   }
-    
 }));
 
 class Home extends React.Component {
@@ -145,7 +157,7 @@ class Home extends React.Component {
     let logged = JSON.parse(localStorage.getItem("logged"));
 
     return (
-      <Root >
+      <Root className={classes.root} >
         <CssBaseline />
         <AppBar
           position="relative"
@@ -167,7 +179,7 @@ class Home extends React.Component {
             <NavigationBar />
           </Toolbar>
         </AppBar>
-        <div className={classes.root}>
+        <div className={classes.sidebar}>
           <Drawer
             className={classes.drawer}
             variant="persistent"

@@ -6,9 +6,13 @@ const PREFIX = "PageNotFound";
 
 const theme = createTheme();
 const classes = {
+  root: `${PREFIX}-root`
 }
 
 const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.root}`]: {
+    padding: "25px",
+  }, 
 }));
 
 class PageNotFound extends React.Component {
@@ -18,14 +22,8 @@ class PageNotFound extends React.Component {
 
   render() {
     return (
-      <Root>
-        <div
-          sx={{
-            padding: "25px",
-          }}
-        >
-          <Typography variant="h4">PageNotFound</Typography>
-        </div>
+      <Root className={classes.root}>
+        <Typography variant="h4">PageNotFound</Typography>
       </Root>
     );
   }

@@ -12,13 +12,13 @@ import {
 import { createTheme, styled } from '@mui/material/styles';
 import React from "react";
 import { NavLink, } from "react-router-dom";
-import { withRouter } from "../../utils/WithRouter"
-
+import { withRouter } from "../../utils/WithRouter";
 
 const PREFIX = "NavigationBar";
 const theme = createTheme();
 
 const classes = {
+  root: `${PREFIX}-root`,
   grid1: `${PREFIX}-grid1`,
   paper: `${PREFIX}-paper`,
   link: `${PREFIX}-link`,
@@ -31,31 +31,41 @@ const classes = {
 }
 
 const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.root}`]: {
+  }, 
   [`& .${classes.grid1}`]: {
     flexGrow: 1
-  }, [`& .${classes.paper}`]: {
+  }, 
+  [`& .${classes.paper}`]: {
     textAlign: "center",
     color: theme.palette.text.secondary
-  }, [`& .${classes.link}`]: {
+  }, 
+  [`& .${classes.link}`]: {
     textDecoration: "initial"
-  }, [`& .${classes.grid}`]: {
+  }, 
+  [`& .${classes.grid}`]: {
     "&:hover": {
       backgroundColor: "#F4E4C1",
       color: "#E4C580"
     }
-  }, [`& .${classes.typography}`]: {
+  }, 
+  [`& .${classes.typography}`]: {
     padding: 20
-  }, [`& .${classes.largeIcon}`]: {
+  },
+  [`& .${classes.largeIcon}`]: {
     width: 60,
     height: 60,
     fontSize: 25
-  },[`& .${classes.tooltip}`]: {
+  },
+  [`& .${classes.tooltip}`]: {
     backgroundColor: "#f0f0f0",
     color: "#000000",
     maxWidth: "none"
-  },[`& .${classes.primary}`]: {
+  },
+  [`& .${classes.primary}`]: {
     fontSize: 14
-  },[`& .${classes.outline}`]: {
+  },
+  [`& .${classes.outline}`]: {
     backgroundColor: "#f0f0f0",
     color: "#000000",
     maxWidth: "none"
@@ -122,7 +132,7 @@ class NavigationBar extends React.Component {
     // details.push(email);
     // console.log(details);
     return (
-      <Root>
+      <Root className={classes.root}>
         <Grid container className={classes.grid1} spacing={1}>
           <Grid item className={classes.grid}>
             <NavLink

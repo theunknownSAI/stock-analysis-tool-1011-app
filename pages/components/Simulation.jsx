@@ -21,10 +21,14 @@ const PREFIX = "Simulation";
 const theme = createTheme();
 
 const classes = {
+  root: `${PREFIX}-root`,
   tooltip: `${PREFIX}-tooltip`
 }
 
 const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.root}`]: {
+    padding: "25px"
+  },
   [`& .${classes.tooltip}`]: {
     backgroundColor: "#f0f0f0",
     color: "#000000",
@@ -112,70 +116,64 @@ class Simulation extends React.Component {
     const today = new Date();
     let logged = JSON.parse(localStorage.getItem("logged"));
     return (
-      <Root>
-        <div
-          sx={{
-            padding: "25px"
-          }}
+      <Root className={classes.root}>
+        <Tooltip
+          open={this.state.tooltipopen}
+          classes={{ tooltip: classes.tooltip }}
+          title={
+            <Typography variant="h6" className={classes.primary}>
+              sign in to access
+            </Typography>
+          }
+          interactive
         >
-          <Tooltip
-            open={this.state.tooltipopen}
-            classes={{ tooltip: classes.tooltip }}
-            title={
-              <Typography variant="h6" className={classes.primary}>
-                sign in to access
-              </Typography>
-            }
-            interactive
-          >
-            <FormControl sx={{ minWidth: "150px" }} variant="outlined">
-              <InputLabel>days</InputLabel>
-              <Select
-                sx={{ width: "100%" }}
-                labelId="days"
-                id="days"
-                onChange={(e) => {
-                  const val = e.target.value;
-                  if (logged === true) {
-                    this.onSelectDays(e);
-                  } else {
-                    this.setState({
-                      days: val,
-                      tooltipopen: true
-                    });
-                  }
-                }}
-                value={this.state.days}
-              >
-                {[30, 60, 90, 180, 360, 720].map((period) => {
-                  return (
-                    <MenuItem key={period.toString()} value={period}>
-                      {period}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
-          </Tooltip>
+          <FormControl sx={{ minWidth: "150px" }} variant="outlined">
+            <InputLabel>days</InputLabel>
+            <Select
+              sx={{ width: "100%" }}
+              labelId="days"
+              id="days"
+              onChange={(e) => {
+                const val = e.target.value;
+                if (logged === true) {
+                  this.onSelectDays(e);
+                } else {
+                  this.setState({
+                    days: val,
+                    tooltipopen: true
+                  });
+                }
+              }}
+              value={this.state.days}
+            >
+              {[30, 60, 90, 180, 360, 720].map((period) => {
+                return (
+                  <MenuItem key={period.toString()} value={period}>
+                    {period}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        </Tooltip>
 
-          {this.state.loading ? (
-            <Loader.Audio />
-          ) : (
-            this.state.rows != 0 && (
-              <DataGrid
-                rows={this.state.rows}
-                columns={this.state.cols}
-                autoHeight
-                disableSelectionOnClick
-                // hideFooterPagination
-                // hideFooter
-                components={{
-                  Toolbar: this.exportToCSV
-                }}
-              />
-            )
-          )}
-        </div>
+        {this.state.loading ? (
+          <Loader.Audio />
+        ) : (
+          this.state.rows != 0 && (
+            <DataGrid
+              rows={this.state.rows}
+              columns={this.state.cols}
+              autoHeight
+              disableSelectionOnClick
+              // hideFooterPagination
+              // hideFooter
+              components={{
+                Toolbar: this.exportToCSV
+              }}
+            />
+          )
+        )}
       </Root>
     );
   }

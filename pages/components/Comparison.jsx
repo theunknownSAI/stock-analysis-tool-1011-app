@@ -27,10 +27,14 @@ const theme = createTheme();
 const PREFIX = "Comparison";
 
 const classes = {
+  root: `${PREFIX}-root`,
   tooltip: `${PREFIX}-tooltip`
 }
 
 const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.root}`]: {
+    padding: "25px"
+  },
   [`& .${classes.tooltip}`]: {
     backgroundColor: "#f0f0f0",
     color: "#000000",
@@ -162,189 +166,183 @@ class Comparison extends React.Component {
     const period = underscore.invert(this.state.timePeriod);
     let logged = JSON.parse(localStorage.getItem("logged"));
     return (
-      <Root>
-        <div
-          sx={{
-            padding: "25px"
-          }}
+      <Root className={classes.root}>
+        <Grid
+          container
+          spacing={2}
+          direction="row"
+          justify="flex-start"
+          alignItems="center"
         >
-          <Grid
-            container
-            spacing={2}
-            direction="row"
-            justify="flex-start"
-            alignItems="center"
-          >
-            <Grid item xs={4}>
-              <Autocomplete
-                multiple
-                value={this.state.firstCompany}
-                onChange={(e, company, reason, detail) => {
-                  if (reason === "remove-option") {
-                    let companies = this.state.stockdetails;
-                    delete companies[detail.option];
-                    this.setState({ stockdetails: companies }, () => {});
-                  } else {
-                    this.setState({ selectedCompanies: company }, () => {});
-                  }
-                }}
-                id="select multiple companies"
-                freeSolo
-                options={this.state.companyNames.map(
-                  (companyname) => companyname
-                )}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="select multiple companies"
-                    margin="normal"
-                    variant="outlined"
-                    helperText={this.state.error}
-                    error={this.state.error !== ""}
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item>
-              <FormControl sx={{ minWidth: "150px" }} variant="outlined">
-                <InputLabel>trading period</InputLabel>
-                <Select
-                  sx={{ width: "100%" }}
-                  labelId="trading period"
-                  id="trading"
-                  onChange={(e) => {
-                    this.setState(
-                      { selectedTimePeriod: e.target.value },
-                      () => {}
-                    );
-                  }}
-                  value={this.state.selectedTimePeriod}
-                >
-                  {Object.keys(this.state.timePeriod).map((period) => {
-                    return (
-                      <MenuItem
-                        key={period.toString()}
-                        value={this.state.timePeriod[period]}
-                      >
-                        {period}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={2}>
-              <TextField
-                type="number"
-                sx={{ width: "100%" }}
-                inputProps={{ min: "-100", max: "100", step: "0.01" }}
-                label="rate of growth"
-                variant="outlined"
-                value={this.state.rate}
-                onChange={(e) => {
-                  this.setState({ rate: e.target.value });
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <Tooltip
-                open={this.state.tooltipopen}
-                classes={{ tooltip: classes.tooltip }}
-                title={
-                  <Typography variant="h6" className={classes.primary}>
-                    sign in to access
-                  </Typography>
+          <Grid item xs={4}>
+            <Autocomplete
+              multiple
+              value={this.state.firstCompany}
+              onChange={(e, company, reason, detail) => {
+                if (reason === "remove-option") {
+                  let companies = this.state.stockdetails;
+                  delete companies[detail.option];
+                  this.setState({ stockdetails: companies }, () => {});
+                } else {
+                  this.setState({ selectedCompanies: company }, () => {});
                 }
-                interactive
-              >
-                <Button
+              }}
+              id="select multiple companies"
+              freeSolo
+              options={this.state.companyNames.map(
+                (companyname) => companyname
+              )}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="select multiple companies"
+                  margin="normal"
                   variant="outlined"
-                  size="large"
-                  onClick={() => {
-                    if (logged === true) {
-                      this.onClickSubmit();
-                    } else {
-                      this.setState({ tooltipopen: true });
-                    }
-                  }}
-                >
-                  Submit
-                </Button>
-              </Tooltip>
-            </Grid>
+                  helperText={this.state.error}
+                  error={this.state.error !== ""}
+                />
+              )}
+            />
           </Grid>
-          <Divider />
-          <Divider />
-          {this.state.loading ? (
-            <Loader.Audio sx={{ paddingLeft: "50%" }} />
-          ) : (
-            this.state.stockdetails.length !== 0 && (
-              <Grid
-                container
-                spacing={1}
-                direction="row"
-                justify="flex-start"
-                alignItems="center"
+          <Grid item>
+            <FormControl sx={{ minWidth: "150px" }} variant="outlined">
+              <InputLabel>trading period</InputLabel>
+              <Select
+                sx={{ width: "100%" }}
+                labelId="trading period"
+                id="trading"
+                onChange={(e) => {
+                  this.setState(
+                    { selectedTimePeriod: e.target.value },
+                    () => {}
+                  );
+                }}
+                value={this.state.selectedTimePeriod}
               >
-                {Object.keys(this.state.stockdetails).map((company) => {
-                  const element = this.state.stockdetails[company];
+                {Object.keys(this.state.timePeriod).map((period) => {
                   return (
-                    <Grid item xs={6} key={company.toString()}>
-                      <Paper
-                        sx={{
-                          display: "flex",
-                          padding: "15px",
-                          margin: "15px",
-                          justifyContent: "center"
-                        }}
-                      >
-                        <NavLink
-                          to={{
-                            pathname: "companydetails/" + element["company"]
-                          }}
-                        >
-                          <Typography variant="h6">
-                            {element["company"]}
-                          </Typography>
-                        </NavLink>
-                      </Paper>
-                      <Typography variant="h6">
-                        In the last {period[element["totalNumberOfDays"]]}, for{" "}
-                        {element["percentOfPositiveDays"]} percent of trading
-                        days {","} positive close price growth rate was more
-                        than {element["rate"]} %
-                      </Typography>
-                      <Divider />
-                      <Divider />
-                      <Typography variant="h6">
-                        In the last {period[element["totalNumberOfDays"]]}, for{" "}
-                        {element["percentOfNegativeDays"]} percent of trading
-                        days {","} negative close price growth rate was less
-                        than {element["rate"]} %
-                      </Typography>
-                      <Dashboard company={element["company"]} />
-                      {Object.keys(element).map((key) => {
-                        if (key.toLowerCase() === "company") {
-                          return;
-                        }
-                        let res = key + " : " + element[key];
-                        return (
-                          <Chip
-                            key={key.toString()}
-                            color="primary"
-                            variant="outlined"
-                            label={res}
-                            sx={{ margin: "5px" }}
-                          />
-                        );
-                      })}
-                    </Grid>
+                    <MenuItem
+                      key={period.toString()}
+                      value={this.state.timePeriod[period]}
+                    >
+                      {period}
+                    </MenuItem>
                   );
                 })}
-              </Grid>
-            )
-          )}
-        </div>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={2}>
+            <TextField
+              type="number"
+              sx={{ width: "100%" }}
+              inputProps={{ min: "-100", max: "100", step: "0.01" }}
+              label="rate of growth"
+              variant="outlined"
+              value={this.state.rate}
+              onChange={(e) => {
+                this.setState({ rate: e.target.value });
+              }}
+            />
+          </Grid>
+          <Grid item>
+            <Tooltip
+              open={this.state.tooltipopen}
+              classes={{ tooltip: classes.tooltip }}
+              title={
+                <Typography variant="h6" className={classes.primary}>
+                  sign in to access
+                </Typography>
+              }
+              interactive
+            >
+              <Button
+                variant="outlined"
+                size="large"
+                onClick={() => {
+                  if (logged === true) {
+                    this.onClickSubmit();
+                  } else {
+                    this.setState({ tooltipopen: true });
+                  }
+                }}
+              >
+                Submit
+              </Button>
+            </Tooltip>
+          </Grid>
+        </Grid>
+        <Divider />
+        <Divider />
+        {this.state.loading ? (
+          <Loader.Audio sx={{ paddingLeft: "50%" }} />
+        ) : (
+          this.state.stockdetails.length !== 0 && (
+            <Grid
+              container
+              spacing={1}
+              direction="row"
+              justify="flex-start"
+              alignItems="center"
+            >
+              {Object.keys(this.state.stockdetails).map((company) => {
+                const element = this.state.stockdetails[company];
+                return (
+                  <Grid item xs={6} key={company.toString()}>
+                    <Paper
+                      sx={{
+                        display: "flex",
+                        padding: "15px",
+                        margin: "15px",
+                        justifyContent: "center"
+                      }}
+                    >
+                      <NavLink
+                        to={{
+                          pathname: "companydetails/" + element["company"]
+                        }}
+                      >
+                        <Typography variant="h6">
+                          {element["company"]}
+                        </Typography>
+                      </NavLink>
+                    </Paper>
+                    <Typography variant="h6">
+                      In the last {period[element["totalNumberOfDays"]]}, for{" "}
+                      {element["percentOfPositiveDays"]} percent of trading
+                      days {","} positive close price growth rate was more
+                      than {element["rate"]} %
+                    </Typography>
+                    <Divider />
+                    <Divider />
+                    <Typography variant="h6">
+                      In the last {period[element["totalNumberOfDays"]]}, for{" "}
+                      {element["percentOfNegativeDays"]} percent of trading
+                      days {","} negative close price growth rate was less
+                      than {element["rate"]} %
+                    </Typography>
+                    <Dashboard company={element["company"]} />
+                    {Object.keys(element).map((key) => {
+                      if (key.toLowerCase() === "company") {
+                        return;
+                      }
+                      let res = key + " : " + element[key];
+                      return (
+                        <Chip
+                          key={key.toString()}
+                          color="primary"
+                          variant="outlined"
+                          label={res}
+                          sx={{ margin: "5px" }}
+                        />
+                      );
+                    })}
+                  </Grid>
+                );
+              })}
+            </Grid>
+          )
+        )}
       </Root>
     );
   }

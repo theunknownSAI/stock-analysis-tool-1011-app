@@ -15,6 +15,7 @@ const PREFIX = "Dashboard";
 const theme = createTheme();
 
 const classes = {
+  root: `${PREFIX}-root`,
   chart: `${PREFIX}-chart`,
   divchart: `${PREFIX}-divchart`,
   buttongroup: `${PREFIX}-buttongroup`,
@@ -22,17 +23,22 @@ const classes = {
 }
 
 const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.root}`]: {
+  },
   [`& .${classes.chart}`]: {
     width: "75%"
-  },[`& .${classes.divchart}`]: {
+  },
+  [`& .${classes.divchart}`]: {
     justifyContent: "center",
     alignItems: "center",
     display: "flex"
-  },[`& .${classes.buttongroup}`]: {
+  },
+  [`& .${classes.buttongroup}`]: {
     display: "flex",
     justifyContent: "center",
     margin: "10px"
-  },[`& .${classes.button}`]: {
+  },
+  [`& .${classes.button}`]: {
     "&:hover": {
       backgroundColor: "red",
       color: "#ffffff"
@@ -332,7 +338,7 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <Root>
+      <Root className={classes.root}>
         {this.state.loading ? (
           <Loader.Audio sx={{ paddingLeft: "50%" }} />
         ) : (

@@ -10,6 +10,7 @@ const PREFIX = "Login";
 const theme = createTheme();
 
 const classes = {
+  root: `${PREFIX}-root`,
   paper: `${PREFIX}-paper`,
   avatar: `${PREFIX}-avatar`,
   form: `${PREFIX}-form`,
@@ -17,18 +18,26 @@ const classes = {
 }
 
 const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.root}`]: {
+    padding: "25px",
+    textAlign: "center",
+    margin: "10px",
+  },
   [`& .${classes.paper}`]: {
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-  },[`& .${classes.avatar}`]: {
+  },
+  [`& .${classes.avatar}`]: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
-  },[`& .${classes.form}`]: {
-    width: "100%", // Fix IE 11 issue.
+  },
+  [`& .${classes.form}`]: {
+    width: "100%",
     marginTop: theme.spacing(1),
-  },[`& .${classes.submit}`]: {
+  },
+  [`& .${classes.submit}`]: {
     margin: theme.spacing(3, 0, 2),
   }
 }));
@@ -105,67 +114,59 @@ class Login extends React.Component {
   render() {
     const logged = JSON.parse(localStorage.getItem("logged"));
     return (
-      <Root>
-        <div
-          sx={{
-            padding: "25px",
-            textAlign: "center",
-            margin: "10px",
+      <Root className={classes.root}>
+        <Typography variant="h4">{this.state.loginstatus}</Typography>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="email"
+          label="Email Address"
+          name="email"
+          autoComplete="email"
+          autoFocus
+          value={this.state.email}
+          onChange={(e) => {
+            this.setState({ email: e.target.value });
           }}
+          error={this.state.emailError.length !== 0 ? true : false}
+          helperText={this.state.emailError}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          id="password"
+          autoComplete="current-password"
+          value={this.state.password}
+          onChange={(e) => {
+            this.setState({ password: e.target.value });
+          }}
+          error={this.state.passwordError.length !== 0 ? true : false}
+          helperText={this.state.passwordError}
+        />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+          onClick={this.verifyAndLogin}
         >
-          <Typography variant="h4">{this.state.loginstatus}</Typography>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            value={this.state.email}
-            onChange={(e) => {
-              this.setState({ email: e.target.value });
-            }}
-            error={this.state.emailError.length !== 0 ? true : false}
-            helperText={this.state.emailError}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={this.state.password}
-            onChange={(e) => {
-              this.setState({ password: e.target.value });
-            }}
-            error={this.state.passwordError.length !== 0 ? true : false}
-            helperText={this.state.passwordError}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={this.verifyAndLogin}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item>
-              <NavLink to="/signup" variant="body2" sx={{ color: "blue" }}>
-                {"Don't have an account? Sign Up"}
-              </NavLink>
-            </Grid>
+          Sign In
+        </Button>
+        <Grid container>
+          <Grid item>
+            <NavLink to="/signup" variant="body2" sx={{ color: "blue" }}>
+              {"Don't have an account? Sign Up"}
+            </NavLink>
           </Grid>
-        </div>
+        </Grid>
       </Root>
     );
   }

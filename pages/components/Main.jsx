@@ -15,12 +15,15 @@ const PREFIX = "SP500";
 const theme = createTheme();
 
 const classes = {
+  root: `${PREFIX}-root`,
   tooltip: `${PREFIX}-tooltip`,
   large: `${PREFIX}-large`,
   notchedOutline: `${PREFIX}-notchedOutline`,
 }
 
 const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.root}`]: {
+  },
   [`& .${classes.tooltip}`]: {
     backgroundColor: "inherit",
     color: "#ff0000",
@@ -85,7 +88,7 @@ class Main extends React.Component {
   render() {
     const logged = JSON.parse(localStorage.getItem("logged"));
     return (
-      <Root>
+      <Root className={classes.root}>
         <Grid
           container
           direction="column"

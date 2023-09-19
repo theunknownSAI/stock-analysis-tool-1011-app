@@ -4,7 +4,7 @@ import axios from "axios";
 import React from "react";
 import { NavLink, } from "react-router-dom";
 
-import { withRouter } from "../../utils/WithRouter"
+import { withRouter } from "../../utils/WithRouter";
 
 import validator from "validator";
 
@@ -13,12 +13,18 @@ const PREFIX = "SignUp";
 const theme = createTheme();
 
 const classes = {
+  root: `${PREFIX}-root`,
   paper: `${PREFIX}-paper`,
   avatar: `${PREFIX}-avatar`,
   submit: `${PREFIX}-submit`
 }
 
 const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.root}`]: {
+    padding: "25px",
+    textAlign: "center",
+    margin: "10px",
+  },
   [`& .${classes.paper}`]: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -132,108 +138,99 @@ class SignUp extends React.Component {
   render() {
     const logged = JSON.parse(localStorage.getItem("logged"));
     return (
-      <Root>
-        <div
-          sx={{
-            padding: "25px",
-            textAlign: "center",
-            margin: "10px",
-          }}
+      <Root className={classes.root}>
+        <Typography component="h1" variant="h4">
+          {this.state.signupstatus}
+        </Typography>
+        <Grid container spacing={2} sx={{ marginTop: "25px" }}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              autoComplete="fname"
+              name="firstName"
+              variant="outlined"
+              required
+              fullWidth
+              id="firstName"
+              label="First Name"
+              autoFocus
+              value={this.state.firstName}
+              onChange={(e) => {
+                this.setState({ firstName: e.target.value });
+              }}
+              error={this.state.firstNameError.length !== 0 ? true : false}
+              helperText={this.state.firstNameError}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              id="lastName"
+              label="Last Name"
+              name="lastName"
+              autoComplete="lname"
+              value={this.state.lastName}
+              onChange={(e) => {
+                this.setState({ lastName: e.target.value });
+              }}
+              error={this.state.lastNameError.length !== 0 ? true : false}
+              helperText={this.state.lastNameError}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              value={this.state.email}
+              onChange={(e) => {
+                this.setState({ email: e.target.value });
+              }}
+              error={this.state.emailError.length !== 0 ? true : false}
+              helperText={this.state.emailError}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              value={this.state.password}
+              onChange={(e) => {
+                this.setState({ password: e.target.value });
+              }}
+              error={this.state.passwordError.length !== 0 ? true : false}
+              helperText={this.state.passwordError}
+            />
+          </Grid>
+        </Grid>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+          onClick={this.verifyAndCreate}
         >
-          <Typography component="h1" variant="h4">
-            {this.state.signupstatus}
-          </Typography>
-
-          <Grid container spacing={2} sx={{ marginTop: "25px" }}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-                value={this.state.firstName}
-                onChange={(e) => {
-                  this.setState({ firstName: e.target.value });
-                }}
-                error={this.state.firstNameError.length !== 0 ? true : false}
-                helperText={this.state.firstNameError}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-                value={this.state.lastName}
-                onChange={(e) => {
-                  this.setState({ lastName: e.target.value });
-                }}
-                error={this.state.lastNameError.length !== 0 ? true : false}
-                helperText={this.state.lastNameError}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                value={this.state.email}
-                onChange={(e) => {
-                  this.setState({ email: e.target.value });
-                }}
-                error={this.state.emailError.length !== 0 ? true : false}
-                helperText={this.state.emailError}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={this.state.password}
-                onChange={(e) => {
-                  this.setState({ password: e.target.value });
-                }}
-                error={this.state.passwordError.length !== 0 ? true : false}
-                helperText={this.state.passwordError}
-              />
-            </Grid>
+          Sign Up
+        </Button>
+        <Grid container justify="flex-end">
+          <Grid item>
+            <NavLink to="/login" sx={{ color: "blue" }}>
+              Already have an account? Sign in
+            </NavLink>
           </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={this.verifyAndCreate}
-          >
-            Sign Up
-          </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <NavLink to="/login" sx={{ color: "blue" }}>
-                Already have an account? Sign in
-              </NavLink>
-            </Grid>
-          </Grid>
-        </div>
+        </Grid>
       </Root>
     );
   }

@@ -10,11 +10,15 @@ const PREFIX = "Top";
 const theme = createTheme();
 
 const classes = {
+  root: `${PREFIX}-root`,
   paper: `${PREFIX}-paper`,
   navlink: `${PREFIX}-navlink`
 }
 
 const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.root}`]: {
+    padding: "25px",
+  },
   [`& .${classes.paper}`]: {
     display: "flex",
     padding: "15px",
@@ -89,40 +93,34 @@ class Top extends React.Component {
 
   render() {
     return (
-      <Root>
-        <div
-          sx={{
-            padding: "25px",
-          }}
-        >
-          {this.state.loading ? (
-            <Loader.Audio sx={{ paddingLeft: "50%" }} />
-          ) : (
-            <div sx={{ backgroundColor: "inherit" }}>
-              <Paper elevation={0} className={classes.paper}>
-                <Typography variant="h4">
-                  Top {this.state.num} Companies for{" "}
-                  {this.state.type === "buy" ? "Investing" : "Trading"}
-                </Typography>
-              </Paper>
-              {this.state.topCompanies.map((company) => {
-                return (
-                  <NavLink
-                    className={classes.navlink}
-                    key={company.toString()}
-                    to={{
-                      pathname: "/companydetails/" + company,
-                    }}
-                  >
-                    <Paper elevation={0} className={classes.paper}>
-                      <Typography variant="h6">{company}</Typography>
-                    </Paper>
-                  </NavLink>
-                );
-              })}
-            </div>
-          )}
-        </div>
+      <Root className={classes.root}>
+        {this.state.loading ? (
+          <Loader.Audio sx={{ paddingLeft: "50%" }} />
+        ) : (
+          <div sx={{ backgroundColor: "inherit" }}>
+            <Paper elevation={0} className={classes.paper}>
+              <Typography variant="h4">
+                Top {this.state.num} Companies for{" "}
+                {this.state.type === "buy" ? "Investing" : "Trading"}
+              </Typography>
+            </Paper>
+            {this.state.topCompanies.map((company) => {
+              return (
+                <NavLink
+                  className={classes.navlink}
+                  key={company.toString()}
+                  to={{
+                    pathname: "/companydetails/" + company,
+                  }}
+                >
+                  <Paper elevation={0} className={classes.paper}>
+                    <Typography variant="h6">{company}</Typography>
+                  </Paper>
+                </NavLink>
+              );
+            })}
+          </div>
+        )}
       </Root>
     );
   }
