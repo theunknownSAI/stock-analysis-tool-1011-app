@@ -86,98 +86,70 @@ class Main extends React.Component {
     const logged = JSON.parse(localStorage.getItem("logged"));
     return (
       <Root>
-        {/* <img
-          src="/images/stockbg.png"
-          sx={{
-            zIndex: -1,
-            position: "absolute",
-            width: "100%",
-            backgroundSize: "contain",
-          }}
-        /> */}
-        <div
-          sx={{
-            backgroundImage: `url(${"/images/stockbg.png"})`,
-            height: "600px",
-            width: "100%",
-            marginTop: 20
-          }}
+        <Grid
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
         >
-          <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-          >
-            <Grid item>
-              <Grid container direction="row"justify="center"alignItems="center">
-                <Grid item>
-                  <Typography
-                    variant="h4"
-                    sx={{
-                      fontFamily: "cursive",
-                      fontSize: 50
-                    }}
-                  >
-                    Stock Vestor
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <TrendingUpIcon sx={{ fontSize: 80 }} />
-                </Grid>
+          <Grid item>
+            <Grid container direction="row"justify="center"alignItems="center">
+              <Grid item>
+                <Typography
+                  variant="h4"
+                  sx={{
+                    fontFamily: "cursive",
+                    fontSize: 50
+                  }}
+                >
+                  Stock Vestor
+                </Typography>
+              </Grid>
+              <Grid item>
+                <TrendingUpIcon sx={{ fontSize: 80 }} />
               </Grid>
             </Grid>
-            <Grid item>
-              <Typography variant="h4">
-                Stock analysis tool for investors in India.
-              </Typography>
-            </Grid>
-            <Grid item>
-              {/* <Tooltip
-                title={
-                  logged == null || logged == false ? (
-                    <Typography variant="h5">sign in to access</Typography>
-                  ) : (
-                    <span />
-                  )
-                }
-                classes={{ tooltip: classes.tooltip }}
-              > */}
-              <Autocomplete
-                // disabled={logged != true}
-                sx={{
-                  width: 400
-                }}
-                id="search for companies"
-                freeSolo
-                onChange={(e, val) => {
-                  this.selectedCompany(e, val);
-                }}
-                options={this.state.companyNames.map(
-                  (companyname) => companyname
-                )}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="search for companies"
-                    margin="normal"
-                    variant="outlined"
-                    InputLabelProps={{
-                      sx: { color: "#ff0000" }
-                    }}
-                    InputProps={{
-                      ...params.InputProps,
-                      classes: {
-                        notchedOutline: classes.notchedOutline
-                      }
-                    }}
-                  />
-                )}
-              />
-              {/* </Tooltip> */}
-            </Grid>
           </Grid>
-        </div>
+          <Grid item>
+            <Typography variant="h4">
+              Stock analysis tool for investors in India.
+            </Typography>
+          </Grid>
+          <Grid item>
+          
+            <Autocomplete
+              // disabled={logged != true}
+              sx={{
+                width: 400
+              }}
+              id="search for companies"
+              freeSolo
+              onChange={(e, val) => {
+                this.selectedCompany(e, val);
+              }}
+              options={this.state.companyNames.map(
+                (companyname) => companyname
+              )}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="search for companies"
+                  margin="normal"
+                  variant="outlined"
+                  InputLabelProps={{
+                    sx: { color: "#ff0000" }
+                  }}
+                  InputProps={{
+                    ...params.InputProps,
+                    classes: {
+                      notchedOutline: classes.notchedOutline
+                    }
+                  }}
+                />
+              )}
+            />
+          </Grid>
+        </Grid>
       </Root>
     );
   }
