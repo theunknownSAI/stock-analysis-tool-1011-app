@@ -40,15 +40,15 @@ class About extends React.Component {
         <Typography
           variant="h4"
           align="center"
-          sx ={{color: "#0D19A3"}}
+          sx={{ color: "#0D19A3", margin: "10px" }}
         >
           About Us
         </Typography>
-        <Typography variant="h6" align="left">
-          <span sx = {{
-              backgroundColor: "#15DB95", 
-              color: "#0D19A3"
-            }}>
+        <Typography variant="h6" align="left" sx={{ margin: "10px" }}>
+          <span sx={{
+            backgroundColor: "#15DB95",
+            color: "#0D19A3"
+          }}>
             Stock Vestor
           </span>{" "}
           is a tool for investors to optimize their returns of the given
@@ -58,15 +58,14 @@ class About extends React.Component {
           market sentiment and corporate actions on the stock and advise
           investors on entry and exit of that stock.
         </Typography>
-        <Typography variant="h6" align="left" sx = {{marginTop: "20px"}}>
+        <Typography variant="h6" align="left" sx={{ margin: "10px" }}>
           We are a team of analytics experts who utilize their skills in both
           technology find trends and manage data.
         </Typography>
         <Typography
           variant="h4"
-          sx = {{ 
-            marginTop: "20px",
-            marginBottom: "20px",
+          sx={{
+            margin: "10px",
             color: "#0D19A3",
           }}
           align="center"
@@ -79,55 +78,60 @@ class About extends React.Component {
           spacing={3}
           justify="center"
           alignItems="center"
+          sx={{ margin: "10px" }}
         >
-          <Grid container item spacing={3}>
-            <Grid item>
-              <Avatar
-                className={clsx(classes.large, classes.color)}
-                alt="Venu Gopal Jilla"
-                src="/images/venu.png"
-              >
-                <Typography variant="h2" component="h2">
-                  V
-                </Typography>
-              </Avatar>
-            </Grid>
-            <Grid item>
-              <Link href="https://github.com/VenuGopalJilla">
-                <Avatar className={clsx(classes.large)}>
-                  <GitHubIcon color="disabled" fontSize="large" />
+          <Grid item>
+            <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
+              <Grid item>
+                <Avatar
+                  className={clsx(classes.large, classes.color)}
+                  alt="Venu Gopal Jilla"
+                  src="/images/venu.png"
+                >
+                  <Typography variant="h2" component="h2">
+                    V
+                  </Typography>
                 </Avatar>
-              </Link>
-            </Grid>
-            <Grid item>
-              <Typography variant="h4" component="h4">
-                Venu Gopal Jilla
-              </Typography>
+              </Grid>
+              <Grid item>
+                <Link href="https://github.com/VenuGopalJilla">
+                  <Avatar className={clsx(classes.large)}>
+                    <GitHubIcon color="disabled" fontSize="large" />
+                  </Avatar>
+                </Link>
+              </Grid>
+              <Grid item>
+                <Typography variant="h4" component="h4">
+                  Venu Gopal Jilla
+                </Typography>
+              </Grid>
             </Grid>
           </Grid>
-          <Grid container item spacing={3}>
-            <Grid item>
-              <Avatar
-                className={clsx(classes.large, classes.color)}
-                alt="Venkata Sai Krishna Nama"
-                src="/images/sai.png"
-              >
-                <Typography variant="h2" component="h2">
-                  V
-                </Typography>
-              </Avatar>
-            </Grid>
-            <Grid item>
-              <Link href="https://www.github.com/saikr789">
-                <Avatar className={clsx(classes.large)}>
-                  <GitHubIcon color="disabled" fontSize="large" />
+          <Grid item>
+            <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
+              <Grid item>
+                <Avatar
+                  className={clsx(classes.large, classes.color)}
+                  alt="Venkata Sai Krishna Nama"
+                  src="/images/sai.png"
+                >
+                  <Typography variant="h2" component="h2">
+                    V
+                  </Typography>
                 </Avatar>
-              </Link>
-            </Grid>
-            <Grid item>
-              <Typography variant="h4" component="h4">
-                Venkata Sai Krishna Nama
-              </Typography>
+              </Grid>
+              <Grid item>
+                <Link href="https://www.github.com/theunknownsai">
+                  <Avatar className={clsx(classes.large)}>
+                    <GitHubIcon color="disabled" fontSize="large" />
+                  </Avatar>
+                </Link>
+              </Grid>
+              <Grid item>
+                <Typography variant="h4" component="h4">
+                  Venkata Sai Krishna Nama
+                </Typography>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
