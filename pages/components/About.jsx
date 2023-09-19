@@ -31,7 +31,6 @@ const Root = styled('div')(({ theme }) => ({
 
 class About extends React.Component {
   componentDidMount = () => {
-    console.log("About");
   };
 
   render() {

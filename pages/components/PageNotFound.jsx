@@ -12,12 +12,11 @@ const classes = {
 const Root = styled('div')(({ theme }) => ({
   [`& .${classes.root}`]: {
     padding: "25px",
-  }, 
+  },
 }));
 
 class PageNotFound extends React.Component {
   componentDidMount = () => {
-    console.log("PageNotFound");
   };
 
   render() {

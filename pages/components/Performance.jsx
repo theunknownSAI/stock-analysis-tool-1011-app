@@ -12,18 +12,17 @@ const classes = {
 const Root = styled('div')(({ theme }) => ({
   [`& .${classes.root}`]: {
     padding: "25px",
-  }, 
+  },
 }));
 
 class Performance extends React.Component {
   componentDidMount = () => {
-    console.log("Performance");
   };
 
   render() {
     return <Root className={classes.root}>
-            <Typography variant="h4">Performance</Typography>
-          </Root>
+      <Typography variant="h4">Performance</Typography>
+    </Root>
   }
 }
 

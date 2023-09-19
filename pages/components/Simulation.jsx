@@ -49,7 +49,6 @@ class Simulation extends React.Component {
   }
 
   componentDidMount = () => {
-    console.log("Simulation");
   };
 
   onSelectDays = async (e) => {
@@ -68,7 +67,7 @@ class Simulation extends React.Component {
       localStorage.setItem("days", JSON.stringify(this.state.days));
     });
 
-    this.setState({ loading: true }, () => {});
+    this.setState({ loading: true }, () => { });
     await axios
       .get("/api/simulationtop" + "?" + "days=" + days)
       .then((s) => {
@@ -95,11 +94,11 @@ class Simulation extends React.Component {
             localStorage.setItem("cols", JSON.stringify(this.state.cols));
           });
         } else {
-          this.setState({ rows: [], cols: [], loading: false }, () => {});
+          this.setState({ rows: [], cols: [], loading: false }, () => { });
         }
       })
       .catch((e) => {
-        this.setState({ rows: [], cols: [], loading: false }, () => {});
+        this.setState({ rows: [], cols: [], loading: false }, () => { });
         console.log(e);
       });
   };

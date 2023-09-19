@@ -46,7 +46,6 @@ class Top extends React.Component {
   }
 
   componentDidMount = () => {
-    console.log("Top");
     const { match } = this.props;
     const { num, type } = match.params;
     const prevnum = JSON.parse(localStorage.getItem("num"));
@@ -82,12 +81,12 @@ class Top extends React.Component {
             );
           });
         } else {
-          this.setState({ topCompanies: [], loading: false }, () => {});
+          this.setState({ topCompanies: [], loading: false }, () => { });
         }
       })
       .catch((e) => {
         console.log(e);
-        this.setState({ topCompanies: [], loading: false }, () => {});
+        this.setState({ topCompanies: [], loading: false }, () => { });
       });
   };
 

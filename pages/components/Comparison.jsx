@@ -1,4 +1,4 @@
-import {Autocomplete} from "@mui/lab";
+import { Autocomplete } from "@mui/lab";
 import {
   Button,
   Chip,
@@ -84,7 +84,6 @@ class Comparison extends React.Component {
   }
 
   componentDidMount = () => {
-    console.log("Comparison");
     const companyNames = JSON.parse(localStorage.getItem("companyNames"));
 
     if (companyNames != null) {
@@ -113,10 +112,10 @@ class Comparison extends React.Component {
 
   onClickSubmit = async () => {
     if (this.state.selectedCompanies.length < 2) {
-      this.setState({ error: "select atleast two companies" }, () => {});
+      this.setState({ error: "select atleast two companies" }, () => { });
       return;
     } else {
-      this.setState({ error: "", loading: true }, () => {});
+      this.setState({ error: "", loading: true }, () => { });
     }
     let stockdetails = {};
     for (let index = 0; index < this.state.selectedCompanies.length; index++) {
@@ -141,11 +140,11 @@ class Comparison extends React.Component {
       await axios
         .get(
           "/api/comparison?days=" +
-            this.state.selectedTimePeriod +
-            "&rate=" +
-            this.state.rate +
-            "&company=" +
-            company
+          this.state.selectedTimePeriod +
+          "&rate=" +
+          this.state.rate +
+          "&company=" +
+          company
         )
         .then((s) => {
           if (s.status === 200) {
@@ -159,7 +158,7 @@ class Comparison extends React.Component {
           console.log(e);
         });
     }
-    this.setState({ stockdetails: stockdetails, loading: false }, () => {});
+    this.setState({ stockdetails: stockdetails, loading: false }, () => { });
   };
 
   render() {
@@ -182,9 +181,9 @@ class Comparison extends React.Component {
                 if (reason === "remove-option") {
                   let companies = this.state.stockdetails;
                   delete companies[detail.option];
-                  this.setState({ stockdetails: companies }, () => {});
+                  this.setState({ stockdetails: companies }, () => { });
                 } else {
-                  this.setState({ selectedCompanies: company }, () => {});
+                  this.setState({ selectedCompanies: company }, () => { });
                 }
               }}
               id="select multiple companies"
@@ -214,7 +213,7 @@ class Comparison extends React.Component {
                 onChange={(e) => {
                   this.setState(
                     { selectedTimePeriod: e.target.value },
-                    () => {}
+                    () => { }
                   );
                 }}
                 value={this.state.selectedTimePeriod}

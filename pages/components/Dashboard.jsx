@@ -165,7 +165,6 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount = () => {
-    console.log("Dashboard");
     const { match } = this.props;
     let company = "";
     if ("company" in match.params) {
@@ -186,7 +185,7 @@ class Dashboard extends React.Component {
       prevdate == curdate &&
       this.state.stockChartDetails.length != 0
     ) {
-      this.setState({ details: this.state.stockChartDetails }, () => {});
+      this.setState({ details: this.state.stockChartDetails }, () => { });
       return;
     }
 
@@ -195,7 +194,7 @@ class Dashboard extends React.Component {
       prevdate == curdate &&
       this.state.sp500ChartDetails.length != 0
     ) {
-      this.setState({ details: this.state.sp500ChartDetails }, () => {});
+      this.setState({ details: this.state.sp500ChartDetails }, () => { });
       return;
     }
 
@@ -206,7 +205,7 @@ class Dashboard extends React.Component {
   };
 
   getDetails = async (company) => {
-    this.setState({ loading: true }, () => {});
+    this.setState({ loading: true }, () => { });
     if (company !== "sp500") {
       await axios
         .get("/api/stockdetails?company=" + company)
@@ -219,16 +218,16 @@ class Dashboard extends React.Component {
               );
             });
           } else {
-            this.setState({ details: [], loading: false }, () => {});
+            this.setState({ details: [], loading: false }, () => { });
           }
         })
-        .then(() => {})
+        .then(() => { })
         .catch((e) => {
           console.log(e);
-          this.setState({ loading: false, error: true }, () => {});
+          this.setState({ loading: false, error: true }, () => { });
         });
     } else {
-      this.setState({ sp500: true }, () => {});
+      this.setState({ sp500: true }, () => { });
       await axios
         .get("/api/sp500")
         .then((s) => {
@@ -240,19 +239,19 @@ class Dashboard extends React.Component {
               );
             });
           } else {
-            this.setState({ details: [], loading: false }, () => {});
+            this.setState({ details: [], loading: false }, () => { });
           }
         })
         .catch((e) => {
           console.log(e);
-          this.setState({ loading: false, error: true }, () => {});
+          this.setState({ loading: false, error: true }, () => { });
         });
     }
 
     if (company == "sp500") {
-      this.setState({ details: this.state.sp500ChartDetails }, () => {});
+      this.setState({ details: this.state.sp500ChartDetails }, () => { });
     } else {
-      this.setState({ details: this.state.stockChartDetails }, () => {});
+      this.setState({ details: this.state.stockChartDetails }, () => { });
     }
   };
 
@@ -281,8 +280,8 @@ class Dashboard extends React.Component {
       days === "all"
         ? this.state.details.length - 1
         : days > this.state.details.length - 1
-        ? this.state.details.length - 1
-        : days;
+          ? this.state.details.length - 1
+          : days;
     const toDate = this.state.details[0]["Date"];
     const fromDate = this.state.details[days]["Date"];
     const data = this.state.details.slice(0, days);
@@ -322,7 +321,7 @@ class Dashboard extends React.Component {
         series: series,
         options: options
       },
-      () => {}
+      () => { }
     );
   };
 

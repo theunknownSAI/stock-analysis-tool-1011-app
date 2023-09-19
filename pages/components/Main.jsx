@@ -48,7 +48,6 @@ class Main extends React.Component {
   }
 
   componentDidMount = () => {
-    console.log("Main");
     const companyNames = JSON.parse(localStorage.getItem("companyNames"));
     if (companyNames != null) {
       return;
@@ -96,7 +95,7 @@ class Main extends React.Component {
           alignItems="center"
         >
           <Grid item>
-            <Grid container direction="row"justify="center"alignItems="center">
+            <Grid container direction="row" justify="center" alignItems="center">
               <Grid item>
                 <Typography
                   variant="h4"
@@ -119,7 +118,7 @@ class Main extends React.Component {
             </Typography>
           </Grid>
           <Grid item>
-          
+
             <Autocomplete
               // disabled={logged != true}
               sx={{

@@ -21,8 +21,8 @@ const classes = {
 
 const Root = styled('div')(({ theme }) => ({
   [`& .${classes.root}`]: {
-    backgroundColor: "#15DB95", 
-    height: "100%" 
+    backgroundColor: "#15DB95",
+    height: "100%"
   },
   [`& .${classes.paper}`]: {
     width: "100%",
@@ -41,7 +41,7 @@ const Root = styled('div')(({ theme }) => ({
       // margin: theme.spacing(1),
       width: "100%",
       height: "100%",
-      },
+    },
     backgroundColor: "#15DB95",
     color: "#0D19A3",
   },
@@ -58,7 +58,6 @@ class SideBar extends React.Component {
     this.state = {};
   }
   componentDidMount = () => {
-    console.log("Sidebar");
   };
 
   render() {

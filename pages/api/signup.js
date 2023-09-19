@@ -14,7 +14,6 @@ const dbName = "stock-analysis-tool-1011";
 async function run(email, password, firstName, lastName) {
   try {
     await client.connect();
-    console.log("Connected correctly to server");
     const db = client.db(dbName);
     // Use the collection "userdetails"
     const col = db.collection("userdetails");
@@ -29,7 +28,6 @@ async function run(email, password, firstName, lastName) {
       email: email,
       password: passwordHash,
     };
-    console.log(personDocument);
     // Find if already present document
     const present = await col.findOne({ email: email });
     let status = "";

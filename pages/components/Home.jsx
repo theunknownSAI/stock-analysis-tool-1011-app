@@ -135,7 +135,6 @@ class Home extends React.Component {
   }
 
   componentDidMount = () => {
-    console.log("Home");
     const curdate =
       localStorage.getItem("date") == null
         ? moment().format("DD-MM-YYYY")
@@ -213,75 +212,75 @@ class Home extends React.Component {
             })}
           >
             <Routes>
-              <Route exact path="/" element={<Main/>} />
-              <Route exact path="/home" element={<Main/>} />
+              <Route exact path="/" element={<Main />} />
+              <Route exact path="/home" element={<Main />} />
               <Route
                 exact
                 path="/login"
-                element = {
+                element={
                   logged === null || logged === false ? (
-                    <Login/>
+                    <Login />
                   ) : (
-                    <Navigate to="/home" replace/>
+                    <Navigate to="/home" replace />
                   )
                 }
               />
               <Route
                 exact
                 path="/signup"
-                element = {
+                element={
                   logged === null || logged === false ? (
-                    <SignUp/>
+                    <SignUp />
                   ) : (
-                    <Navigate to="/home" replace/>
+                    <Navigate to="/home" replace />
                   )
                 }
               />
-              <Route exact path="/about" element={<About/>} />
+              <Route exact path="/about" element={<About />} />
               <Route
                 exact
                 path="/top/:num/:type"
-                element = { ({ params }) => {
-                    const {num, type} = params;
-                    return <Top key={`num=${num}&type=${type}`} {...props} />
-                  }
+                element={({ params }) => {
+                  const { num, type } = params;
+                  return <Top key={`num=${num}&type=${type}`} {...props} />
+                }
                 }
               />
               <Route
                 exact
                 path="/sectors"
-                element = {<Sectors/>}
+                element={<Sectors />}
               />
               <Route
                 exact
                 path="/companydetails/:company"
-                element = { ({ params }) => {
-                  const {company} = params;
-                    return <CompanyDetails key={`company=${company}`} {...props} />
-                  }
+                element={({ params }) => {
+                  const { company } = params;
+                  return <CompanyDetails key={`company=${company}`} {...props} />
+                }
                 }
               />
               <Route
                 exact
                 path="/revenue"
-                element = {<Revenue/>}
+                element={<Revenue />}
               />
               <Route
                 exact
                 path="/sp500"
-                element = {<SP500/>}
+                element={<SP500 />}
               />
               <Route
                 exact
                 path="/comparison"
-                element = {<Comparison/>}
+                element={<Comparison />}
               />
               <Route
                 exact
                 path="/simulation"
-                element = {<Simulation/>}
+                element={<Simulation />}
               />
-              <Route element={<PageNotFound/>} />
+              <Route element={<PageNotFound />} />
             </Routes>
           </main>
         </div>

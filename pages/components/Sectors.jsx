@@ -141,8 +141,6 @@ class Sectors extends React.Component {
   }
 
   componentDidMount = () => {
-    console.log("Sectors");
-
     const sectors = JSON.parse(localStorage.getItem("sectors"));
     const series = JSON.parse(localStorage.getItem("series"));
     if (sectors != null && series != null) {
@@ -158,7 +156,7 @@ class Sectors extends React.Component {
           localStorage.setItem("sectors", JSON.stringify(this.state.sectors));
         });
       } else {
-        this.setState({ sectors: [] }, () => {});
+        this.setState({ sectors: [] }, () => { });
       }
     });
 
@@ -184,7 +182,7 @@ class Sectors extends React.Component {
     if (val === null) {
       this.setState(
         { selectedSector: "", selectedSectorCompanies: [] },
-        () => {}
+        () => { }
       );
     } else {
       this.setState(
@@ -192,7 +190,7 @@ class Sectors extends React.Component {
           selectedSector: val,
           selectedSectorCompanies: this.state.sectors[val]
         },
-        () => {}
+        () => { }
       );
     }
   };

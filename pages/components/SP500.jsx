@@ -30,7 +30,6 @@ class SP500 extends React.Component {
     this.state = { sp500: [] };
   }
   componentDidMount = () => {
-    console.log("SP500");
   };
   render() {
     return (

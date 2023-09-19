@@ -89,7 +89,6 @@ class CompanyDetails extends React.Component {
   }
 
   componentDidMount = () => {
-    console.log("CompanyDetails");
     const { match } = this.props;
     const company = match.params.company;
     const prevcompany = JSON.parse(localStorage.getItem("selectedCompany"));
@@ -119,7 +118,7 @@ class CompanyDetails extends React.Component {
   };
 
   getCompanyDetails = async (company) => {
-    this.setState({ companydetailsloading: true }, () => {});
+    this.setState({ companydetailsloading: true }, () => { });
     await axios
       .get("/api/companydetails?company=" + company)
       .then((s) => {
@@ -138,7 +137,7 @@ class CompanyDetails extends React.Component {
         } else {
           this.setState(
             { companyDetails: [], companydetailsloading: false },
-            () => {}
+            () => { }
           );
         }
       })
@@ -146,13 +145,13 @@ class CompanyDetails extends React.Component {
         console.log(e);
         this.setState(
           { companyDetails: [], companydetailsloading: false },
-          () => {}
+          () => { }
         );
       });
   };
 
   getStockDetails = async (company) => {
-    this.setState({ stockdetailsloading: true }, () => {});
+    this.setState({ stockdetailsloading: true }, () => { });
     await axios
       .get("/api/previousdaystockdetails?company=" + company)
       .then((s) => {
@@ -169,7 +168,7 @@ class CompanyDetails extends React.Component {
         } else {
           this.setState(
             { stockdetails: [], stockdetailsloading: false },
-            () => {}
+            () => { }
           );
         }
       })
@@ -177,7 +176,7 @@ class CompanyDetails extends React.Component {
         console.log(e);
         this.setState(
           { stockdetails: [], stockdetailsloading: false },
-          () => {}
+          () => { }
         );
       });
   };
@@ -287,7 +286,7 @@ class CompanyDetails extends React.Component {
                 </Grid>
                 <Grid item>
                   {this.state.stockdetailsloading == true ||
-                  this.state.stockdetails.length == 0 ? (
+                    this.state.stockdetails.length == 0 ? (
                     <Loader.Audio sx={{ paddingLeft: "50%" }} />
                   ) : (
                     <TableContainer component={Paper}>
@@ -339,7 +338,7 @@ class CompanyDetails extends React.Component {
         {this.state.selectedCompany !== "" &&
           this.state.stockdetails.length !== 0 && (
             <Dashboard company={this.state.selectedCompany} key="dashboard" />
-        )}
+          )}
       </Root>
     );
   }
