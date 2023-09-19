@@ -51,6 +51,7 @@ const classes = {
   drawerHeader: `${PREFIX}-drawerHeader`,
   content: `${PREFIX}-content`,
   contentShift: `${PREFIX}-contentShift`,
+  largeIcon: `${PREFIX}-largeIcon`,
 }
 
 const Root = styled('div')(({ theme }) => ({
@@ -92,7 +93,19 @@ const Root = styled('div')(({ theme }) => ({
       duration: theme.transitions.duration.enteringScreen
     }),
     marginLeft: 0
+  },[`& .${classes.largeIcon}`]: {
+    width: 60,
+    height: 60,
+    fontSize: 25
+  },[`& .${classes.drawerHeader}`]: {
+    display: "flex",
+    alignItems: "center",
+    padding: theme.spacing(2),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: "center"
   }
+    
 }));
 
 class Home extends React.Component {
@@ -165,7 +178,7 @@ class Home extends React.Component {
               sx={{ backgroundColor: "#15DB95", color: "#0D19A3" }}
             >
               <Typography variant="h4">Stock Vestor</Typography>
-              <IconButton onClick={this.handleDrawerClose}>
+              <IconButton onClick={this.handleDrawerClose} className={classes.largeIcon}>
                 {theme.direction === "ltr" ? (
                   <ChevronLeftIcon />
                 ) : (
