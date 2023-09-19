@@ -1,5 +1,5 @@
 import React from "react";
-import Home from "./Components/Home";
+import Home from "./components/Home";
 import { HashRouter } from "react-router-dom";
 
 class App extends React.Component {

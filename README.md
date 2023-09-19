@@ -13,7 +13,7 @@
 
 - npm install @mui/material
 - npm install @mui/x-data-grid
-- npm install  @mui/icons-material
+- npm install @mui/icons-material
 - npm install @mui/lab
 - npm install apexcharts
 - npm install axios
@@ -73,7 +73,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
    |   |   |-- stockdetails.js
    |   |   |-- suggest.js
    |   |   |-- top.js
-   |   |-- Components
+   |   |-- components
    |       |-- About.jsx
    |       |-- CompanyDetails.jsx
    |       |-- Comparision.jsx
