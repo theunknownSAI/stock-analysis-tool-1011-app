@@ -109,20 +109,22 @@ class Main extends React.Component {
             justify="center"
             alignItems="center"
           >
-            <Grid item container justify="center" alignItems="center">
-              <Grid item>
-                <Typography
-                  variant="h4"
-                  sx={{
-                    fontFamily: "cursive",
-                    fontSize: 50
-                  }}
-                >
-                  Stock Vestor
-                </Typography>
-              </Grid>
-              <Grid item>
-                <TrendingUpIcon sx={{ fontSize: 80 }} />
+            <Grid item>
+              <Grid container direction="row"justify="center"alignItems="center">
+                <Grid item>
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      fontFamily: "cursive",
+                      fontSize: 50
+                    }}
+                  >
+                    Stock Vestor
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <TrendingUpIcon sx={{ fontSize: 80 }} />
+                </Grid>
               </Grid>
             </Grid>
             <Grid item>

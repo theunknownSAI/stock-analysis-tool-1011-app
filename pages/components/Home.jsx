@@ -41,6 +41,7 @@ const drawerWidth = 300;
 const PREFIX = "Home";
 
 const classes = {
+  root: `${PREFIX}-root`,
   appBar: `${PREFIX}-appBar`,
   appBarShift: `${PREFIX}-appBarShift`,
   menuButton: `${PREFIX}-menuButton`,
@@ -55,6 +56,9 @@ const classes = {
 }
 
 const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.root}`]: {
+    display: "flex"
+  },
   [`& .${classes.appBar}`]: {
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
@@ -163,7 +167,7 @@ class Home extends React.Component {
             <NavigationBar />
           </Toolbar>
         </AppBar>
-        <div sx = {{display: "flex"}}>
+        <div className={classes.root}>
           <Drawer
             className={classes.drawer}
             variant="persistent"

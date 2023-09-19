@@ -8,30 +8,11 @@ const theme = createTheme();
 const PREFIX = "About";
 
 const classes = {
-  typo1: `${PREFIX}-typo1`,
-  typo2: `${PREFIX}-typo2`,
-  typo3: `${PREFIX}-typo3`,
-  typo4: `${PREFIX}-typo4`,
   large: `${PREFIX}-large`,
   color: `${PREFIX}-color`,
 }
 
 const Root = styled('div')(({ theme }) => ({
-  [`& .${classes.typo1}`]: {
-      color: "#0D19A3",
-  },
-  [`& .${classes.typo2}`]: {
-      backgroundColor: "#15DB95", 
-      color: "#0D19A3"
-  },
-  [`& .${classes.typo3}`]: {
-      marginTop: "20px"
-  },
-  [`& .${classes.typo4}`]: {
-    marginTop: "20px",
-    marginBottom: "20px",
-    color: "#0D19A3",
-  },
   [`& .${classes.large}`]: {
     width: 50,
     height: 50,
@@ -59,12 +40,15 @@ class About extends React.Component {
           <Typography
             variant="h4"
             align="center"
-            className={classes.typo1}
+            sx ={{color: "#0D19A3"}}
           >
             About Us
           </Typography>
           <Typography variant="h6" align="left">
-            <span className={classes.typo2}>
+            <span sx = {{
+                backgroundColor: "#15DB95", 
+                color: "#0D19A3"
+              }}>
               Stock Vestor
             </span>{" "}
             is a tool for investors to optimize their returns of the given
@@ -74,13 +58,17 @@ class About extends React.Component {
             market sentiment and corporate actions on the stock and advise
             investors on entry and exit of that stock.
           </Typography>
-          <Typography variant="h6" align="left" className={classes.typo3}>
+          <Typography variant="h6" align="left" sx = {{marginTop: "20px"}}>
             We are a team of analytics experts who utilize their skills in both
             technology find trends and manage data.
           </Typography>
           <Typography
             variant="h4"
-            className={classes.typo4}
+            sx = {{ 
+              marginTop: "20px",
+              marginBottom: "20px",
+              color: "#0D19A3",
+            }}
             align="center"
           >
             Team
