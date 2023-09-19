@@ -195,91 +195,75 @@ class Home extends React.Component {
             })}
           >
             <Routes>
-              <Route exact path="/" component={Main} />
-              <Route exact path="/home" component={Main} />
+              <Route exact path="/" element={<Main/>} />
+              <Route exact path="/home" element={<Main/>} />
               <Route
                 exact
                 path="/login"
-                render={(props) => {
-                  if (logged == null || logged === false) {
-                    return <Login />;
-                  }
-                  return <Navigate to="/home" />;
-                }}
+                element = {
+                  logged === null || logged === false ? (
+                    <Login/>
+                  ) : (
+                    <Navigate to="/home" replace/>
+                  )
+                }
               />
               <Route
                 exact
                 path="/signup"
-                render={(props) => {
-                  if (logged == null || logged === false) {
-                    return <SignUp />;
-                  }
-                  return <Navigate to="/home" />;
-                }}
+                element = {
+                  logged === null || logged === false ? (
+                    <SignUp/>
+                  ) : (
+                    <Navigate to="/home" replace/>
+                  )
+                }
               />
-              <Route exact path="/about" component={About} />
+              <Route exact path="/about" element={<About/>} />
               <Route
                 exact
                 path="/top/:num/:type"
-                render={(props) => {
-                  const {
-                    match: {
-                      params: { num, type }
-                    }
-                  } = props;
-                  return <Top key={`num=${num}&type=${type}`} {...props} />;
-                }}
+                element = { ({ params }) => {
+                    const {num, type} = params;
+                    return <Top key={`num=${num}&type=${type}`} {...props} />
+                  }
+                }
               />
               <Route
                 exact
                 path="/sectors"
-                render={(props) => {
-                  return <Sectors />;
-                }}
+                element = {<Sectors/>}
               />
               <Route
                 exact
                 path="/companydetails/:company"
-                render={(props) => {
-                  const {
-                    match: {
-                      params: { company }
-                    }
-                  } = props;
-                  return (
-                    <CompanyDetails key={`company=${company}`} {...props} />
-                  );
-                }}
+                element = { ({ params }) => {
+                  const {company} = params;
+                    return <CompanyDetails key={`company=${company}`} {...props} />
+                  }
+                }
               />
               <Route
                 exact
                 path="/revenue"
-                render={(props) => {
-                  return <Revenue />;
-                }}
+                element = {<Revenue/>}
               />
               <Route
                 exact
                 path="/sp500"
-                render={(props) => {
-                  return <SP500 />;
-                }}
+                element = {<SP500/>}
               />
               <Route
                 exact
                 path="/comparison"
-                render={(props) => {
-                  return <Comparison />;
-                }}
+                element = {<Comparison/>}
               />
               <Route
                 exact
                 path="/simulation"
-                render={(props) => {
-                  return <Simulation />;
-                }}
+                element = {<Simulation/>}
               />
-              <Route component={PageNotFound} />
+              <Route element={<PageNotFound/>} />
             </Routes>
           </main>
         </div>
