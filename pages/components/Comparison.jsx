@@ -1,4 +1,3 @@
-import { Autocomplete } from "@mui/lab";
 import {
   Button,
   Chip,
@@ -11,7 +10,8 @@ import {
   Select,
   TextField,
   Tooltip,
-  Typography
+  Typography,
+  Autocomplete
 } from "@mui/material";
 import { createTheme, styled } from '@mui/material/styles';
 import axios from "axios";
