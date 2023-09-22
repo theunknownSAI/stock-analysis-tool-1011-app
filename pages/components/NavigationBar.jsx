@@ -93,7 +93,6 @@ class NavigationBar extends React.Component {
   };
 
   componentDidMount = () => {
-    console.log("NavigationBar");
     // const companyNames = JSON.parse(localStorage.getItem("companyNames"));
     // if (companyNames != null) {
     //   return;
