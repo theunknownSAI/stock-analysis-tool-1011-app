@@ -16,8 +16,8 @@ import moment from "moment";
 import React from "react";
 import * as Loader from "react-loader-spinner";
 
-import Dashboard from "./Dashboard";
 import { withRouter } from "../../utils/WithRouter";
+import Dashboard from "./Dashboard";
 
 const theme = createTheme();
 
@@ -90,9 +90,11 @@ class CompanyDetails extends React.Component {
   }
 
   componentDidMount = () => {
-    console.log(this.props);
-    const { match } = this.props;
-    const company = match.params.company;
+
+    const { router } = this.props;
+    const { params} = router;
+    const {company} = params;
+
     const prevcompany = JSON.parse(localStorage.getItem("selectedCompany"));
     const curdate = moment().format("DD-MM-YYYY");
     const prevdate =

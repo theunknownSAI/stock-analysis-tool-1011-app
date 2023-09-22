@@ -47,8 +47,9 @@ class Top extends React.Component {
   }
 
   componentDidMount = () => {
-    const { match } = this.props;
-    const { num, type } = match.params;
+    const {router} = this.props;
+    const {params} = router;
+    const { num, type } = params; 
     const prevnum = JSON.parse(localStorage.getItem("num"));
     const prevtype = JSON.parse(localStorage.getItem("type"));
     const topCompanies = JSON.parse(localStorage.getItem("topCompanies"));

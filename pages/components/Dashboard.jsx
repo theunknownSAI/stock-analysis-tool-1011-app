@@ -165,10 +165,13 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount = () => {
-    const { match } = this.props;
+
+    const {router} = this.props;
+    const {params} = router;
+    
     let company = "";
-    if ("company" in match.params) {
-      company = match.params.company;
+    if ("company" in params) {
+      company = params.company;
     } else {
       company = this.props.company;
     }
