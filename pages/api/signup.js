@@ -1,21 +1,9 @@
-const { MongoClient } = require("mongodb");
 const bcrypt = require("bcrypt");
-// Replace the following with your Atlas connection string
-const uri =
-  "mongodb+srv://saikr789:3DdY2U1ycupXHUnW@cluster0.pzkng.mongodb.net/stock-analysis-tool-1011?retryWrites=true&w=majority";
-const client = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-// The database to use
-const dbName = "stock-analysis-tool-1011";
+import connectToMongo from "../../utils/connectMongo";
 
 async function run(email, password, firstName, lastName) {
   try {
-    await client.connect();
-    const db = client.db(dbName);
-    // Use the collection "userdetails"
+    const {client, db} = await connectToMongo();
     const col = db.collection("userdetails");
     let passwordHash = "";
     await bcrypt.hash(password, 10).then(async (hash) => {
@@ -42,7 +30,6 @@ async function run(email, password, firstName, lastName) {
     return status;
   } catch (err) {
     console.log(err.stack);
-    // await client.close();
 
     return "account creation error";
   }
@@ -54,7 +41,7 @@ export default async (req, res, next) => {
     const password = req.query["password"];
     const firstName = req.query["firstName"];
     const lastName = req.query["lastName"];
-    run(email, password, firstName, lastName)
+    await run(email, password, firstName, lastName)
       .then((status) => {
         res.send({ status: status });
       })
