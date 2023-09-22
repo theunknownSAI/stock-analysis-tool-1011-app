@@ -76,7 +76,7 @@ class Comparison extends React.Component {
         "5 years": "1800",
         "10 years": "3600"
       },
-      stockdetails: [],
+      stockdetails: {},
       num: 10,
       error: "",
       tooltipopen: false
@@ -85,7 +85,6 @@ class Comparison extends React.Component {
 
   componentDidMount = () => {
     const companyNames = JSON.parse(localStorage.getItem("companyNames"));
-
     if (companyNames != null) {
       return;
     }
@@ -117,11 +116,14 @@ class Comparison extends React.Component {
     } else {
       this.setState({ error: "", loading: true }, () => { });
     }
+
     let stockdetails = {};
+
     for (let index = 0; index < this.state.selectedCompanies.length; index++) {
       const company = this.state.selectedCompanies[index];
       stockdetails[company] = {};
     }
+
     for (let index = 0; index < this.state.selectedCompanies.length; index++) {
       const company = this.state.selectedCompanies[index];
       await axios
@@ -139,7 +141,7 @@ class Comparison extends React.Component {
         });
       await axios
         .get(
-          "/api/comparison?days=" +
+          "/api/comparision?days=" +
           this.state.selectedTimePeriod +
           "&rate=" +
           this.state.rate +
@@ -158,12 +160,14 @@ class Comparison extends React.Component {
           console.log(e);
         });
     }
-    this.setState({ stockdetails: stockdetails, loading: false }, () => { });
+    
+    this.setState({ stockdetails: stockdetails, loading: false }, () => {});
   };
 
   render() {
     const period = underscore.invert(this.state.timePeriod);
     let logged = JSON.parse(localStorage.getItem("logged"));
+    let cnt = Object.keys(this.state.stockdetails).length;
     return (
       <Root className={classes.root}>
         <Grid
@@ -276,7 +280,7 @@ class Comparison extends React.Component {
         {this.state.loading ? (
           <Loader.Audio sx={{ paddingLeft: "50%" }} />
         ) : (
-          this.state.stockdetails.length !== 0 && (
+          cnt !== 0 && (
             <Grid
               container
               spacing={1}
@@ -320,7 +324,7 @@ class Comparison extends React.Component {
                       days {","} negative close price growth rate was less
                       than {element["rate"]} %
                     </Typography>
-                    <Dashboard company={element["company"]} />
+                    <Dashboard company={company} />
                     {Object.keys(element).map((key) => {
                       if (key.toLowerCase() === "company") {
                         return;

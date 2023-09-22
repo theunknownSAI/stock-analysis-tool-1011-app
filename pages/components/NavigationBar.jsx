@@ -126,7 +126,10 @@ class NavigationBar extends React.Component {
     const { navigate } = router;
 
     const logged = JSON.parse(localStorage.getItem("logged"));
-    let details = JSON.parse(localStorage.getItem("details")) || [];
+    // let details = JSON.parse(localStorage.getItem("details")) || [];
+
+    let details = [JSON.parse(localStorage.getItem("firstName")),JSON.parse(localStorage.getItem("lastName"))]
+
     // const firstName = JSON.parse(localStorage.getItem("firstName"));
     // const lastName = JSON.parse(localStorage.getItem("lastName"));
     // const userName = firstName + " " + lastName;
@@ -171,16 +174,15 @@ class NavigationBar extends React.Component {
               </Typography>
             </NavLink>
           </Grid>
-          <Tooltip
+          <Grid item className={classes.grid}>
+            <Tooltip
             classes={{ tooltip: classes.tooltip }}
-            title={
-              <Typography variant="h6" className={classes.primary}>
-                to compare two or more companies
-              </Typography>
-            }
-            interactive
-          >
-            <Grid item className={classes.grid}>
+              title={
+                <Typography variant="h6" className={classes.primary}>
+                  to compare two or more companies
+                </Typography>
+              }
+            >
               <NavLink
                 to="/comparison"
                 className={classes.link}
@@ -196,18 +198,17 @@ class NavigationBar extends React.Component {
                   Comparison
                 </Typography>
               </NavLink>
-            </Grid>
-          </Tooltip>
-          <Tooltip
-            classes={{ tooltip: classes.tooltip }}
-            title={
-              <Typography variant="h6" className={classes.primary}>
-                to know expected returns of each company
-              </Typography>
-            }
-            interactive
-          >
-            <Grid item className={classes.grid}>
+            </Tooltip>
+          </Grid>
+          <Grid item className={classes.grid}>
+            <Tooltip
+              classes={{ tooltip: classes.tooltip }}
+              title={
+                <Typography variant="h6" className={classes.primary}>
+                  to know expected returns of each company
+                </Typography>
+              }
+            >
               <NavLink
                 to="/simulation"
                 className={classes.link}
@@ -223,8 +224,8 @@ class NavigationBar extends React.Component {
                   Simulation
                 </Typography>
               </NavLink>
-            </Grid>
-          </Tooltip>
+            </Tooltip>
+          </Grid>
           {logged == null || logged === false ? (
             <Grid item className={classes.grid}>
               <NavLink
@@ -271,7 +272,6 @@ class NavigationBar extends React.Component {
             <Grid item>
               <Tooltip
                 classes={{ tooltip: classes.tooltip }}
-                interactive
                 title={
                   <List>
                     {Object.keys(details).map((key) => {
@@ -290,11 +290,12 @@ class NavigationBar extends React.Component {
                     })}
                     <ListItem>
                       <Button
-                        variant="outlined"
+                        variant="inherit"
                         classes={{ outlined: classes.outline }}
                         onClick={() => {
-                          window.localStorage.clear();
-                          // localStorage.setItem("logged", JSON.stringify(false));
+                          localStorage.removeItem("logged");
+                          localStorage.removeItem("firstName");
+                          localStorage.removeItem("lastName");
                           navigate("/");
                         }}
                       >

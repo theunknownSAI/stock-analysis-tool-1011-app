@@ -57,7 +57,7 @@ class Dashboard extends React.Component {
       stockChartDetails:
         JSON.parse(localStorage.getItem("stockChartDetails")) || [],
       selectedPeriod: "",
-      company: JSON.parse(localStorage.getItem("company")) || "",
+      // company: JSON.parse(localStorage.getItem("company")) || "",
       error: false,
       series: [],
       options: {
@@ -165,7 +165,6 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount = () => {
-
     const {router} = this.props;
     const {params} = router;
     
@@ -175,7 +174,8 @@ class Dashboard extends React.Component {
     } else {
       company = this.props.company;
     }
-    const prevcompany = JSON.parse(localStorage.getItem("company"));
+    // console.log(localStorage.getItem("company"));
+    const prevcompany = localStorage.getItem("company") === undefined ? null : localStorage.getItem("company");
     // const curdate = moment().format("DD-MM-YYYY");
     // const prevdate =
     //   localStorage.getItem("date") == null
@@ -200,7 +200,6 @@ class Dashboard extends React.Component {
       this.setState({ details: this.state.sp500ChartDetails }, () => { });
       return;
     }
-
     this.setState({ company: company }, () => {
       localStorage.setItem("company", JSON.stringify(this.state.company));
       this.getDetails(company);
@@ -339,6 +338,7 @@ class Dashboard extends React.Component {
   };
 
   render() {
+
     return (
       <Root className={classes.root}>
         {this.state.loading ? (

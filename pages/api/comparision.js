@@ -1,5 +1,9 @@
 const axios = require("axios");
-
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+};
 export default async (req, res, next) => {
   try {
     const query = req.query;
