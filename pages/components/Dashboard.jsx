@@ -176,16 +176,16 @@ class Dashboard extends React.Component {
       company = this.props.company;
     }
     const prevcompany = JSON.parse(localStorage.getItem("company"));
-    const curdate = moment().format("DD-MM-YYYY");
-    const prevdate =
-      localStorage.getItem("date") == null
-        ? curdate
-        : localStorage.getItem("date");
+    // const curdate = moment().format("DD-MM-YYYY");
+    // const prevdate =
+    //   localStorage.getItem("date") == null
+    //     ? curdate
+    //     : localStorage.getItem("date");
     if (
       prevcompany != null &&
       company !== "sp500" &&
       company === prevcompany &&
-      prevdate == curdate &&
+      // prevdate == curdate &&
       this.state.stockChartDetails.length != 0
     ) {
       this.setState({ details: this.state.stockChartDetails }, () => { });
@@ -194,7 +194,7 @@ class Dashboard extends React.Component {
 
     if (
       company === "sp500" &&
-      prevdate == curdate &&
+      // prevdate == curdate &&
       this.state.sp500ChartDetails.length != 0
     ) {
       this.setState({ details: this.state.sp500ChartDetails }, () => { });

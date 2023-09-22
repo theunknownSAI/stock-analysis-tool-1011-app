@@ -54,15 +54,15 @@ class Simulation extends React.Component {
   onSelectDays = async (e) => {
     const days = e.target.value;
     const prevdays = localStorage.getItem("days");
-    const curdate = moment().format("DD-MM-YYYY");
-    const prevdate =
-      localStorage.getItem("date") == null
-        ? curdate
-        : localStorage.getItem("date");
+    // const curdate = moment().format("DD-MM-YYYY");
+    // const prevdate =
+    //   localStorage.getItem("date") == null
+    //     ? curdate
+    //     : localStorage.getItem("date");
 
-    if (days == prevdays && prevdate == curdate) {
-      return;
-    }
+    // if (days == prevdays && prevdate == curdate) {
+    //   return;
+    // }
     this.setState({ days: days }, () => {
       localStorage.setItem("days", JSON.stringify(this.state.days));
     });
@@ -112,7 +112,7 @@ class Simulation extends React.Component {
   };
 
   render() {
-    const today = new Date();
+    // const today = new Date();
     let logged = JSON.parse(localStorage.getItem("logged"));
     return (
       <Root className={classes.root}>

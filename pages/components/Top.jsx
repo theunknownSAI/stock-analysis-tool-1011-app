@@ -53,16 +53,16 @@ class Top extends React.Component {
     const prevnum = JSON.parse(localStorage.getItem("num"));
     const prevtype = JSON.parse(localStorage.getItem("type"));
     const topCompanies = JSON.parse(localStorage.getItem("topCompanies"));
-    const curdate = moment().format("DD-MM-YYYY");
-    const prevdate =
-      localStorage.getItem("date") == null
-        ? curdate
-        : localStorage.getItem("date");
+    // const curdate = moment().format("DD-MM-YYYY");
+    // const prevdate =
+    //   localStorage.getItem("date") == null
+    //     ? curdate
+    //     : localStorage.getItem("date");
     if (
       prevtype === type &&
       prevnum === num &&
-      topCompanies != null &&
-      prevdate == curdate
+      topCompanies != null 
+      // &&  prevdate == curdate
     ) {
       return;
     }

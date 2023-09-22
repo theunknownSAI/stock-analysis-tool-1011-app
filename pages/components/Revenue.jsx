@@ -49,16 +49,16 @@ class Revenue extends React.Component {
     const topCompaniesRevenue = JSON.parse(
       localStorage.getItem("topCompaniesRevenue")
     );
-    const curdate = moment().format("DD-MM-YYYY");
-    const prevdate =
-      localStorage.getItem("date") == null
-        ? curdate
-        : localStorage.getItem("date");
+    // const curdate = moment().format("DD-MM-YYYY");
+    // const prevdate =
+    //   localStorage.getItem("date") == null
+    //     ? curdate
+    //     : localStorage.getItem("date");
 
     if (
       topCompaniesRevenue != null &&
-      topCompaniesRevenue.length !== 0 &&
-      prevdate == curdate
+      topCompaniesRevenue.length !== 0 
+      // &&       prevdate == curdate
     ) {
       return;
     }

@@ -96,16 +96,20 @@ class CompanyDetails extends React.Component {
     const {company} = params;
 
     const prevcompany = JSON.parse(localStorage.getItem("selectedCompany"));
-    const curdate = moment().format("DD-MM-YYYY");
-    const prevdate =
-      localStorage.getItem("date") == null
-        ? curdate
-        : localStorage.getItem("date");
+    // const curdate = moment().format("DD-MM-YYYY");
+    // const prevdate =
+    //   localStorage.getItem("date") == null
+    //     ? curdate
+    //     : localStorage.getItem("date");
 
-    if (prevcompany === company && prevdate === curdate) {
+    // if (prevcompany === company && prevdate === curdate) {
+    //   return;
+    // }
+
+    if (prevcompany === company) {
       return;
     }
-
+    
     this.setState({ selectedCompany: company }, () => {
       localStorage.setItem(
         "selectedCompany",

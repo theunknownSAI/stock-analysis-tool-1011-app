@@ -135,11 +135,11 @@ class Home extends React.Component {
   }
 
   componentDidMount = () => {
-    const curdate =
-      localStorage.getItem("date") == null
-        ? moment().format("DD-MM-YYYY")
-        : localStorage.getItem("date");
-    localStorage.setItem("date", curdate);
+    // const curdate =
+    //   localStorage.getItem("date") == null
+    //     ? moment().format("DD-MM-YYYY")
+    //     : localStorage.getItem("date");
+    // localStorage.setItem("date", curdate);
   };
 
   handleDrawerOpen = () => {
