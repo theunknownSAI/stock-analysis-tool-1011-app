@@ -267,53 +267,51 @@ class NavigationBar extends React.Component {
           ) : (
             <span />
           )}
-          <Grid container justify="flex-end">
-            {logged == true ? (
-              <Grid item>
-                <Tooltip
-                  classes={{ tooltip: classes.tooltip }}
-                  interactive
-                  title={
-                    <List>
-                      {Object.keys(details).map((key) => {
-                        if (key === "_id" || key == "password") {
-                          return;
-                        }
-                        const value = details[key];
-                        return (
-                          <ListItem key={key}>
-                            <ListItemText
-                              primary={value}
-                              classes={{ primary: classes.primary }}
-                            ></ListItemText>
-                          </ListItem>
-                        );
-                      })}
-                      <ListItem>
-                        <Button
-                          variant="outlined"
-                          classes={{ outlined: classes.outline }}
-                          onClick={() => {
-                            window.localStorage.clear();
-                            // localStorage.setItem("logged", JSON.stringify(false));
-                            navigate("/");
-                          }}
-                        >
-                          Log Out
-                        </Button>
-                      </ListItem>
-                    </List>
-                  }
-                >
-                  <IconButton>
-                    <AccountCircleIcon className={classes.largeIcon} />
-                  </IconButton>
-                </Tooltip>
-              </Grid>
-            ) : (
-              <span />
-            )}
-          </Grid>
+          {logged == true ? (
+            <Grid item>
+              <Tooltip
+                classes={{ tooltip: classes.tooltip }}
+                interactive
+                title={
+                  <List>
+                    {Object.keys(details).map((key) => {
+                      if (key === "_id" || key == "password") {
+                        return;
+                      }
+                      const value = details[key];
+                      return (
+                        <ListItem key={key}>
+                          <ListItemText
+                            primary={value}
+                            classes={{ primary: classes.primary }}
+                          ></ListItemText>
+                        </ListItem>
+                      );
+                    })}
+                    <ListItem>
+                      <Button
+                        variant="outlined"
+                        classes={{ outlined: classes.outline }}
+                        onClick={() => {
+                          window.localStorage.clear();
+                          // localStorage.setItem("logged", JSON.stringify(false));
+                          navigate("/");
+                        }}
+                      >
+                        Log Out
+                      </Button>
+                    </ListItem>
+                  </List>
+                }
+              >
+                <IconButton>
+                  <AccountCircleIcon className={classes.largeIcon} />
+                </IconButton>
+              </Tooltip>
+            </Grid>
+          ) : (
+            <span />
+          )}
         </Grid>
       </Root>
     );
