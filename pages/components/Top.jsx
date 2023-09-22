@@ -5,6 +5,7 @@ import moment from "moment";
 import React from "react";
 import * as Loader from "react-loader-spinner";
 import { NavLink } from "react-router-dom";
+import { withRouter } from "../../utils/WithRouter";
 
 const PREFIX = "Top";
 const theme = createTheme();
@@ -125,4 +126,4 @@ class Top extends React.Component {
   }
 }
 
-export default Top;
+export default withRouter(Top);
