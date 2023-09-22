@@ -195,12 +195,14 @@ class Sectors extends React.Component {
   };
 
   selectedCompany = (val) => {
-    const { history } = this.props;
+    const { router } = this.props;
+    const { navigate } = router;
+
     if (val === null) {
-      history.push("/");
+      navigate("/");
     } else {
       this.setState({ selectedCompany: val }, () => {
-        history.push("companydetails/" + val);
+        navigate("companydetails/" + val);
       });
     }
   };

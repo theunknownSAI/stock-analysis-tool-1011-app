@@ -82,13 +82,15 @@ class NavigationBar extends React.Component {
   }
 
   selectedCompany = (e, val) => {
-    const { history } = this.props;
+    const { router } = this.props;
+    const { navigate } = router;
+
     if (val === null) {
-      history.push("/");
+      navigate("/");
       return;
     }
     this.setState({ selectedCompany: val }, () => {
-      history.push("/companydetails/" + this.state.selectedCompany);
+      navigate("/companydetails/" + this.state.selectedCompany);
     });
   };
 
@@ -120,7 +122,9 @@ class NavigationBar extends React.Component {
   // };
 
   render() {
-    const { history, theme } = this.props;
+    const { router } = this.props;
+    const { navigate } = router;
+
     const logged = JSON.parse(localStorage.getItem("logged"));
     let details = JSON.parse(localStorage.getItem("details")) || [];
     // const firstName = JSON.parse(localStorage.getItem("firstName"));
@@ -292,7 +296,7 @@ class NavigationBar extends React.Component {
                           onClick={() => {
                             window.localStorage.clear();
                             // localStorage.setItem("logged", JSON.stringify(false));
-                            history.push("/");
+                            navigate("/");
                           }}
                         >
                           Log Out

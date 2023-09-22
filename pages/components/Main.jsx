@@ -74,13 +74,14 @@ class Main extends React.Component {
   };
 
   selectedCompany = (e, val) => {
-    const { history } = this.props;
+    const { router } = this.props;
+    const { navigate } = router;
     if (val === null) {
-      history.push("/");
+      navigate("/");
       return;
     }
     this.setState({ selectedCompany: val }, () => {
-      history.push("/companydetails/" + this.state.selectedCompany);
+      navigate("/companydetails/" + this.state.selectedCompany);
     });
   };
 

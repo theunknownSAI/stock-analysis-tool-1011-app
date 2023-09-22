@@ -63,7 +63,9 @@ class Login extends React.Component {
   verifyAndLogin = () => {
     
     this.setState({ loginstatus: "" }, () => {});
-    const { history } = this.props;
+    const { router } = this.props;
+    const { navigate } = router;
+
     const { email, password } = this.state;
     const prevemail = JSON.parse(localStorage.getItem("email"));
     const prevpassword = JSON.parse(localStorage.getItem("password"));
@@ -99,7 +101,7 @@ class Login extends React.Component {
           localStorage.setItem("lastName", JSON.stringify(details["lastName"]));
           localStorage.setItem("email", JSON.stringify(details["email"]));
           localStorage.setItem("logged", JSON.stringify(true));
-          history.push("/");
+          navigate("/");
         } else {
           this.setState({ loginstatus: s["data"]["status"] }, () => {});
           localStorage.setItem("logged", JSON.stringify(false));
