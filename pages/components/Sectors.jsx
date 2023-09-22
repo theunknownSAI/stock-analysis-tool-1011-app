@@ -140,9 +140,11 @@ class Sectors extends React.Component {
   }
 
   componentDidMount = () => {
+    
     const sectors = JSON.parse(localStorage.getItem("sectors"));
     const series = JSON.parse(localStorage.getItem("series"));
-    if (sectors != null && series != null) {
+
+    if (sectors != null && series != null && series[0].data.length != 0) {
       return;
     }
     this.getSectors();
@@ -197,12 +199,11 @@ class Sectors extends React.Component {
   selectedCompany = (val) => {
     const { router } = this.props;
     const { navigate } = router;
-
     if (val === null) {
       navigate("/");
     } else {
       this.setState({ selectedCompany: val }, () => {
-        navigate("companydetails/" + val);
+        navigate("/companydetails/" + val);
       });
     }
   };
