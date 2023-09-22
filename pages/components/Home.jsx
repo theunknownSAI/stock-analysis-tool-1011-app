@@ -1,55 +1,76 @@
-import React from "react";
-import clsx from "clsx";
 import {
-  Drawer,
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon,
+  Menu as MenuIcon
+} from "@mui/icons-material";
+import {
   AppBar,
-  Toolbar,
-  Typography,
+  CssBaseline,
   Divider,
-  IconButton
-} from "@material-ui/core";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import { withStyles } from "@material-ui/core/styles";
+  Drawer,
+  IconButton,
+  Toolbar,
+  Typography
+} from "@mui/material";
+import clsx from "clsx";
+import React from "react";
 import {
+  Navigate,
   Route,
-  Switch,
-  HashRouter,
-  withRouter,
-  Redirect
+  Routes
 } from "react-router-dom";
+import { withRouter } from "../../utils/WithRouter";
 
+import { createTheme, styled } from '@mui/material/styles';
+import moment from "moment";
 import About from "./About";
 import CompanyDetails from "./CompanyDetails";
 import Comparison from "./Comparison";
 import Login from "./Login";
+import Main from "./Main";
 import NavigationBar from "./NavigationBar";
 import PageNotFound from "./PageNotFound";
-import Performance from "./Performance";
 import Revenue from "./Revenue";
+import SP500 from "./SP500";
 import Sectors from "./Sectors";
 import SideBar from "./SideBar";
-import SP500 from "./SP500";
-import Top from "./Top";
-import Simulation from "./Simulation";
-import Main from "./Main";
 import SignUp from "./SignUp";
-import moment from "moment";
-const drawerWidth = 300;
+import Simulation from "./Simulation";
+import Top from "./Top";
 
-const styles = (theme) => ({
-  root: {
+const theme = createTheme();
+const drawerWidth = 300;
+const PREFIX = "Home";
+
+const classes = {
+  root: `${PREFIX}-root`,
+  sidebar: `${PREFIX}-sidebar`,
+  appBar: `${PREFIX}-appBar`,
+  appBarShift: `${PREFIX}-appBarShift`,
+  menuButton: `${PREFIX}-menuButton`,
+  hide: `${PREFIX}-hide`,
+  drawer: `${PREFIX}-drawer`,
+  drawerPaper: `${PREFIX}-drawerPaper`,
+  avatar: `${PREFIX}-avatar`,
+  drawerHeader: `${PREFIX}-drawerHeader`,
+  content: `${PREFIX}-content`,
+  contentShift: `${PREFIX}-contentShift`,
+  largeIcon: `${PREFIX}-largeIcon`,
+}
+
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.root}`]: {
+  },
+  [`& .${classes.sidebar}`]: {
     display: "flex"
   },
-  appBar: {
+  [`& .${classes.appBar}`]: {
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
     })
   },
-  appBarShift: {
+  [`& .${classes.appBarShift}`]: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
     transition: theme.transitions.create(["margin", "width"], {
@@ -57,32 +78,24 @@ const styles = (theme) => ({
       duration: theme.transitions.duration.enteringScreen
     })
   },
-  menuButton: {
+  [`& .${classes.menuButton}`]: {
     marginRight: theme.spacing(2)
   },
-  hide: {
+  [`& .${classes.hide}`]: {
     display: "none"
   },
-  drawer: {
+  [`& .${classes.drawer}`]: {
     width: drawerWidth,
     flexShrink: 0
   },
-  drawerPaper: {
+  [`& .${classes.drawerPaper}`]: {
     width: drawerWidth
   },
-  avatar: {
+  [`& .${classes.avatar}`]: {
     width: theme.spacing(10),
     height: theme.spacing(10)
   },
-  drawerHeader: {
-    display: "flex",
-    alignItems: "center",
-    padding: theme.spacing(2),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: "center"
-  },
-  content: {
+  [`& .${classes.content}`]: {
     flexGrow: 1,
     // padding: theme.spacing(3),
     transition: theme.transitions.create("margin", {
@@ -91,14 +104,27 @@ const styles = (theme) => ({
     }),
     marginLeft: -drawerWidth
   },
-  contentShift: {
+  [`& .${classes.contentShift}`]: {
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen
     }),
     marginLeft: 0
+  },
+  [`& .${classes.largeIcon}`]: {
+    width: 60,
+    height: 60,
+    fontSize: 25
+  },
+  [`& .${classes.drawerHeader}`]: {
+    display: "flex",
+    alignItems: "center",
+    padding: theme.spacing(2),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: "center"
   }
-});
+}));
 
 class Home extends React.Component {
   constructor(props) {
@@ -109,12 +135,11 @@ class Home extends React.Component {
   }
 
   componentDidMount = () => {
-    console.log("Home");
-    const curdate =
-      localStorage.getItem("date") == null
-        ? moment().format("DD-MM-YYYY")
-        : localStorage.getItem("date");
-    localStorage.setItem("date", curdate);
+    // const curdate =
+    //   localStorage.getItem("date") == null
+    //     ? moment().format("DD-MM-YYYY")
+    //     : localStorage.getItem("date");
+    // localStorage.setItem("date", curdate);
   };
 
   handleDrawerOpen = () => {
@@ -129,19 +154,18 @@ class Home extends React.Component {
     this.setState({ open: false });
   };
   render() {
-    const { classes, theme } = this.props;
     const open = this.state.open;
     let logged = JSON.parse(localStorage.getItem("logged"));
 
     return (
-      <React.Fragment>
+      <Root className={classes.root} >
         <CssBaseline />
         <AppBar
           position="relative"
           className={clsx(classes.appBar, {
             [classes.appBarShift]: open
           })}
-          style={{ backgroundColor: "#15DB95", color: "#0D19A3" }}
+          sx={{ backgroundColor: "#15DB95", color: "#0D19A3" }}
         >
           <Toolbar>
             <IconButton
@@ -156,7 +180,7 @@ class Home extends React.Component {
             <NavigationBar />
           </Toolbar>
         </AppBar>
-        <div className={classes.root}>
+        <div className={classes.sidebar}>
           <Drawer
             className={classes.drawer}
             variant="persistent"
@@ -168,10 +192,10 @@ class Home extends React.Component {
           >
             <div
               className={classes.drawerHeader}
-              style={{ backgroundColor: "#15DB95", color: "#0D19A3" }}
+              sx={{ backgroundColor: "#15DB95", color: "#0D19A3" }}
             >
               <Typography variant="h4">Stock Vestor</Typography>
-              <IconButton onClick={this.handleDrawerClose}>
+              <IconButton onClick={this.handleDrawerClose} className={classes.largeIcon}>
                 {theme.direction === "ltr" ? (
                   <ChevronLeftIcon />
                 ) : (
@@ -187,97 +211,73 @@ class Home extends React.Component {
               [classes.contentShift]: open
             })}
           >
-            <Switch>
-              <Route exact path="/" component={Main} />
-              <Route exact path="/home" component={Main} />
+            <Routes>
+              <Route exact path="/" element={<Main />} />
+              <Route exact path="/home" element={<Main />} />
               <Route
                 exact
                 path="/login"
-                render={(props) => {
-                  if (logged == null || logged === false) {
-                    return <Login />;
-                  }
-                  return <Redirect to="/home" />;
-                }}
+                element={
+                  logged === null || logged === false ? (
+                    <Login />
+                  ) : (
+                    <Navigate to="/home" replace />
+                  )
+                }
               />
               <Route
                 exact
                 path="/signup"
-                render={(props) => {
-                  if (logged == null || logged === false) {
-                    return <SignUp />;
-                  }
-                  return <Redirect to="/home" />;
-                }}
+                element={
+                  logged === null || logged === false ? (
+                    <SignUp />
+                  ) : (
+                    <Navigate to="/home" replace />
+                  )
+                }
               />
-              <Route exact path="/about" component={About} />
+              <Route exact path="/about" element={<About />} />
               <Route
                 exact
                 path="/top/:num/:type"
-                render={(props) => {
-                  const {
-                    match: {
-                      params: { num, type }
-                    }
-                  } = props;
-                  return <Top key={`num=${num}&type=${type}`} {...props} />;
-                }}
+                element={<Top/>}
               />
               <Route
                 exact
                 path="/sectors"
-                render={(props) => {
-                  return <Sectors />;
-                }}
+                element={<Sectors />}
               />
               <Route
                 exact
                 path="/companydetails/:company"
-                render={(props) => {
-                  const {
-                    match: {
-                      params: { company }
-                    }
-                  } = props;
-                  return (
-                    <CompanyDetails key={`company=${company}`} {...props} />
-                  );
-                }}
+                element={<CompanyDetails/>}
               />
               <Route
                 exact
                 path="/revenue"
-                render={(props) => {
-                  return <Revenue />;
-                }}
+                element={<Revenue />}
               />
               <Route
                 exact
                 path="/sp500"
-                render={(props) => {
-                  return <SP500 />;
-                }}
+                element={<SP500 />}
               />
               <Route
                 exact
                 path="/comparison"
-                render={(props) => {
-                  return <Comparison />;
-                }}
+                element={<Comparison />}
               />
               <Route
                 exact
                 path="/simulation"
-                render={(props) => {
-                  return <Simulation />;
-                }}
+                element={<Simulation />}
               />
-              <Route component={PageNotFound} />
-            </Switch>
+              <Route element={<PageNotFound />} />
+            </Routes>
           </main>
         </div>
-      </React.Fragment>
+      </Root>
     );
   }
 }
-export default withStyles(styles, { withTheme: true })(withRouter(Home));
+export default withRouter(Home);

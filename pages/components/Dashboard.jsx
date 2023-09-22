@@ -1,36 +1,50 @@
-import React from "react";
 import axios from "axios";
+import React from "react";
 // import Chart from "react-apexcharts";
 import dynamic from "next/dynamic";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-import { ButtonGroup, Button, Divider, withStyles } from "@material-ui/core";
-import { withRouter } from "react-router-dom";
+import { Button, ButtonGroup, Divider } from "@mui/material";
+import { createTheme, styled } from '@mui/material/styles';
 import moment from "moment";
+import { withRouter } from "../../utils/WithRouter";
 
-import Loader from "react-loader-spinner";
+import * as Loader from "react-loader-spinner";
 
-const styles = (theme) => ({
-  chart: {
+const PREFIX = "Dashboard";
+const theme = createTheme();
+
+const classes = {
+  root: `${PREFIX}-root`,
+  chart: `${PREFIX}-chart`,
+  divchart: `${PREFIX}-divchart`,
+  buttongroup: `${PREFIX}-buttongroup`,
+  button: `${PREFIX}-button`,
+}
+
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.root}`]: {
+  },
+  [`& .${classes.chart}`]: {
     width: "75%"
   },
-  divchart: {
+  [`& .${classes.divchart}`]: {
     justifyContent: "center",
     alignItems: "center",
     display: "flex"
   },
-  buttongroup: {
+  [`& .${classes.buttongroup}`]: {
     display: "flex",
     justifyContent: "center",
     margin: "10px"
   },
-  button: {
+  [`& .${classes.button}`]: {
     "&:hover": {
       backgroundColor: "red",
       color: "#ffffff"
     }
   }
-});
+}));
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -43,7 +57,7 @@ class Dashboard extends React.Component {
       stockChartDetails:
         JSON.parse(localStorage.getItem("stockChartDetails")) || [],
       selectedPeriod: "",
-      company: JSON.parse(localStorage.getItem("company")) || "",
+      // company: JSON.parse(localStorage.getItem("company")) || "",
       error: false,
       series: [],
       options: {
@@ -77,7 +91,7 @@ class Dashboard extends React.Component {
         title: {
           text: "Stock Price Movement",
           align: "center",
-          style: {
+          sx: {
             fontSize: "24px",
             fontWeight: "bold",
             fontFamily: undefined,
@@ -151,40 +165,41 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount = () => {
-    console.log("Dashboard");
-    const { match } = this.props;
+    const {router} = this.props;
+    const {params} = router;
+    
     let company = "";
-    if ("company" in match.params) {
-      company = match.params.company;
+    if ("company" in params) {
+      company = params.company;
     } else {
       company = this.props.company;
     }
-    const prevcompany = JSON.parse(localStorage.getItem("company"));
-    const curdate = moment().format("DD-MM-YYYY");
-    const prevdate =
-      localStorage.getItem("date") == null
-        ? curdate
-        : localStorage.getItem("date");
+    // console.log(localStorage.getItem("company"));
+    const prevcompany = localStorage.getItem("company") === undefined ? null : localStorage.getItem("company");
+    // const curdate = moment().format("DD-MM-YYYY");
+    // const prevdate =
+    //   localStorage.getItem("date") == null
+    //     ? curdate
+    //     : localStorage.getItem("date");
     if (
       prevcompany != null &&
       company !== "sp500" &&
       company === prevcompany &&
-      prevdate == curdate &&
+      // prevdate == curdate &&
       this.state.stockChartDetails.length != 0
     ) {
-      this.setState({ details: this.state.stockChartDetails }, () => {});
+      this.setState({ details: this.state.stockChartDetails }, () => { });
       return;
     }
 
     if (
       company === "sp500" &&
-      prevdate == curdate &&
+      // prevdate == curdate &&
       this.state.sp500ChartDetails.length != 0
     ) {
-      this.setState({ details: this.state.sp500ChartDetails }, () => {});
+      this.setState({ details: this.state.sp500ChartDetails }, () => { });
       return;
     }
-
     this.setState({ company: company }, () => {
       localStorage.setItem("company", JSON.stringify(this.state.company));
       this.getDetails(company);
@@ -192,7 +207,7 @@ class Dashboard extends React.Component {
   };
 
   getDetails = async (company) => {
-    this.setState({ loading: true }, () => {});
+    this.setState({ loading: true }, () => { });
     if (company !== "sp500") {
       await axios
         .get("/api/stockdetails?company=" + company)
@@ -205,16 +220,16 @@ class Dashboard extends React.Component {
               );
             });
           } else {
-            this.setState({ details: [], loading: false }, () => {});
+            this.setState({ details: [], loading: false }, () => { });
           }
         })
-        .then(() => {})
+        .then(() => { })
         .catch((e) => {
           console.log(e);
-          this.setState({ loading: false, error: true }, () => {});
+          this.setState({ loading: false, error: true }, () => { });
         });
     } else {
-      this.setState({ sp500: true }, () => {});
+      this.setState({ sp500: true }, () => { });
       await axios
         .get("/api/sp500")
         .then((s) => {
@@ -226,19 +241,19 @@ class Dashboard extends React.Component {
               );
             });
           } else {
-            this.setState({ details: [], loading: false }, () => {});
+            this.setState({ details: [], loading: false }, () => { });
           }
         })
         .catch((e) => {
           console.log(e);
-          this.setState({ loading: false, error: true }, () => {});
+          this.setState({ loading: false, error: true }, () => { });
         });
     }
 
     if (company == "sp500") {
-      this.setState({ details: this.state.sp500ChartDetails }, () => {});
+      this.setState({ details: this.state.sp500ChartDetails }, () => { });
     } else {
-      this.setState({ details: this.state.stockChartDetails }, () => {});
+      this.setState({ details: this.state.stockChartDetails }, () => { });
     }
   };
 
@@ -267,8 +282,8 @@ class Dashboard extends React.Component {
       days === "all"
         ? this.state.details.length - 1
         : days > this.state.details.length - 1
-        ? this.state.details.length - 1
-        : days;
+          ? this.state.details.length - 1
+          : days;
     const toDate = this.state.details[0]["Date"];
     const fromDate = this.state.details[days]["Date"];
     const data = this.state.details.slice(0, days);
@@ -308,7 +323,7 @@ class Dashboard extends React.Component {
         series: series,
         options: options
       },
-      () => {}
+      () => { }
     );
   };
 
@@ -323,11 +338,11 @@ class Dashboard extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+
     return (
-      <React.Fragment>
+      <Root className={classes.root}>
         {this.state.loading ? (
-          <Loader style={{ paddingLeft: "50%" }} />
+          <Loader.Audio sx={{ paddingLeft: "50%" }} />
         ) : (
           this.state.error !== true && (
             <div>
@@ -340,7 +355,7 @@ class Dashboard extends React.Component {
                   value="7"
                   className={classes.button}
                   onClick={this.selectedPeriod}
-                  style={{
+                  sx={{
                     backgroundColor:
                       this.state.selectedPeriod == 7 ? "green" : "",
                     color: this.state.selectedPeriod == 7 ? "white" : ""
@@ -354,7 +369,7 @@ class Dashboard extends React.Component {
                   value="30"
                   className={classes.button}
                   onClick={this.selectedPeriod}
-                  style={{
+                  sx={{
                     backgroundColor:
                       this.state.selectedPeriod == 30 ? "green" : "",
                     color: this.state.selectedPeriod == 30 ? "white" : ""
@@ -367,7 +382,7 @@ class Dashboard extends React.Component {
                   value="90"
                   className={classes.button}
                   onClick={this.selectedPeriod}
-                  style={{
+                  sx={{
                     backgroundColor:
                       this.state.selectedPeriod == 90 ? "green" : "",
                     color: this.state.selectedPeriod == 90 ? "white" : ""
@@ -380,7 +395,7 @@ class Dashboard extends React.Component {
                   value="180"
                   className={classes.button}
                   onClick={this.selectedPeriod}
-                  style={{
+                  sx={{
                     backgroundColor:
                       this.state.selectedPeriod == 180 ? "green" : "",
                     color: this.state.selectedPeriod == 180 ? "white" : ""
@@ -393,7 +408,7 @@ class Dashboard extends React.Component {
                   value="360"
                   className={classes.button}
                   onClick={this.selectedPeriod}
-                  style={{
+                  sx={{
                     backgroundColor:
                       this.state.selectedPeriod == 360 ? "green" : "",
                     color: this.state.selectedPeriod == 360 ? "white" : ""
@@ -406,7 +421,7 @@ class Dashboard extends React.Component {
                   value="1800"
                   className={classes.button}
                   onClick={this.selectedPeriod}
-                  style={{
+                  sx={{
                     backgroundColor:
                       this.state.selectedPeriod == 1800 ? "green" : "",
                     color: this.state.selectedPeriod == 1800 ? "white" : ""
@@ -419,7 +434,7 @@ class Dashboard extends React.Component {
                   value="all"
                   className={classes.button}
                   onClick={this.selectedPeriod}
-                  style={{
+                  sx={{
                     backgroundColor:
                       this.state.selectedPeriod == "all" ? "green" : "",
                     color: this.state.selectedPeriod == "all" ? "white" : ""
@@ -439,9 +454,9 @@ class Dashboard extends React.Component {
             </div>
           )
         )}
-      </React.Fragment>
+      </Root>
     );
   }
 }
 
-export default withStyles(styles, { withTheme: true })(withRouter(Dashboard));
+export default withRouter(Dashboard);

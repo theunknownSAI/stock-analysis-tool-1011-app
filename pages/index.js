@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import App from "./App";
 
 // ReactDOM.render(
@@ -9,6 +8,6 @@ import App from "./App";
 //   document.getElementById("root")
 // );
 
-export default function Home() {
-  return <App />;
+export default function MyHome() {
+  return <App/>;
 }

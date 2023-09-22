@@ -1,23 +1,35 @@
-import { TextField, withStyles, Grid } from "@material-ui/core";
-import { Autocomplete } from "@material-ui/lab";
-import { withRouter } from "react-router-dom";
+import { Grid, TextField, Autocomplete } from "@mui/material";
+import { createTheme, styled } from '@mui/material/styles';
 import dynamic from "next/dynamic";
+import { withRouter } from "../../utils/WithRouter";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 import axios from "axios";
 import React from "react";
 
-const styles = (theme) => ({
-  chart: {
+const PREFIX = "Sectors";
+const theme = createTheme();
+
+const classes = {
+  root: `${PREFIX}-root`,
+  chart: `${PREFIX}-chart`,
+  divchart: `${PREFIX}-divchart`
+}
+
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.root}`]: {
+    padding: "25px",
+  },
+  [`& .${classes.chart}`]: {
     width: "75%"
   },
-  divchart: {
+  [`& .${classes.divchart}`]: {
     justifyContent: "center",
     alignItems: "center",
     display: "flex"
   }
-});
+}));
 
 class Sectors extends React.Component {
   constructor(props) {
@@ -66,7 +78,7 @@ class Sectors extends React.Component {
         title: {
           text: "Sectors Overview",
           align: "center",
-          style: {
+          sx: {
             fontSize: "24px",
             fontWeight: "bold",
             fontFamily: undefined,
@@ -128,11 +140,11 @@ class Sectors extends React.Component {
   }
 
   componentDidMount = () => {
-    console.log("Sectors");
-
+    
     const sectors = JSON.parse(localStorage.getItem("sectors"));
     const series = JSON.parse(localStorage.getItem("series"));
-    if (sectors != null && series != null) {
+
+    if (sectors != null && series != null && series[0].data.length != 0) {
       return;
     }
     this.getSectors();
@@ -145,7 +157,7 @@ class Sectors extends React.Component {
           localStorage.setItem("sectors", JSON.stringify(this.state.sectors));
         });
       } else {
-        this.setState({ sectors: [] }, () => {});
+        this.setState({ sectors: [] }, () => { });
       }
     });
 
@@ -171,7 +183,7 @@ class Sectors extends React.Component {
     if (val === null) {
       this.setState(
         { selectedSector: "", selectedSectorCompanies: [] },
-        () => {}
+        () => { }
       );
     } else {
       this.setState(
@@ -179,100 +191,94 @@ class Sectors extends React.Component {
           selectedSector: val,
           selectedSectorCompanies: this.state.sectors[val]
         },
-        () => {}
+        () => { }
       );
     }
   };
 
   selectedCompany = (val) => {
-    const { history } = this.props;
+    const { router } = this.props;
+    const { navigate } = router;
     if (val === null) {
-      history.push("/");
+      navigate("/");
     } else {
       this.setState({ selectedCompany: val }, () => {
-        history.push("companydetails/" + val);
+        navigate("/companydetails/" + val);
       });
     }
   };
   render() {
-    const { classes } = this.props;
     return (
-      <React.Fragment>
-        <div
-          style={{
-            padding: "25px"
-          }}
+      <Root className={classes.root}>
+        <div className={classes.divchart}></div>
+        <Grid
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
         >
-          <div className={classes.divchart}></div>
-          <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-          >
-            <Grid item>
-              {this.state.sectors.length !== 0 && (
-                <Autocomplete
-                  style={{
-                    width: 400
-                  }}
-                  onChange={(e, val) => {
-                    this.selectedSector(e, val);
-                  }}
-                  id="search for sector"
-                  freeSolo
-                  options={Object.keys(this.state.sectors).map(
-                    (sector) => sector
-                  )}
-                  getOptionLabel={(option) => option}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="search for sector"
-                      margin="normal"
-                      variant="outlined"
-                    />
-                  )}
-                />
-              )}
-            </Grid>
-            <Grid item>
-              {this.state.selectedSectorCompanies.length !== 0 && (
-                <Autocomplete
-                  style={{ width: 400, align: "center" }}
-                  onChange={(e, val) => {
-                    this.selectedCompany(val);
-                  }}
-                  id="search for companies"
-                  freeSolo
-                  options={this.state.selectedSectorCompanies.map(
-                    (company) => company
-                  )}
-                  getOptionLabel={(option) => option}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="search for company"
-                      margin="normal"
-                      variant="outlined"
-                    />
-                  )}
-                />
-              )}
-            </Grid>
-            <Grid item style={{ width: "75%" }}>
-              <Chart
-                options={this.state.options}
-                series={this.state.series}
-                key="chart"
-                type="bar"
+          <Grid item>
+            {this.state.sectors.length !== 0 && (
+              <Autocomplete
+                sx={{
+                  width: 400
+                }}
+                onChange={(e, val) => {
+                  this.selectedSector(e, val);
+                }}
+                id="search for sector"
+                freeSolo
+                options={Object.keys(this.state.sectors).map(
+                  (sector) => sector
+                )}
+                getOptionLabel={(option) => option}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="search for sector"
+                    margin="normal"
+                    variant="outlined"
+                  />
+                )}
               />
-            </Grid>
+            )}
           </Grid>
-        </div>
-      </React.Fragment>
+          <Grid item>
+            {this.state.selectedSectorCompanies.length !== 0 && (
+              <Autocomplete
+                sx={{ width: 400, align: "center" }}
+                onChange={(e, val) => {
+                  this.selectedCompany(val);
+                }}
+                id="search for companies"
+                freeSolo
+                options={this.state.selectedSectorCompanies.map(
+                  (company) => company
+                )}
+                getOptionLabel={(option) => option}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="search for company"
+                    margin="normal"
+                    variant="outlined"
+                  />
+                )}
+              />
+            )}
+          </Grid>
+          <Grid item sx={{ width: "75%" }}>
+            <Chart
+              options={this.state.options}
+              series={this.state.series}
+              key="chart"
+              type="bar"
+            />
+          </Grid>
+        </Grid>
+      </Root>
     );
   }
 }
 
-export default withStyles(styles, { withTheme: true })(withRouter(Sectors));
+export default withRouter(Sectors);
