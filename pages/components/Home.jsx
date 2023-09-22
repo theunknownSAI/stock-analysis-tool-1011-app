@@ -240,11 +240,7 @@ class Home extends React.Component {
               <Route
                 exact
                 path="/top/:num/:type"
-                element={({ params }) => {
-                  const { num, type } = params;
-                  return <Top key={`num=${num}&type=${type}`} {...props} />
-                }
-                }
+                element={<Top/>}
               />
               <Route
                 exact
@@ -254,11 +250,7 @@ class Home extends React.Component {
               <Route
                 exact
                 path="/companydetails/:company"
-                element={({ params }) => {
-                  const { company } = params;
-                  return <CompanyDetails key={`company=${company}`} {...props} />
-                }
-                }
+                element={<CompanyDetails/>}
               />
               <Route
                 exact
