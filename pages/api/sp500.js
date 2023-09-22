@@ -1,5 +1,9 @@
 const axios = require("axios");
-
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+};
 export default (req, res, next) => {
   try {
     const sp500URL =
