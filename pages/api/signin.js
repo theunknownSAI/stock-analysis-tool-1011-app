@@ -2,35 +2,42 @@
 const bcrypt = require("bcrypt");
 import connectToMongo from "../../utils/connectMongo";
 
-
 async function run(email, password) {
+
+  let message = "";
+  let statusCode = 200;
+  let document = {};
+
   try {
-    const {client, db} = await connectToMongo();
+    const { db } = await connectToMongo();
     console.log("Connected correctly to server");
 
     const col = await db.collection("userdetails");
-    let present = await col.findOne({ email: email });
-    let status = "";
+    document = await col.findOne({ email: email });
 
-    if (present == null) {
-      status = "account doesnt exists";
-      present = {};
+    if (document == null) {
+      message = "Account Not Found";
+      document = {};
+      statusCode = 404;
     } else {
-      const passwordHash = present.password;
+      const passwordHash = document.password;
       const success = await bcrypt.compare(password, passwordHash);
       if (success) {
-        status = "login success";
+        message = "Successfully Logged";
+        statusCode = 200;
+        document = document;
       } else {
-        status = "invalid credentials";
-        present = {};
+        message = "Invalid Credentials";
+        statusCode = 401
+        document = {};
       }
     }
-    return [status, present];
   } catch (err) {
-    // await client.close();
-    console.log(err.stack);
-    return ["error", {}];
+    console.log(err);
+    message = "Internal Server Error";
+    statusCode = 500;
   }
+  return { message, document, statusCode };
 }
 
 export default async (req, res, next) => {
@@ -38,15 +45,15 @@ export default async (req, res, next) => {
     const email = req.query["email"];
     const password = req.query["password"];
     await run(email, password)
-      .then((status) => {
-        res.send({ status: status[0], details: status[1] });
+      .then((response) => {
+        res.status(response.statusCode).send({ message: response.message, details: response.document })
       })
       .catch((e) => {
         console.log(e);
-        res.send({ status: "error" });
+        res.status(500).send({ message: "Internal Server Error", details: {} });
       });
   } catch (error) {
     console.log(error);
-    res.status(404).send({ created: "error" });
+    res.status(500).send({ message: "Internal Server Error", details: {} });
   }
 };
