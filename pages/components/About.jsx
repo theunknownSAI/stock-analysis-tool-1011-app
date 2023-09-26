@@ -28,115 +28,109 @@ const Root = styled('div')(({ theme }) => ({
   }
 }));
 
-
-class About extends React.Component {
-  componentDidMount = () => {
-  };
-
-  render() {
-    return (
-      <Root className={classes.root}>
-        <Typography
-          variant="h4"
-          align="center"
-          sx={{ color: "#0D19A3", margin: "10px" }}
-        >
-          About Us
-        </Typography>
-        <Typography variant="h6" align="left" sx={{ margin: "10px" }}>
-          <span sx={{
-            backgroundColor: "#15DB95",
-            color: "#0D19A3"
-          }}>
-            Stock Vestor
-          </span>{" "}
-          is a tool for investors to optimize their returns of the given
-          company in midterm investments. This tool considers each stock,
-          understands the trend of the stock for short and longer periods,
-          evaluates volatility and risk of the stock, assesses the effect of
-          market sentiment and corporate actions on the stock and advise
-          investors on entry and exit of that stock.
-        </Typography>
-        <Typography variant="h6" align="left" sx={{ margin: "10px" }}>
-          We are a team of analytics experts who utilize their skills in both
-          technology find trends and manage data.
-        </Typography>
-        <Typography
-          variant="h4"
-          sx={{
-            margin: "10px",
-            color: "#0D19A3",
-          }}
-          align="center"
-        >
-          Team
-        </Typography>
-        <Grid
-          container
-          direction="column"
-          spacing={3}
-          justify="center"
-          alignItems="center"
-          sx={{ margin: "10px" }}
-        >
-          <Grid item>
-            <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
-              <Grid item>
-                <Avatar
-                  className={clsx(classes.large, classes.color)}
-                  alt="Venu Gopal Jilla"
-                  src="/images/venu.png"
-                >
-                  <Typography variant="h2" component="h2">
-                    V
-                  </Typography>
-                </Avatar>
-              </Grid>
-              <Grid item>
-                <Link href="https://github.com/VenuGopalJilla">
-                  <Avatar className={clsx(classes.large)}>
-                    <GitHubIcon color="disabled" fontSize="large" />
-                  </Avatar>
-                </Link>
-              </Grid>
-              <Grid item>
-                <Typography variant="h4" component="h4">
-                  Venu Gopal Jilla
+const About = () => {
+  return (
+    <Root className={classes.root}>
+      <Typography
+        variant="h4"
+        align="center"
+        sx={{ color: "#0D19A3", margin: "10px" }}
+      >
+        About Us
+      </Typography>
+      <Typography variant="h6" align="left" sx={{ margin: "10px" }}>
+        <span sx={{
+          backgroundColor: "#15DB95",
+          color: "#0D19A3"
+        }}>
+          Stock Vestor
+        </span>{" "}
+        is a tool for investors to optimize their returns of the given
+        company in midterm investments. This tool considers each stock,
+        understands the trend of the stock for short and longer periods,
+        evaluates volatility and risk of the stock, assesses the effect of
+        market sentiment and corporate actions on the stock and advise
+        investors on entry and exit of that stock.
+      </Typography>
+      <Typography variant="h6" align="left" sx={{ margin: "10px" }}>
+        We are a team of analytics experts who utilize their skills in both
+        technology find trends and manage data.
+      </Typography>
+      <Typography
+        variant="h4"
+        sx={{
+          margin: "10px",
+          color: "#0D19A3",
+        }}
+        align="center"
+      >
+        Team
+      </Typography>
+      <Grid
+        container
+        direction="column"
+        spacing={3}
+        justify="center"
+        alignItems="center"
+        sx={{ margin: "10px" }}
+      >
+        <Grid item>
+          <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
+            <Grid item>
+              <Avatar
+                className={clsx(classes.large, classes.color)}
+                alt="Venu Gopal Jilla"
+                src="/images/venu.png"
+              >
+                <Typography variant="h2" component="h2">
+                  V
                 </Typography>
-              </Grid>
+              </Avatar>
             </Grid>
-          </Grid>
-          <Grid item>
-            <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
-              <Grid item>
-                <Avatar
-                  className={clsx(classes.large, classes.color)}
-                  alt="Venkata Sai Krishna Nama"
-                  src="/images/sai.png"
-                >
-                  <Typography variant="h2" component="h2">
-                    V
-                  </Typography>
+            <Grid item>
+              <Link href="https://github.com/VenuGopalJilla">
+                <Avatar className={clsx(classes.large)}>
+                  <GitHubIcon color="disabled" fontSize="large" />
                 </Avatar>
-              </Grid>
-              <Grid item>
-                <Link href="https://www.github.com/theunknownsai">
-                  <Avatar className={clsx(classes.large)}>
-                    <GitHubIcon color="disabled" fontSize="large" />
-                  </Avatar>
-                </Link>
-              </Grid>
-              <Grid item>
-                <Typography variant="h4" component="h4">
-                  Venkata Sai Krishna Nama
-                </Typography>
-              </Grid>
+              </Link>
+            </Grid>
+            <Grid item>
+              <Typography variant="h4" component="h4">
+                Venu Gopal Jilla
+              </Typography>
             </Grid>
           </Grid>
         </Grid>
-      </Root>
-    );
-  }
+        <Grid item>
+          <Grid container direction="row" justify="center" alignItems="center" spacing={3}>
+            <Grid item>
+              <Avatar
+                className={clsx(classes.large, classes.color)}
+                alt="Venkata Sai Krishna Nama"
+                src="/images/sai.png"
+              >
+                <Typography variant="h2" component="h2">
+                  V
+                </Typography>
+              </Avatar>
+            </Grid>
+            <Grid item>
+              <Link href="https://www.github.com/theunknownsai">
+                <Avatar className={clsx(classes.large)}>
+                  <GitHubIcon color="disabled" fontSize="large" />
+                </Avatar>
+              </Link>
+            </Grid>
+            <Grid item>
+              <Typography variant="h4" component="h4">
+                Venkata Sai Krishna Nama
+              </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Root>
+  );
 }
 
 export default About;
