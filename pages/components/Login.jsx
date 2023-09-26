@@ -1,8 +1,8 @@
 import { Button, Grid, TextField, Typography } from "@mui/material";
 import { createTheme, styled } from '@mui/material/styles';
 import axios from "axios";
-import React from "react";
-import { NavLink, } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate, } from "react-router-dom";
 import validator from "validator";
 import { withRouter } from "../../utils/WithRouter";
 
@@ -42,145 +42,137 @@ const Root = styled('div')(({ theme }) => ({
   }
 }));
 
-class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: JSON.parse(localStorage.getItem("email")) || "",
-      password: JSON.parse(localStorage.getItem("password")) || "",
-      loginstatus: "",
-      emailError: "",
-      passwordError: "",
-    };
-  }
-  componentDidMount = () => {
+const Login = () => {
+
+  const [email, setEmail] = useState(localStorage.getItem("email") || "");
+  const [password, setPassword] = useState(localStorage.getItem("password") || "");
+  const [loginStatus, setLoginStatus] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const navigate = useNavigate();
+  useEffect(() => {
     localStorage.removeItem("email");
     localStorage.removeItem("password");
     localStorage.removeItem("firstName");
     localStorage.removeItem("lastName");
-  };
+  }, []);
 
-  verifyAndLogin = () => {
-    
-    this.setState({ loginstatus: "" }, () => {});
-    const { router } = this.props;
-    const { navigate } = router;
+  const verifyAndLogin = async () => {
 
-    const { email, password } = this.state;
+
+
+    setLoginStatus("");
+
     const prevemail = JSON.parse(localStorage.getItem("email"));
     const prevpassword = JSON.parse(localStorage.getItem("password"));
+
     if (prevemail == email && prevpassword == password) {
       localStorage.setItem("logged", JSON.stringify(true));
       return;
     }
-    const isValidEmail = validator.isEmpty(this.state["email"]);
-    const isValidPassword = validator.isEmpty(this.state["password"]);
-    const emailError = isValidEmail == false ? "" : "email cannot be empty";
-    const passwordError =
-      isValidPassword == false ? "" : "password cannot be empty";
 
-    this.setState(
-      {
-        emailError,
-        passwordError,
-      },
-      () => {}
-    );
+    const isValidEmail = validator.isEmpty(email);
+    const isValidPassword = validator.isEmpty(password);
+    const emailError = isValidEmail ? "email cannot be empty" : "";
+    const passwordError = isValidPassword ? "password cannot be empty" : "";
 
-    const isvalid = isValidEmail == false && isValidPassword == false;
+    setEmailError(emailError);
+    setPasswordError(passwordError);
 
-    if (isvalid == false) {
+    const isValid = !isValidEmail && !isValidPassword;
+
+    if (!isValid) {
       return;
     }
-    axios
+
+    await axios
       .get("/api/signin?" + "email=" + email + "&" + "password=" + password)
-      .then((s) => {
-        if (s["data"]["status"].indexOf("success") !== -1) {
-          const details = s["data"]["details"];
-          localStorage.setItem("firstName", JSON.stringify(details["firstName"]));
-          localStorage.setItem("lastName", JSON.stringify(details["lastName"]));
-          localStorage.setItem("email", JSON.stringify(details["email"]));
-          localStorage.setItem("logged", JSON.stringify(true));
-          navigate("/");
-        } else {
-          this.setState({ loginstatus: s["data"]["status"] }, () => {});
-          localStorage.setItem("logged", JSON.stringify(false));
-        }
+      .then((response) => {
+        const { data } = response;
+        const { details } = data;
+        localStorage.setItem("firstName", JSON.stringify(details.firstName));
+        localStorage.setItem("lastName", JSON.stringify(details.lastName));
+        localStorage.setItem("email", JSON.stringify(details.email));
+        localStorage.setItem("logged", JSON.stringify(true));
+        navigate("/");
+
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((error) => {
+        const { response } = error;
+        const { data } = response;
+        setLoginStatus(data.message);
+        localStorage.setItem("logged", JSON.stringify(false));
+        console.log(error);
       });
   };
 
-  render() {
-    const logged = JSON.parse(localStorage.getItem("logged"));
-    return (
-      <Root className={classes.root}>
-        <Grid container direction="column" justify="center" alignItems="center">
-          <Grid item>
-            <Typography component="h6" variant="h6">{this.state.loginstatus}</Typography>
-          </Grid>
-          <Grid item>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              value={this.state.email}
-              onChange={(e) => {
-                this.setState({ email: e.target.value });
-              }}
-              error={this.state.emailError.length !== 0 ? true : false}
-              helperText={this.state.emailError}
-            />
-          </Grid>
-          <Grid item>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={this.state.password}
-              onChange={(e) => {
-                this.setState({ password: e.target.value });
-              }}
-              error={this.state.passwordError.length !== 0 ? true : false}
-              helperText={this.state.passwordError}
-            />
-          </Grid>
-          <Grid item>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={this.verifyAndLogin}
-              >
-              Sign In
-            </Button>
-          </Grid>
-          <Grid item>
-            <NavLink to="/signup" >
-              <Typography variant="h6" sx={{ color: "blue" }}>
-                {"Create Account"}
-              </Typography>
-            </NavLink>
-          </Grid>
+  const logged = JSON.parse(localStorage.getItem("logged"));
+  return (
+    <Root className={classes.root}>
+      <Grid container direction="column" justify="center" alignItems="center">
+        <Grid item>
+          <Typography component="h6" variant="h6">{loginStatus}</Typography>
         </Grid>
-      </Root>
-    );
-  }
+        <Grid item>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            error={emailError.length !== 0 ? true : false}
+            helperText={emailError}
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            error={passwordError.length !== 0 ? true : false}
+            helperText={passwordError}
+          />
+        </Grid>
+        <Grid item>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={verifyAndLogin}
+          >
+            Sign In
+          </Button>
+        </Grid>
+        <Grid item>
+          <NavLink to="/signup" >
+            <Typography variant="h6" sx={{ color: "blue" }}>
+              {"Create Account"}
+            </Typography>
+          </NavLink>
+        </Grid>
+      </Grid>
+    </Root>
+  );
 }
 
 export default withRouter(Login);
