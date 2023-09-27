@@ -4,7 +4,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate, } from "react-router-dom";
 import validator from "validator";
-import { withRouter } from "../../utils/WithRouter";
 
 const PREFIX = "Login";
 const theme = createTheme();
