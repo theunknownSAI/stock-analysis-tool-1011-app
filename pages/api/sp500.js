@@ -10,10 +10,10 @@ export default (req, res, next) => {
       "https://raw.githubusercontent.com/saikr789/stock-analysis-tool-1011-data/master/Data/sp500.csv";
     axios
       .get(sp500URL)
-      .then((s) => {
-        if (s.status === 200) {
+      .then((response) => {
+        if (response.status === 200) {
           let sp500details = [];
-          let rows = s.data.split("\n");
+          let rows = response.data.split("\n");
           const header = rows[0].split(",");
           for (let i = 1; i < rows.length; i++) {
             const row = rows[i];
@@ -25,17 +25,17 @@ export default (req, res, next) => {
             }, {});
             sp500details.push(result);
           }
-          res.send(sp500details);
+          res.status(200).send({ details: sp500details, message: "success" });
         } else {
-          res.status(404).send({ error: "error" });
+          res.status(404).send({ message: "Error" });
         }
       })
       .catch((error) => {
         console.log(error);
-        res.status(404).send({ error: "error" });
+        res.status(500).send({ details: [], message: "Error" });
       });
   } catch (error) {
     console.log(error);
-    res.status(404).send({ error: "error" });
+    res.status(500).send({ details: [], message: "Error" });
   }
 };
