@@ -33,30 +33,25 @@ const Root = styled('div')(({ theme }) => ({
 
 const Sectors = () => {
 
-  const storedSectors = localStorage.getItem("sectors");
-  const [sectors, setSectors] = useState(storedSectors === undefined || storedSectors === null ? [] : storedSectors);
-  const [selectedSector, setSelectedSector] = useState("");
+  const [sectors, setSectors] = useState([]);
   const [selectedSectorCompanies, setSelectedSectorCompanies] = useState([]);
-  const [selectedCompany, setSelectedCompany] = useState("");
-  const storedSeries = localStorage.getItem("series");
-  const [series, setSeries] = useState(storedSeries === undefined || storedSeries === null ? [] : storedSeries);
+  const [series, setSeries] = useState([]);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (storedSectors != null && storedSeries != null && storedSeries[0].data.length != 0) {
-      return;
-    }
-    getSectors();
+    const fetchSectors = async () => {
+      await getSectors();
+    };
+    fetchSectors();
   }, []);
 
   const getSectors = async () => {
+    let sectorsresponse = [];
     await axios.get("api/sectors").then((response) => {
       if (response.status === 200) {
-        const { data } = response;
-        const { details } = data;
-        setSectors(details);
-        localStorage.setItem("sectors", JSON.stringify(sectors));
+        sectorsresponse = response.data.details;
+        setSectors(response.data.details);
       } else {
         setSectors([]);
       }
@@ -66,35 +61,16 @@ const Sectors = () => {
       name: "Number Of Companies",
       data: []
     };
-    for (const key in sectors) {
-      if (Object.hasOwnProperty.call(sectors, key)) {
-        const element = sectors[key];
+
+    for (const key in sectorsresponse) {
+      if (Object.hasOwnProperty.call(sectorsresponse, key)) {
+        const element = sectorsresponse[key];
         countdata.data.push({ x: key, y: element.length });
       }
     }
     const series = [];
     series.push(countdata);
     setSeries(series);
-    localStorage.setItem("series", JSON.stringify(series));
-  };
-
-  const selectedSectorFn = (e, val) => {
-    if (val === null) {
-      setSelectedSector("");
-      setSelectedSectorCompanies([]);
-    } else {
-      setSelectedSector(val);
-      setSelectedSectorCompanies(sectors[val]);
-    }
-  };
-
-  const selectedCompanyFn = (val) => {
-    if (val === null) {
-      navigate("/");
-    } else {
-      setSelectedCompany(val);
-      navigate("/companydetails/" + val);
-    }
   };
 
   return (
@@ -113,7 +89,11 @@ const Sectors = () => {
                 width: 400
               }}
               onChange={(e, val) => {
-                selectedSectorFn(e, val);
+                if (val === null) {
+                  setSelectedSectorCompanies([]);
+                } else {
+                  setSelectedSectorCompanies(sectors[val]);
+                }
               }}
               id="search for sector"
               freeSolo
@@ -137,7 +117,11 @@ const Sectors = () => {
             <Autocomplete
               sx={{ width: 400, align: "center" }}
               onChange={(e, val) => {
-                selectedCompanyFn(val);
+                if (val === null) {
+                  navigate("/");
+                } else {
+                  navigate("/companydetails/" + val);
+                }
               }}
               id="search for companies"
               freeSolo

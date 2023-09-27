@@ -10,7 +10,7 @@ import {
   Typography
 } from "@mui/material";
 import { createTheme, styled } from '@mui/material/styles';
-import React, { useState } from "react";
+import React from "react";
 import { NavLink, useNavigate, } from "react-router-dom";
 
 const PREFIX = "NavigationBar";
@@ -72,10 +72,6 @@ const Root = styled('div')(({ theme }) => ({
 }));
 
 const NavigationBar = () => {
-
-  const storedCompanyNames = localStorage.getItem("companyNames");
-  const [companyNames, setCompanyNames] = useState(storedCompanyNames === null || storedCompanyNames === undefined ? [] : storedCompanyNames);
-  const [selectedCompany, setSelectedCompany] = useState("");
 
   const { navigate } = useNavigate();
 

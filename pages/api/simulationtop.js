@@ -48,8 +48,8 @@ export default async (req, res, next) => {
           res.status(500).send({ details: [], message: "Error" });
         }
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((error) => {
+        console.log(error);
         res.status(500).send({ details: [], message: "Error" });
       });
   } catch (error) {

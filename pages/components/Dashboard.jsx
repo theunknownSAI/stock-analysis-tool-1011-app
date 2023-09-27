@@ -1,7 +1,6 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-// import Chart from "react-apexcharts";
 import dynamic from "next/dynamic";
+import React, { useEffect, useState } from "react";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 import { Button, ButtonGroup, Divider } from "@mui/material";
@@ -45,105 +44,77 @@ const Root = styled('div')(({ theme }) => ({
   }
 }));
 
-const Dashboard = ({ props }) => {
-
-  const storedDetails = localStorage.getItem("details");
-  const storedsp500ChartDetails = localStorage.getItem("sp500ChartDetails");
-  const storedstockChartDetails = localStorage.getItem("stockChartDetails");
+const Dashboard = (props) => {
 
   const [loading, setLoading] = useState(false);
-  const [details, setDetails] = useState(storedDetails === null || storedDetails === undefined ? [] : storedDetails);
-  const [sp500ChartDetails, setSp500ChartDetails] = useState(storedsp500ChartDetails === null || storedsp500ChartDetails === undefined ? [] : storedsp500ChartDetails);
-  const [stockChartDetails, setStockChartDetails] = useState(storedstockChartDetails === null || storedstockChartDetails === undefined ? [] : storedstockChartDetails);
+  const [details, setDetails] = useState([]);
   const [error, setError] = useState(false);
   const [series, setSeries] = useState([]);
   const [options, setOptions] = useState(dashboardOptions);
-  const [company, setCompany] = useState("");
   const [selectedPeriod, setSelectedPeriod] = useState("");
   const params = useParams();
 
-  useEffect = (() => {
-
+  useEffect(() => {
     let company = "";
-    if ("company" in params) {
+    if (params.company !== undefined) {
       company = params.company;
     } else {
       company = props.company;
     }
 
-    const prevcompany = localStorage.getItem("company") === undefined ? null : localStorage.getItem("company");
-
-    if (
-      prevcompany != null &&
-      company !== "sp500" &&
-      company === prevcompany &&
-      // prevdate == curdate &&
-      stockChartDetails.length != 0
-    ) {
-      setDetails(stockChartDetails)
-      return;
-    }
-
-    if (
-      company === "sp500" &&
-      // prevdate == curdate &&
-      sp500ChartDetails.length != 0
-    ) {
-      setDetails(sp500ChartDetails);
-      return;
-    }
-    setCompany(company);
-    localStorage.setItem("company", JSON.stringify(company));
-    getDetails(company);
+    const fetchDetails = async () => {
+      await getDetails(company);
+    };
+    fetchDetails();
   }, []);
 
   const getDetails = async (company) => {
     setLoading(true);
     if (company !== "sp500") {
-      await axios
-        .get("/api/stockdetails?company=" + company)
-        .then((s) => {
-          if (s.status === 200) {
-            setStockChartDetails(s.data.details)
-            setLoading(false);
-            localStorage.setItem("stockChartDetails", JSON.stringify(stockChartDetails));
-          } else {
-            setDetails([]);
-            setLoading(false);
-          }
-        })
-        .then(() => { })
-        .catch((e) => {
-          console.log(e);
-          setLoading(false);
-          setError(true);
-        });
+      await getcompanyDetails(company)
     } else {
-      await axios
-        .get("/api/sp500")
-        .then((s) => {
-          if (s.status === 200) {
-            setSp500ChartDetails(s.data.details);
-            setLoading(false);
-            localStorage.setItem("sp500ChartDetails", JSON.stringify(sp500ChartDetails));
-          } else {
-            setDetails([]);
-            setLoading(false);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-          setLoading(false);
-          setError(true);
-        });
-    }
-
-    if (company == "sp500") {
-      setDetails(sp500ChartDetails);
-    } else {
-      setDetails(stockChartDetails);
+      await getsp500Details();
     }
   };
+
+  const getsp500Details = async () => {
+    await axios
+      .get("/api/sp500")
+      .then((response) => {
+        if (response.status === 200) {
+          setDetails(response.data.details);
+          setLoading(false);
+        } else {
+          setDetails([]);
+          setLoading(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+        setError(true);
+      });
+  }
+
+  const getcompanyDetails = async (company) => {
+    await axios
+      .get("/api/stockdetails?company=" + company)
+      .then((response) => {
+        if (response.status === 200) {
+          setDetails(response.data.details);
+          setLoading(false);
+        } else {
+          setDetails([]);
+          setLoading(false);
+        }
+      })
+      .then(() => { })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+        setError(true);
+      });
+  }
 
   const createGraph = (days) => {
     let openPriceData = {
@@ -197,24 +168,21 @@ const Dashboard = ({ props }) => {
         y: element["Close Price"] || element["Close"]
       });
     }
-    let options = options;
-    options.xaxis["min"] = fromDate;
-    options.xaxis["max"] = toDate;
+    let updatedDashboardOptions = dashboardOptions;
+    updatedDashboardOptions.xaxis["min"] = fromDate;
+    updatedDashboardOptions.xaxis["max"] = toDate;
     const series = [];
     series.push(openPriceData);
     series.push(lowPriceData);
     series.push(highPriceData);
     series.push(closePriceData);
     setSeries(series);
-    setOptions(options);
+    setOptions(updatedDashboardOptions);
 
   };
 
-  const selectedPeriodfn = (e) => {
+  const selectedPeriodfn = async (e) => {
     const days = e.currentTarget.value;
-    if (selectedPeriod === days) {
-      return;
-    }
     setSelectedPeriod(days);
     createGraph(days);
   };

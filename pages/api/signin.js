@@ -36,8 +36,8 @@ async function run(email, password) {
         document = {};
       }
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     message = "Internal Server Error";
     statusCode = 500;
   }
@@ -52,8 +52,8 @@ export default async (req, res, next) => {
       .then((response) => {
         res.status(response.statusCode).send({ message: response.message, details: response.document })
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((error) => {
+        console.log(error);
         res.status(500).send({ message: "Internal Server Error", details: {} });
       });
   } catch (error) {

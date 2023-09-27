@@ -59,61 +59,44 @@ const Root = styled('div')(({ theme }) => ({
 }));
 
 const CompanyDetails = () => {
-
-  const storedCompanyDetails = localStorage.getItem("companyDetails");
-  const storedcompanyCurrentDayStockDetails = localStorage.getItem("companyCurrentDayStockDetails");
-  const storedSelectedCompany = localStorage.getItem("selectedCompany");
-  const storedSuggest = localStorage.getItem("suggest");
-  const storedStockdetails = localStorage.getItem("stockdetails");
-
-  const [companyDetails, setCompanyDetails] = useState(storedCompanyDetails === undefined || storedCompanyDetails == null ? [] : JSON.parse(storedCompanyDetails));
-  const [companyCurrentDayStockDetails, setCompanyCurrentDayStockDetails] = useState(storedcompanyCurrentDayStockDetails === undefined || storedcompanyCurrentDayStockDetails == null ? [] : JSON.parse(storedcompanyCurrentDayStockDetails));
-  const [selectedCompany, setSelectedCompany] = useState(storedSelectedCompany === undefined || storedSelectedCompany == null ? "" : JSON.parse(storedSelectedCompany));
+  const [companyDetails, setCompanyDetails] = useState([]);
   const [companydetailsloading, setCompanydetailsloading] = useState(false);
   const [stockdetailsloading, setStockdetailsloading] = useState(false);
-  const [suggest, setSuggest] = useState(storedSuggest === undefined || storedSuggest === null ? "" : JSON.parse(storedSuggest));
-  const [stockdetails, setStockdetails] = useState(storedStockdetails === undefined || storedStockdetails === null ? [] : JSON.parse(storedStockdetails));
+  const [suggest, setSuggest] = useState("");
+  const [stockdetails, setStockdetails] = useState([]);
 
   const params = useParams();
   const { company } = params;
+  const selectedCompany = company;
 
-  useEffect = (() => {
-
-    const prevcompany = JSON.parse(localStorage.getItem("selectedCompany"));
-
-    if (prevcompany === company) {
-      return;
-    }
-
-    setSelectedCompany(company);
-
-    localStorage.setItem("selectedCompany", JSON.stringify(selectedCompany));
-    getDetails(selectedCompany);
-  }, [company]);
+  useEffect(() => {
+    const fetchDetails = async () => {
+      await getDetails(company);
+    };
+    fetchDetails();
+  }, []);
 
   const getDetails = async (company) => {
-    getCompanyDetails(company);
-    getStockDetails(company);
-    getSuggestion(company);
+    await getCompanyDetails(company);
+    await getStockDetails(company);
+    await getSuggestion(company);
   };
 
   const getCompanyDetails = async (company) => {
     setCompanydetailsloading(true);
     await axios
       .get("/api/companydetails?company=" + company)
-      .then((s) => {
-        if (s.status === 200) {
-          let companyDetails = s.data;
-          setCompanyDetails(companyDetails);
+      .then((response) => {
+        if (response.status === 200) {
+          setCompanyDetails(response.data.details);
           setCompanydetailsloading(false);
-          localStorage.setItem("companyDetails", JSON.stringify(companyDetails));
         } else {
           setCompanyDetails([]);
           setCompanydetailsloading(false);
         }
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((error) => {
+        console.log(error);
         setCompanyDetails([]);
         setCompanydetailsloading(false);
       });
@@ -123,19 +106,18 @@ const CompanyDetails = () => {
     setStockdetailsloading(true);
     await axios
       .get("/api/previousdaystockdetails?company=" + company)
-      .then((s) => {
-        if (s.status === 200) {
-          setStockdetails(stockdetails);
+      .then((response) => {
+        if (response.status === 200) {
+          setStockdetails(response.data.details);
           setStockdetailsloading(false);
-          localStorage.setItem("stockdetails", JSON.stringify(stockdetails));
 
         } else {
           setStockdetails([]);
           setStockdetailsloading(false);
         }
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((error) => {
+        console.log(error);
         setStockdetails([]);
         setStockdetailsloading(false);
       });
@@ -144,21 +126,19 @@ const CompanyDetails = () => {
   const getSuggestion = async (company) => {
     await axios
       .get("/api/suggest?company=" + company)
-      .then((t) => {
-        if (t.status === 200) {
-          let suggest = t.data["suggest"];
+      .then((response) => {
+        if (response.status === 200) {
+          let suggest = response.data.suggest;
           if (suggest.length === 0) {
             suggest = "hold";
           }
           setSuggest(suggest);
-          localStorage.setItem("suggest", JSON.stringify(suggest));
         }
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((error) => {
+        console.log(error);
       });
   };
-
   return (
     <Root className={classes.root}>
       {selectedCompany !== "" && (

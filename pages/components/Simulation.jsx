@@ -13,7 +13,6 @@ import {
   GridToolbarExport
 } from "@mui/x-data-grid";
 import axios from "axios";
-import moment from "moment";
 import React, { useState } from "react";
 import * as Loader from "react-loader-spinner";
 
@@ -38,33 +37,21 @@ const Root = styled('div')(({ theme }) => ({
 
 const Simulation = () => {
 
-  const [cols, setCols] = useState(JSON.parse(localStorage.getItem("cols")));
+  const [cols, setCols] = useState("");
   const [loading, setLoading] = useState(false);
   const [tooltipopen, settooltipopen] = useState(false);
-  const [days, setDays] = useState(JSON.parse(localStorage.getItem("days")));
-  const [rows, setRows] = useState(JSON.parse(localStorage.getItem("rows")));
+  const [days, setDays] = useState("");
+  const [rows, setRows] = useState("");
 
   const onSelectDays = async (e) => {
     const days = e.target.value;
-    const prevdays = localStorage.getItem("days");
-    // const curdate = moment().format("DD-MM-YYYY");
-    // const prevdate =
-    //   localStorage.getItem("date") == null
-    //     ? curdate
-    //     : localStorage.getItem("date");
-
-    // if (days == prevdays && prevdate == curdate) {
-    //   return;
-    // }
     setDays(days);
-    localStorage.setItem("days", JSON.stringify(days));
     setLoading(true);
     await axios
       .get("/api/simulationtop" + "?" + "days=" + days)
-      .then((s) => {
-        if (s.status === 200) {
-          let response = s.data.details;
-          const rows = response;
+      .then((response) => {
+        if (response.status === 200) {
+          let rows = response.data.details;
           let cols = [];
           Object.keys(rows[0]).map((key) => {
             cols.push({ field: key, headerName: key, width: 150 });
@@ -83,19 +70,17 @@ const Simulation = () => {
           setRows(rows);
           setCols(cols);
           setLoading(false);
-          localStorage.setItem("rows", JSON.stringify(rows));
-          localStorage.setItem("cols", JSON.stringify(cols));
         } else {
           setRows([]);
           setCols([]);
           setLoading(false);
         }
       })
-      .catch((e) => {
+      .catch((error) => {
         setRows([]);
         setCols([]);
         setLoading(false);
-        console.log(e);
+        console.log(error);
       });
   };
 

@@ -37,8 +37,8 @@ async function run(email, password, firstName, lastName) {
       message = "Account Already Exists";
       statusCode = 404
     }
-  } catch (err) {
-    console.log(err.stack);
+  } catch (error) {
+    console.log(error);
     message = "Account Creation Error";
     statusCode = 500;
   }
@@ -56,8 +56,8 @@ export default async (req, res, next) => {
       .then((response) => {
         res.status(response.statusCode).send({ message: response.message });
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((error) => {
+        console.log(error);
         res.status(500).send({ message: "Account Creation Error" });
       });
   } catch (error) {

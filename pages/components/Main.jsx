@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 import { createTheme, styled } from '@mui/material/styles';
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import { useNavigate } from "react-router-dom";
 
@@ -40,43 +40,31 @@ const Root = styled('div')(({ theme }) => ({
 
 const Main = () => {
 
-  const storedCompanyNames = localStorage.getItem("companyNames");
-  const [companyNames, setCompanyNames] = useState(storedCompanyNames === null || storedCompanyNames === undefined ? [] : storedCompanyNames);
-  const [selectedCompany, setSelectedCompany] = useState("");
+  const [companyNames, setCompanyNames] = useState([]);
 
-  useEffect = (() => {
-    if (companyNames != null) {
-      return;
-    }
-    getCompanyNames();
+  useEffect(() => {
+    const fetchCompanyNames = async () => {
+      await getCompanyNames();
+    };
+    fetchCompanyNames();
   }, []);
 
-  const getCompanyNames = () => {
-    axios
+  const getCompanyNames = async () => {
+    let companyNames = [];
+    await axios
       .get("/api/companynames")
-      .then((s) => {
-        if (s.status === 200) {
-          setCompanyNames(s.data.details);
-          localStorage.setItem("companyNames", JSON.stringify(companyNames));
-        } else {
-          setCompanyNames([]);
+      .then((response) => {
+        if (response.status === 200) {
+          setCompanyNames(response.data.details);
         }
       })
-      .catch((e) => console.log(e));
+      .catch((error) => {
+        console.log(error)
+      });
   };
 
-  const { navigate } = useNavigate();
+  const navigate = useNavigate();
 
-  const selectedCompanyfn = (e, val) => {
-    if (val === null) {
-      navigate("/");
-      return;
-    }
-    setSelectedCompany(val);
-    navigate("/companydetails/" + selectedCompany);
-  };
-
-  const logged = JSON.parse(localStorage.getItem("logged"));
   return (
     <Root className={classes.root}>
       <Grid
@@ -118,7 +106,11 @@ const Main = () => {
             id="search for companies"
             freeSolo
             onChange={(e, val) => {
-              selectedCompanyfn(e, val);
+              if (val === null) {
+                navigate("/");
+              } else {
+                navigate("/companydetails/" + val);
+              }
             }}
             options={companyNames.map(
               (companyname) => companyname

@@ -57,19 +57,15 @@ const Top = () => {
       .get("/api/top?type=" + paramType + "&" + "num=" + paramNum)
       .then((response) => {
         if (response.status === 200) {
-          let { data } = response;
-          let { details } = data;
-          let topCompanies = details;
           setLoading(false);
-          setTopCompanies(topCompanies);
-          localStorage.setItem("topCompanies", JSON.stringify(topCompanies));
+          setTopCompanies(response.data.details);
         } else {
           setLoading(false);
           setTopCompanies([]);
         }
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((error) => {
+        console.log(error);
         setLoading(false);
         setTopCompanies([]);
       });

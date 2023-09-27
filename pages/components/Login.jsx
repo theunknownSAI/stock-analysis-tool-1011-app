@@ -43,8 +43,8 @@ const Root = styled('div')(({ theme }) => ({
 
 const Login = () => {
 
-  const [email, setEmail] = useState(localStorage.getItem("email") || "");
-  const [password, setPassword] = useState(localStorage.getItem("password") || "");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loginStatus, setLoginStatus] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -80,25 +80,20 @@ const Login = () => {
     await axios
       .get("/api/signin/?" + "email=" + email + "&" + "password=" + password)
       .then((response) => {
-        const { data } = response;
-        const { details } = data;
+        const details = response.data.details;
         localStorage.setItem("firstName", JSON.stringify(details.firstName));
         localStorage.setItem("lastName", JSON.stringify(details.lastName));
         localStorage.setItem("email", JSON.stringify(details.email));
         localStorage.setItem("logged", JSON.stringify(true));
         navigate("/");
-
       })
       .catch((error) => {
-        const { response } = error;
-        const { data } = response;
-        setLoginStatus(data.message);
+        setLoginStatus(error.response.data.message);
         localStorage.setItem("logged", JSON.stringify(false));
         console.log(error);
       });
   };
 
-  const logged = JSON.parse(localStorage.getItem("logged"));
   return (
     <Root className={classes.root}>
       <Grid container direction="column" justify="center" alignItems="center">

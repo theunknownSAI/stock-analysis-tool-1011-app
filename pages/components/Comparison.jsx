@@ -47,8 +47,7 @@ const Root = styled('div')(({ theme }) => ({
 const Comparison = () => {
 
   const [loading, setLoading] = useState(false);
-  const storedCompanyNames = localStorage.getItem('companyNames');
-  const [companyNames, setCompanyNames] = useState(storedCompanyNames === undefined || storedCompanyNames === null ? [] : JSON.parse(storedCompanyNames));
+  const [companyNames, setCompanyNames] = useState([]);
   const [selectedCompanies, setSelectedCompanies] = useState([]);
   const [selectedTimePeriod, setSelectedTimePeriod] = useState('180');
   const [rate, setRate] = useState('1');
@@ -57,25 +56,23 @@ const Comparison = () => {
   const [error, setError] = useState('');
   const [tooltipopen, setTooltipOpen] = useState(false);
 
-  useEffect = (() => {
-    if (companyNames != null) {
-      return;
-    }
-    getCompanyNames();
+  useEffect(() => {
+    const fetchCompanyNames = async () => {
+      await getCompanyNames();
+    };
+    fetchCompanyNames();
   }, []);
 
-  const getCompanyNames = () => {
-    axios
+  const getCompanyNames = async () => {
+    let companyNames = [];
+    await axios
       .get("/api/companynames")
-      .then((s) => {
-        if (s.status === 200) {
-          setCompanyNames(response.data);
-          localStorage.setItem('companyNames', JSON.stringify(response.data));
-        } else {
-          setCompanyNames([]);
+      .then((response) => {
+        if (response.status === 200) {
+          setCompanyNames(response.data.details);
         }
       })
-      .catch((e) => console.log(e));
+      .catch((error) => console.log(error));
   };
 
   onClickSubmit = async () => {
@@ -96,44 +93,44 @@ const Comparison = () => {
 
     for (let index = 0; index < selectedCompanies.length; index++) {
       const company = selectedCompanies[index];
-      await axios
-        .get("/api/previousdaystockdetails?company=" + company)
-        .then((s) => {
-          if (s.status === 200) {
-            stockdetails[company] = Object.assign(
-              stockdetails[company],
-              s.data.details
-            );
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-      await axios
-        .get(
-          "/api/comparision?days=" +
-          selectedTimePeriod +
-          "&rate=" +
-          rate +
-          "&company=" +
-          company
-        )
-        .then((s) => {
-          if (s.status === 200) {
-            stockdetails[company] = Object.assign(
-              stockdetails[company],
-              s.data
-            );
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      await getpreviousdaystockdetails(company, stockdetails);
+      await getcomparision(company, stockdetails);
     }
     setStockDetails(stockdetails);
     setLoading(false);
   };
 
+  const getpreviousdaystockdetails = async (company, stockdetails) => {
+    await axios
+      .get("/api/previousdaystockdetails?company=" + company)
+      .then((response) => {
+        if (response.status === 200) {
+          stockdetails[company] = Object.assign(
+            stockdetails[company],
+            response.data.details
+          );
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  const getcomparision = async (company, stockdetails) => {
+    await axios
+      .get("/api/comparision?days=" + selectedTimePeriod + "&rate=" + rate + "&company=" + company)
+      .then((response) => {
+        if (response.status === 200) {
+          stockdetails[company] = Object.assign(
+            stockdetails[company],
+            response.data.details
+          );
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   const period = underscore.invert(timePeriod);
   let logged = JSON.parse(localStorage.getItem("logged"));
   let cnt = Object.keys(stockdetails).length;

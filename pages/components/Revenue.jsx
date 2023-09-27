@@ -34,23 +34,15 @@ const Root = styled('div')(({ theme }) => ({
 
 const Revenue = () => {
 
-  const storedRevenue = localStorage.getItem("topCompaniesRevenue");
-
-  const [topCompaniesRevenue, setTopCompaniesRevenue] = useState(storedRevenue === undefined || storedRevenue == null ? [] : JSON.parse(storedRevenue));
-  const storedNum = localStorage.getItem("num");
-  const [num, setNum] = useState(storedNum === undefined || storedNum === null ? storedNum : 30);
+  const [topCompaniesRevenue, setTopCompaniesRevenue] = useState([]);
+  const [num, setNum] = useState(30);
   const [loading, setLoading] = useState(false);
 
-  useEffect = (() => {
-    if (
-      topCompaniesRevenue != null &&
-      topCompaniesRevenue.length !== 0
-      // &&       prevdate == curdate
-    ) {
-      return;
-    }
-    getpreviousdaystockdetails();
-
+  useEffect(() => {
+    const fetchStockDetails = async () => {
+      await getpreviousdaystockdetails();
+    };
+    fetchStockDetails();
   }, []);
 
   const getpreviousdaystockdetails = async () => {
@@ -59,9 +51,9 @@ const Revenue = () => {
 
     await axios
       .get("/api/previousdaystockdetails")
-      .then((s) => {
-        if (s.status === 200) {
-          let companyStockDetails = s.data.details;
+      .then((response) => {
+        if (response.status === 200) {
+          let companyStockDetails = response.data.details;
           companyStockDetails.sort((a, b) => {
             return a["Revenue"] - b["Revenue"];
           });
@@ -73,17 +65,13 @@ const Revenue = () => {
           }
           setTopCompaniesRevenue(topCompaniesRevenuedetails);
           setLoading(false);
-          localStorage.setItem(
-            "topCompaniesRevenue",
-            JSON.stringify(topCompaniesRevenuedetails)
-          );
         } else {
           setTopCompaniesRevenue([]);
           setLoading(false);
         }
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((error) => {
+        console.log(error);
         setTopCompaniesRevenue([]);
         setLoading(false);
       });

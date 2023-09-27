@@ -113,20 +113,18 @@ const SignUp = () => {
     axios
       .get("/api/signup?" + params)
       .then((response) => {
-        const { data } = response;
-        const { message } = data;
+        const message = response.data.message;
         setFirstName("");
         setLastName("");
         setEmail("");
         setPassword("");
         setSignupStatus(message);
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((error) => {
+        console.log(error);
       });
   };
 
-  const logged = localStorage.getItem("logged");
   return (
     <Root className={classes.root}>
       <Grid container direction="column" justify="center" alignItems="center">
