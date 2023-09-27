@@ -2,6 +2,12 @@
 const bcrypt = require("bcrypt");
 import connectToMongo from "../../utils/connectMongo";
 
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+};
+
 async function run(email, password) {
 
   let message = "";

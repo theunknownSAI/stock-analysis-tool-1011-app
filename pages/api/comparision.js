@@ -1,9 +1,11 @@
 const axios = require("axios");
+
 export const config = {
   api: {
     externalResolver: true,
   },
 };
+
 export default async (req, res, next) => {
   try {
     const query = req.query;
@@ -51,23 +53,23 @@ export default async (req, res, next) => {
                   totalNumberOfDays: days,
                   rate: rate * 100
                 };
-                res.send(response);
+                res.status(200).send({ details: response, message: "success" });
               }
             })
             .catch((error) => {
               console.log(error);
-              res.status(404).send({ error: "error" });
+              res.status(500).send({ details: [], message: "Error" });
             });
         } else {
-          res.status(404).send({ error: "error" });
+          res.status(500).send({ details: [], message: "Error" });
         }
       })
       .catch((error) => {
         console.log(error);
-        res.status(404).send({ error: "error" });
+        res.status(500).send({ details: [], message: "Error" });
       });
   } catch (error) {
     console.log(error);
-    res.status(404).send({ error: "error" });
+    res.status(500).send({ details: [], message: "Error" });
   }
 };

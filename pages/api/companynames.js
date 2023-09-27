@@ -1,5 +1,11 @@
 const axios = require("axios");
 
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+};
+
 export default (req, res) => {
   try {
     const companywithidURL =
@@ -9,17 +15,17 @@ export default (req, res) => {
       .then((s) => {
         if (s.status === 200) {
           const companyNames = Object.keys(s.data);
-          res.send(companyNames);
+          res.status(200).send({ details: companyNames, message: "success" });
         } else {
-          res.status(404).send({ error: "error" });
+          res.status(500).send({ details: [], message: "Error" });
         }
       })
       .catch((error) => {
         console.log(error);
-        res.status(404).send({ error: "error" });
+        res.status(500).send({ details: [], message: "Error" });
       });
   } catch (error) {
     console.log(error);
-    res.status(404).send({ error: "error" });
+    res.status(500).send({ details: [], message: "Error" });
   }
 };

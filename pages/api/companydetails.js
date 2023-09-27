@@ -1,9 +1,11 @@
 const axios = require("axios");
+
 export const config = {
   api: {
     externalResolver: true,
   },
 };
+
 export default (req, res, next) => {
   try {
     let company = req.query["company"];
@@ -19,18 +21,18 @@ export default (req, res, next) => {
             res.send(companies);
           } else {
             company = company.toUpperCase();
-            res.send(companies[company]);
+            res.status(200).send({ details: companies[company], message: "success" });
           }
         } else {
-          res.status(404).send({ error: "error" });
+          res.status(500).send({ details: [], message: "Error" });
         }
       })
       .catch((error) => {
         console.log(error);
-        res.status(404).send({ error: "error" });
+        res.status(500).send({ details: [], message: "Error" });
       });
   } catch (error) {
     console.log(error);
-    res.status(404).send({ error: "error" });
+    res.status(500).send({ details: [], message: "Error" });
   }
 };

@@ -1,9 +1,11 @@
 const axios = require("axios");
+
 export const config = {
   api: {
     externalResolver: true,
   },
 };
+
 export default (req, res, next) => {
   try {
     let company = req.query["company"];
@@ -33,25 +35,25 @@ export default (req, res, next) => {
                     break;
                   }
                 }
-                res.send({ suggest: suggestion });
+                res.status(200).send({ suggest: suggestion, message: "success" });
               } else {
-                res.status(404).send({ error: "error" });
+                res.status(500).send({ message: "error" });
               }
             })
             .catch((error) => {
               console.log(error);
-              res.status(404).send({ error: "error" });
+              res.status(500).send({ message: "error" });
             });
         } else {
-          res.status(404).send({ error: "error" });
+          res.status(500).send({ message: "error" });
         }
       })
       .catch((error) => {
         console.log(error);
-        res.status(404).send({ error: "error" });
+        res.status(500).send({ message: "error" });
       });
   } catch (error) {
     console.log(error);
-    res.status(404).send({ error: "error" });
+    res.status(500).send({ message: "error" });
   }
 };

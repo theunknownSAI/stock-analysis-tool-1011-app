@@ -1,9 +1,11 @@
 const axios = require("axios");
+
 export const config = {
   api: {
     externalResolver: true,
   },
 };
+
 export default (req, res, next) => {
   try {
     const sp500URL =
@@ -27,7 +29,7 @@ export default (req, res, next) => {
           }
           res.status(200).send({ details: sp500details, message: "success" });
         } else {
-          res.status(404).send({ message: "Error" });
+          res.status(404).send({ details: [], message: "Error" });
         }
       })
       .catch((error) => {
