@@ -139,3 +139,105 @@ export const otherkeys = [
     "Spread High-Low",
     "Spread Close-Open"
 ]
+
+const dashboardOptions = {
+    chart: {
+        background: "inherit",
+        type: "area",
+        height: "auto",
+        zoom: {
+            type: "x",
+            enabled: true,
+            autoScaleYaxis: true
+        },
+        toolbar: {
+            autoSelected: "zoom"
+        }
+    },
+    stroke: {
+        show: true,
+        curve: "smooth",
+        lineCap: "butt",
+        colors: undefined,
+        width: 2,
+        dashArray: 0
+    },
+    dataLabels: {
+        enabled: false
+    },
+    markers: {
+        size: 0
+    },
+    title: {
+        text: "Stock Price Movement",
+        align: "center",
+        sx: {
+            fontSize: "24px",
+            fontWeight: "bold",
+            fontFamily: undefined,
+            color: "blue",
+            display: "flex",
+            justifyContent: "center"
+        }
+    },
+    fill: {
+        type: "solid",
+        opacity: 0.9,
+        gradient: {
+            shadeIntensity: 1,
+            inverseColors: false,
+            opacityFrom: 1,
+            opacityTo: 1,
+            stops: [0, 90, 100]
+        }
+    },
+    yaxis: {
+        labels: {
+            formatter: (val) => {
+                return val.toFixed();
+            }
+        },
+        title: {
+            text: "Price in Rs"
+        }
+    },
+    xaxis: {
+        type: "datetime",
+        labels: {
+            formatter: (val) => {
+                const dt = new Date(val);
+                return (
+                    dt.getDate() +
+                    "-" +
+                    (dt.getMonth() + 1) +
+                    "-" +
+                    dt.getFullYear()
+                );
+            }
+        },
+        title: {
+            text: "Time Period"
+        }
+    },
+
+    tooltip: {
+        shared: false,
+        x: {
+            formatter: (val) => {
+                const dt = new Date(val);
+                return (
+                    dt.getDate() +
+                    "-" +
+                    (dt.getMonth() + 1) +
+                    "-" +
+                    dt.getFullYear()
+                );
+            }
+        },
+        y: {
+            formatter: (val) => {
+                return val;
+            }
+        }
+    }
+}

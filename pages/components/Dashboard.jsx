@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import Chart from "react-apexcharts";
 import dynamic from "next/dynamic";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
@@ -10,6 +10,8 @@ import moment from "moment";
 import { withRouter } from "../../utils/WithRouter";
 
 import * as Loader from "react-loader-spinner";
+import { dashboardOptions } from "../../utils/constants";
+import { useParams } from "react-router-dom";
 
 const PREFIX = "Dashboard";
 const theme = createTheme();
@@ -46,186 +48,78 @@ const Root = styled('div')(({ theme }) => ({
   }
 }));
 
-class Dashboard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: false,
-      details: JSON.parse(localStorage.getItem("details")) || [],
-      sp500ChartDetails:
-        JSON.parse(localStorage.getItem("sp500ChartDetails")) || [],
-      stockChartDetails:
-        JSON.parse(localStorage.getItem("stockChartDetails")) || [],
-      selectedPeriod: "",
-      // company: JSON.parse(localStorage.getItem("company")) || "",
-      error: false,
-      series: [],
-      options: {
-        chart: {
-          background: "inherit",
-          type: "area",
-          height: "auto",
-          zoom: {
-            type: "x",
-            enabled: true,
-            autoScaleYaxis: true
-          },
-          toolbar: {
-            autoSelected: "zoom"
-          }
-        },
-        stroke: {
-          show: true,
-          curve: "smooth",
-          lineCap: "butt",
-          colors: undefined,
-          width: 2,
-          dashArray: 0
-        },
-        dataLabels: {
-          enabled: false
-        },
-        markers: {
-          size: 0
-        },
-        title: {
-          text: "Stock Price Movement",
-          align: "center",
-          sx: {
-            fontSize: "24px",
-            fontWeight: "bold",
-            fontFamily: undefined,
-            color: "blue",
-            display: "flex",
-            justifyContent: "center"
-          }
-        },
-        fill: {
-          type: "solid",
-          opacity: 0.9,
-          gradient: {
-            shadeIntensity: 1,
-            inverseColors: false,
-            opacityFrom: 1,
-            opacityTo: 1,
-            stops: [0, 90, 100]
-          }
-        },
-        yaxis: {
-          labels: {
-            formatter: (val) => {
-              return val.toFixed();
-            }
-          },
-          title: {
-            text: "Price in Rs"
-          }
-        },
-        xaxis: {
-          type: "datetime",
-          labels: {
-            formatter: (val) => {
-              const dt = new Date(val);
-              return (
-                dt.getDate() +
-                "-" +
-                (dt.getMonth() + 1) +
-                "-" +
-                dt.getFullYear()
-              );
-            }
-          },
-          title: {
-            text: "Time Period"
-          }
-        },
+const Dashboard = ({ props }) => {
 
-        tooltip: {
-          shared: false,
-          x: {
-            formatter: (val) => {
-              const dt = new Date(val);
-              return (
-                dt.getDate() +
-                "-" +
-                (dt.getMonth() + 1) +
-                "-" +
-                dt.getFullYear()
-              );
-            }
-          },
-          y: {
-            formatter: (val) => {
-              return val;
-            }
-          }
-        }
-      }
-    };
-  }
+  const storedDetails = localStorage.getItem("details");
+  const storedsp500ChartDetails = localStorage.getItem("sp500ChartDetails");
+  const storedstockChartDetails = localStorage.getItem("stockChartDetails");
 
-  componentDidMount = () => {
-    const { router } = this.props;
-    const { params } = router;
+  const [loading, setLoading] = useState(false);
+  const [details, setDetails] = useState(storedDetails === null || storedDetails === undefined ? [] : storedDetails);
+  const [sp500ChartDetails, setSp500ChartDetails] = useState(storedsp500ChartDetails === null || storedsp500ChartDetails === undefined ? [] : storedsp500ChartDetails);
+  const [stockChartDetails, setStockChartDetails] = useState(storedstockChartDetails === null || storedstockChartDetails === undefined ? [] : storedstockChartDetails);
+  const [error, setError] = useState(false);
+  const [series, setSeries] = useState([]);
+  const [options, setOptions] = useState(dashboardOptions);
+  const [company, setCompany] = useState("");
+
+  const params = useParams();
+
+  useEffect = (() => {
 
     let company = "";
     if ("company" in params) {
       company = params.company;
     } else {
-      company = this.props.company;
+      company = props.company;
     }
+
     const prevcompany = localStorage.getItem("company") === undefined ? null : localStorage.getItem("company");
-    // const curdate = moment().format("DD-MM-YYYY");
-    // const prevdate =
-    //   localStorage.getItem("date") == null
-    //     ? curdate
-    //     : localStorage.getItem("date");
+
     if (
       prevcompany != null &&
       company !== "sp500" &&
       company === prevcompany &&
       // prevdate == curdate &&
-      this.state.stockChartDetails.length != 0
+      stockChartDetails.length != 0
     ) {
-      this.setState({ details: this.state.stockChartDetails }, () => { });
+      setDetails(stockChartDetails)
       return;
     }
 
     if (
       company === "sp500" &&
       // prevdate == curdate &&
-      this.state.sp500ChartDetails.length != 0
+      sp500ChartDetails.length != 0
     ) {
-      this.setState({ details: this.state.sp500ChartDetails }, () => { });
+      setDetails(sp500ChartDetails);
       return;
     }
-    this.setState({ company: company }, () => {
-      localStorage.setItem("company", JSON.stringify(this.state.company));
-      this.getDetails(company);
-    });
-  };
+    setCompany(company);
+    localStorage.setItem("company", JSON.stringify(this.state.company));
+    getDetails(company);
+  }, []);
 
-  getDetails = async (company) => {
+  const getDetails = async (company) => {
     this.setState({ loading: true }, () => { });
     if (company !== "sp500") {
       await axios
         .get("/api/stockdetails?company=" + company)
         .then((s) => {
           if (s.status === 200) {
-            this.setState({ stockChartDetails: s.data, loading: false }, () => {
-              localStorage.setItem(
-                "stockChartDetails",
-                JSON.stringify(this.state.stockChartDetails)
-              );
-            });
+            setStockChartDetails(s.data.details)
+            setLoading(false);
+            localStorage.setItem("stockChartDetails", JSON.stringify(stockChartDetails));
           } else {
-            this.setState({ details: [], loading: false }, () => { });
+            setDetails([]);
+            setLoading(false);
           }
         })
         .then(() => { })
         .catch((e) => {
           console.log(e);
-          this.setState({ loading: false, error: true }, () => { });
+          setLoading(false);
+          setError(true);
         });
     } else {
       this.setState({ sp500: true }, () => { });
@@ -233,30 +127,29 @@ class Dashboard extends React.Component {
         .get("/api/sp500")
         .then((s) => {
           if (s.status === 200) {
-            this.setState({ sp500ChartDetails: s.data.details, loading: false }, () => {
-              localStorage.setItem(
-                "sp500ChartDetails",
-                JSON.stringify(this.state.sp500ChartDetails)
-              );
-            });
+            setSp500ChartDetails(s.data.details);
+            setLoading(false);
+            localStorage.setItem("sp500ChartDetails", JSON.stringify(sp500ChartDetails));
           } else {
-            this.setState({ details: [], loading: false }, () => { });
+            setDetails([]);
+            setLoading(false);
           }
         })
         .catch((e) => {
           console.log(e);
-          this.setState({ loading: false, error: true }, () => { });
+          setLoading(false);
+          setError(true);
         });
     }
 
     if (company == "sp500") {
-      this.setState({ details: this.state.sp500ChartDetails }, () => { });
+      setDetails(sp500ChartDetails);
     } else {
-      this.setState({ details: this.state.stockChartDetails }, () => { });
+      setDetails(stockChartDetails);
     }
   };
 
-  createGraph = (days) => {
+  const createGraph = (days) => {
     let openPriceData = {
       name: "Open Price",
       data: []
@@ -326,7 +219,7 @@ class Dashboard extends React.Component {
     );
   };
 
-  selectedPeriod = (e) => {
+  const selectedPeriod = (e) => {
     const days = e.currentTarget.value;
     if (this.state.selectedPeriod === days) {
       return;
@@ -336,126 +229,123 @@ class Dashboard extends React.Component {
     });
   };
 
-  render() {
-
-    return (
-      <Root className={classes.root}>
-        {this.state.loading ? (
-          <Loader.Audio sx={{ paddingLeft: "50%" }} />
-        ) : (
-          this.state.error !== true && (
-            <div>
-              <Divider />
-              <Divider />
-              <Divider />
-              <ButtonGroup color="primary" className={classes.buttongroup}>
-                <Button
-                  key="7"
-                  value="7"
-                  className={classes.button}
-                  onClick={this.selectedPeriod}
-                  sx={{
-                    backgroundColor:
-                      this.state.selectedPeriod == 7 ? "green" : "",
-                    color: this.state.selectedPeriod == 7 ? "white" : ""
-                  }}
-                  selected
-                >
-                  7D
-                </Button>
-                <Button
-                  key="30"
-                  value="30"
-                  className={classes.button}
-                  onClick={this.selectedPeriod}
-                  sx={{
-                    backgroundColor:
-                      this.state.selectedPeriod == 30 ? "green" : "",
-                    color: this.state.selectedPeriod == 30 ? "white" : ""
-                  }}
-                >
-                  1M
-                </Button>
-                <Button
-                  key="90"
-                  value="90"
-                  className={classes.button}
-                  onClick={this.selectedPeriod}
-                  sx={{
-                    backgroundColor:
-                      this.state.selectedPeriod == 90 ? "green" : "",
-                    color: this.state.selectedPeriod == 90 ? "white" : ""
-                  }}
-                >
-                  3M
-                </Button>
-                <Button
-                  key="180"
-                  value="180"
-                  className={classes.button}
-                  onClick={this.selectedPeriod}
-                  sx={{
-                    backgroundColor:
-                      this.state.selectedPeriod == 180 ? "green" : "",
-                    color: this.state.selectedPeriod == 180 ? "white" : ""
-                  }}
-                >
-                  6M
-                </Button>
-                <Button
-                  key="360"
-                  value="360"
-                  className={classes.button}
-                  onClick={this.selectedPeriod}
-                  sx={{
-                    backgroundColor:
-                      this.state.selectedPeriod == 360 ? "green" : "",
-                    color: this.state.selectedPeriod == 360 ? "white" : ""
-                  }}
-                >
-                  1Y
-                </Button>
-                <Button
-                  key="1800"
-                  value="1800"
-                  className={classes.button}
-                  onClick={this.selectedPeriod}
-                  sx={{
-                    backgroundColor:
-                      this.state.selectedPeriod == 1800 ? "green" : "",
-                    color: this.state.selectedPeriod == 1800 ? "white" : ""
-                  }}
-                >
-                  5Y
-                </Button>
-                <Button
-                  key="all"
-                  value="all"
-                  className={classes.button}
-                  onClick={this.selectedPeriod}
-                  sx={{
-                    backgroundColor:
-                      this.state.selectedPeriod == "all" ? "green" : "",
-                    color: this.state.selectedPeriod == "all" ? "white" : ""
-                  }}
-                >
-                  All
-                </Button>
-              </ButtonGroup>
-              <div className={classes.divchart}>
-                <Chart
-                  options={this.state.options}
-                  series={this.state.series}
-                  key="chart"
-                  className={classes.chart}
-                />
-              </div>
+  return (
+    <Root className={classes.root}>
+      {this.state.loading ? (
+        <Loader.Audio sx={{ paddingLeft: "50%" }} />
+      ) : (
+        this.state.error !== true && (
+          <div>
+            <Divider />
+            <Divider />
+            <Divider />
+            <ButtonGroup color="primary" className={classes.buttongroup}>
+              <Button
+                key="7"
+                value="7"
+                className={classes.button}
+                onClick={this.selectedPeriod}
+                sx={{
+                  backgroundColor:
+                    this.state.selectedPeriod == 7 ? "green" : "",
+                  color: this.state.selectedPeriod == 7 ? "white" : ""
+                }}
+                selected
+              >
+                7D
+              </Button>
+              <Button
+                key="30"
+                value="30"
+                className={classes.button}
+                onClick={this.selectedPeriod}
+                sx={{
+                  backgroundColor:
+                    this.state.selectedPeriod == 30 ? "green" : "",
+                  color: this.state.selectedPeriod == 30 ? "white" : ""
+                }}
+              >
+                1M
+              </Button>
+              <Button
+                key="90"
+                value="90"
+                className={classes.button}
+                onClick={this.selectedPeriod}
+                sx={{
+                  backgroundColor:
+                    this.state.selectedPeriod == 90 ? "green" : "",
+                  color: this.state.selectedPeriod == 90 ? "white" : ""
+                }}
+              >
+                3M
+              </Button>
+              <Button
+                key="180"
+                value="180"
+                className={classes.button}
+                onClick={this.selectedPeriod}
+                sx={{
+                  backgroundColor:
+                    this.state.selectedPeriod == 180 ? "green" : "",
+                  color: this.state.selectedPeriod == 180 ? "white" : ""
+                }}
+              >
+                6M
+              </Button>
+              <Button
+                key="360"
+                value="360"
+                className={classes.button}
+                onClick={this.selectedPeriod}
+                sx={{
+                  backgroundColor:
+                    this.state.selectedPeriod == 360 ? "green" : "",
+                  color: this.state.selectedPeriod == 360 ? "white" : ""
+                }}
+              >
+                1Y
+              </Button>
+              <Button
+                key="1800"
+                value="1800"
+                className={classes.button}
+                onClick={this.selectedPeriod}
+                sx={{
+                  backgroundColor:
+                    this.state.selectedPeriod == 1800 ? "green" : "",
+                  color: this.state.selectedPeriod == 1800 ? "white" : ""
+                }}
+              >
+                5Y
+              </Button>
+              <Button
+                key="all"
+                value="all"
+                className={classes.button}
+                onClick={this.selectedPeriod}
+                sx={{
+                  backgroundColor:
+                    this.state.selectedPeriod == "all" ? "green" : "",
+                  color: this.state.selectedPeriod == "all" ? "white" : ""
+                }}
+              >
+                All
+              </Button>
+            </ButtonGroup>
+            <div className={classes.divchart}>
+              <Chart
+                options={this.state.options}
+                series={this.state.series}
+                key="chart"
+                className={classes.chart}
+              />
             </div>
-          )
-        )}
-      </Root>
-    );
-  }
+          </div>
+        )
+      )}
+    </Root>
+  );
 }
 
 export default withRouter(Dashboard);
