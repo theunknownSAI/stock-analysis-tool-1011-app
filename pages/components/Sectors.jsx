@@ -1,12 +1,12 @@
-import { Grid, TextField, Autocomplete } from "@mui/material";
+import { Autocomplete, Grid, TextField } from "@mui/material";
 import { createTheme, styled } from '@mui/material/styles';
 import dynamic from "next/dynamic";
-import { withRouter } from "../../utils/WithRouter";
-
+import { sectorChartOptions } from "../../utils/constants";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const PREFIX = "Sectors";
 const theme = createTheme();
@@ -31,137 +31,37 @@ const Root = styled('div')(({ theme }) => ({
   }
 }));
 
-class Sectors extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      sectors: JSON.parse(localStorage.getItem("sectors")) || [],
-      selectedSector: "",
-      selectedSectorCompanies: [],
-      selectedCompany: "",
-      series: JSON.parse(localStorage.getItem("series")) || [],
-      options: {
-        chart: {
-          background: "inherit",
-          type: "area",
-          height: "auto",
-          zoom: {
-            type: "x",
-            enabled: true,
-            autoScaleYaxis: true
-          },
-          toolbar: {
-            autoSelected: "zoom"
-          },
-          width: "100%"
-        },
-        plotOptions: {
-          bar: {
-            horizontal: false
-          }
-        },
-        stroke: {
-          show: true,
-          curve: "smooth",
-          lineCap: "butt",
-          colors: undefined,
-          width: 0,
-          dashArray: 0
-        },
-        dataLabels: {
-          enabled: false
-        },
-        markers: {
-          size: 0
-        },
+const Sectors = () => {
 
-        title: {
-          text: "Sectors Overview",
-          align: "center",
-          sx: {
-            fontSize: "24px",
-            fontWeight: "bold",
-            fontFamily: undefined,
-            color: "blue",
-            display: "flex",
-            justifyContent: "center"
-          }
-        },
-        fill: {
-          type: "solid",
-          opacity: 0.9,
-          gradient: {
-            shadeIntensity: 1,
-            inverseColors: false,
-            opacityFrom: 1,
-            opacityTo: 1,
-            stops: [0, 90, 100]
-          }
-        },
-        yaxis: {
-          labels: {
-            formatter: (val) => {
-              return val;
-            }
-          },
-          title: {
-            text: "Number of Companies"
-          }
-        },
-        xaxis: {
-          labels: {
-            rotate: -60,
-            maxHeight: 150,
-            trim: true,
-            formatter: (val) => {
-              return val;
-            }
-          },
-          title: {
-            text: "Sectors"
-          }
-        },
+  const storedSectors = localStorage.getItem("sectors");
+  const [sectors, setSectors] = useState(storedSectors === undefined || storedSectors === null ? [] : storedSectors);
+  const [selectedSector, setSelectedSector] = useState("");
+  const [selectedSectorCompanies, setSelectedSectorCompanies] = useState([]);
+  const [selectedCompany, setSelectedCompany] = useState("");
+  const storedSeries = localStorage.getItem("series");
+  const [series, setSeries] = useState(storedSeries === undefined || storedSeries === null ? [] : storedSeries);
 
-        tooltip: {
-          shared: false,
-          x: {
-            formatter: (val) => {
-              return val;
-            }
-          },
-          y: {
-            formatter: (val) => {
-              return val;
-            }
-          }
-        }
-      }
-    };
-  }
+  const navigate = useNavigate();
 
-  componentDidMount = () => {
-    
-    const sectors = JSON.parse(localStorage.getItem("sectors"));
-    const series = JSON.parse(localStorage.getItem("series"));
-
-    if (sectors != null && series != null && series[0].data.length != 0) {
+  useEffect(() => {
+    if (storedSectors != null && storedSeries != null && storedSeries[0].data.length != 0) {
       return;
     }
-    this.getSectors();
-  };
+    getSectors();
+  }, []);
 
-  getSectors = async () => {
-    await axios.get("api/sectors").then((s) => {
-      if (s.status === 200) {
-        this.setState({ sectors: s.data }, () => {
-          localStorage.setItem("sectors", JSON.stringify(this.state.sectors));
-        });
+  const getSectors = async () => {
+    await axios.get("api/sectors").then((response) => {
+      if (response.status === 200) {
+        const { data } = response;
+        const { details } = data;
+        setSectors(details);
+        localStorage.setItem("sectors", JSON.stringify(sectors));
       } else {
-        this.setState({ sectors: [] }, () => { });
+        setSectors([]);
       }
     });
 
-    const sectors = JSON.parse(localStorage.getItem("sectors"));
     let countdata = {
       name: "Number Of Companies",
       data: []
@@ -174,111 +74,99 @@ class Sectors extends React.Component {
     }
     const series = [];
     series.push(countdata);
-    this.setState({ series: series }, () => {
-      localStorage.setItem("series", JSON.stringify(this.state.series));
-    });
+    setSeries(series);
+    localStorage.setItem("series", JSON.stringify(series));
   };
 
-  selectedSector = (e, val) => {
+  const selectedSectorFn = (e, val) => {
     if (val === null) {
-      this.setState(
-        { selectedSector: "", selectedSectorCompanies: [] },
-        () => { }
-      );
+      setSelectedSector("");
+      setSelectedSectorCompanies([]);
     } else {
-      this.setState(
-        {
-          selectedSector: val,
-          selectedSectorCompanies: this.state.sectors[val]
-        },
-        () => { }
-      );
+      setSelectedSector(val);
+      setSelectedSectorCompanies(sectors[val]);
     }
   };
 
-  selectedCompany = (val) => {
-    const { router } = this.props;
-    const { navigate } = router;
+  const selectedCompanyFn = (val) => {
     if (val === null) {
       navigate("/");
     } else {
-      this.setState({ selectedCompany: val }, () => {
-        navigate("/companydetails/" + val);
-      });
+      setSelectedCompany(val);
+      navigate("/companydetails/" + val);
     }
   };
-  render() {
-    return (
-      <Root className={classes.root}>
-        <div className={classes.divchart}></div>
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          alignItems="center"
-        >
-          <Grid item>
-            {this.state.sectors.length !== 0 && (
-              <Autocomplete
-                sx={{
-                  width: 400
-                }}
-                onChange={(e, val) => {
-                  this.selectedSector(e, val);
-                }}
-                id="search for sector"
-                freeSolo
-                options={Object.keys(this.state.sectors).map(
-                  (sector) => sector
-                )}
-                getOptionLabel={(option) => option}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="search for sector"
-                    margin="normal"
-                    variant="outlined"
-                  />
-                )}
-              />
-            )}
-          </Grid>
-          <Grid item>
-            {this.state.selectedSectorCompanies.length !== 0 && (
-              <Autocomplete
-                sx={{ width: 400, align: "center" }}
-                onChange={(e, val) => {
-                  this.selectedCompany(val);
-                }}
-                id="search for companies"
-                freeSolo
-                options={this.state.selectedSectorCompanies.map(
-                  (company) => company
-                )}
-                getOptionLabel={(option) => option}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="search for company"
-                    margin="normal"
-                    variant="outlined"
-                  />
-                )}
-              />
-            )}
-          </Grid>
-          <Grid item sx={{ width: "75%" }}>
-            <Chart
-              options={this.state.options}
-              series={this.state.series}
-              key="chart"
-              type="bar"
+
+  return (
+    <Root className={classes.root}>
+      <div className={classes.divchart}></div>
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="center"
+      >
+        <Grid item>
+          {sectors.length !== 0 && (
+            <Autocomplete
+              sx={{
+                width: 400
+              }}
+              onChange={(e, val) => {
+                selectedSectorFn(e, val);
+              }}
+              id="search for sector"
+              freeSolo
+              options={Object.keys(sectors).map(
+                (sector) => sector
+              )}
+              getOptionLabel={(option) => option}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="search for sector"
+                  margin="normal"
+                  variant="outlined"
+                />
+              )}
             />
-          </Grid>
+          )}
         </Grid>
-      </Root>
-    );
-  }
+        <Grid item>
+          {selectedSectorCompanies.length !== 0 && (
+            <Autocomplete
+              sx={{ width: 400, align: "center" }}
+              onChange={(e, val) => {
+                selectedCompanyFn(val);
+              }}
+              id="search for companies"
+              freeSolo
+              options={selectedSectorCompanies.map(
+                (company) => company
+              )}
+              getOptionLabel={(option) => option}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="search for company"
+                  margin="normal"
+                  variant="outlined"
+                />
+              )}
+            />
+          )}
+        </Grid>
+        <Grid item sx={{ width: "75%" }}>
+          <Chart
+            options={sectorChartOptions}
+            series={series}
+            key="chart"
+            type="bar"
+          />
+        </Grid>
+      </Grid>
+    </Root>
+  );
 }
 
-export default withRouter(Sectors);
+export default Sectors;
