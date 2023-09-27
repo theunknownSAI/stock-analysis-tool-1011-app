@@ -94,3 +94,30 @@ export const sectorChartOptions = {
         }
     }
 }
+
+export const timePeriod = {
+    "1 day": "1",
+    "7 days": "7",
+    "1 month": "30",
+    "3 months": "90",
+    "6 months": "180",
+    "1 year": "360",
+    "2 years": "720",
+    "5 years": "1800",
+    "10 years": "3600"
+}
+
+export const stockkeys = [
+    "Date",
+    "Open Price",
+    "High Price",
+    "Low Price",
+    "Close Price",
+    "WAP",
+    "No.of Shares",
+    "No. of Trades",
+    "Total Turnover (Rs.)",
+    "% Deli. Qty to Traded Qty",
+    "Spread High-Low",
+    "Spread Close-Open"
+]
