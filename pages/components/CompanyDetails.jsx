@@ -92,8 +92,8 @@ class CompanyDetails extends React.Component {
   componentDidMount = () => {
 
     const { router } = this.props;
-    const { params} = router;
-    const {company} = params;
+    const { params } = router;
+    const { company } = params;
 
     const prevcompany = JSON.parse(localStorage.getItem("selectedCompany"));
     // const curdate = moment().format("DD-MM-YYYY");
@@ -109,7 +109,7 @@ class CompanyDetails extends React.Component {
     if (prevcompany === company) {
       return;
     }
-    
+
     this.setState({ selectedCompany: company }, () => {
       localStorage.setItem(
         "selectedCompany",
@@ -165,7 +165,7 @@ class CompanyDetails extends React.Component {
       .then((s) => {
         if (s.status === 200) {
           this.setState(
-            { stockdetails: s.data, stockdetailsloading: false },
+            { stockdetails: s.data.details, stockdetailsloading: false },
             () => {
               localStorage.setItem(
                 "stockdetails",

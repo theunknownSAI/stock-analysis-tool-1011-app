@@ -132,7 +132,7 @@ class Comparison extends React.Component {
           if (s.status === 200) {
             stockdetails[company] = Object.assign(
               stockdetails[company],
-              s.data
+              s.data.details
             );
           }
         })
@@ -160,8 +160,8 @@ class Comparison extends React.Component {
           console.log(e);
         });
     }
-    
-    this.setState({ stockdetails: stockdetails, loading: false }, () => {});
+
+    this.setState({ stockdetails: stockdetails, loading: false }, () => { });
   };
 
   render() {
