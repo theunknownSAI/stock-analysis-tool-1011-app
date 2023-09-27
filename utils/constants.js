@@ -140,7 +140,7 @@ export const otherkeys = [
     "Spread Close-Open"
 ]
 
-const dashboardOptions = {
+export const dashboardOptions = {
     chart: {
         background: "inherit",
         type: "area",
