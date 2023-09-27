@@ -59,7 +59,7 @@ const Dashboard = ({ props }) => {
   const [series, setSeries] = useState([]);
   const [options, setOptions] = useState(dashboardOptions);
   const [company, setCompany] = useState("");
-
+  const [selectedPeriod, setSelectedPeriod] = useState("");
   const params = useParams();
 
   useEffect = (() => {
@@ -93,12 +93,12 @@ const Dashboard = ({ props }) => {
       return;
     }
     setCompany(company);
-    localStorage.setItem("company", JSON.stringify(this.state.company));
+    localStorage.setItem("company", JSON.stringify(company));
     getDetails(company);
   }, []);
 
   const getDetails = async (company) => {
-    this.setState({ loading: true }, () => { });
+    setLoading(true);
     if (company !== "sp500") {
       await axios
         .get("/api/stockdetails?company=" + company)
@@ -119,7 +119,6 @@ const Dashboard = ({ props }) => {
           setError(true);
         });
     } else {
-      this.setState({ sp500: true }, () => { });
       await axios
         .get("/api/sp500")
         .then((s) => {
@@ -169,13 +168,13 @@ const Dashboard = ({ props }) => {
 
     days =
       days === "all"
-        ? this.state.details.length - 1
-        : days > this.state.details.length - 1
-          ? this.state.details.length - 1
+        ? details.length - 1
+        : days > details.length - 1
+          ? details.length - 1
           : days;
-    const toDate = this.state.details[0]["Date"];
-    const fromDate = this.state.details[days]["Date"];
-    const data = this.state.details.slice(0, days);
+    const toDate = details[0]["Date"];
+    const fromDate = details[days]["Date"];
+    const data = details.slice(0, days);
     for (let i = 0; i < data.length; i++) {
       const element = data[i];
       openPriceData.data.push({
@@ -198,7 +197,7 @@ const Dashboard = ({ props }) => {
         y: element["Close Price"] || element["Close"]
       });
     }
-    let options = this.state.options;
+    let options = options;
     options.xaxis["min"] = fromDate;
     options.xaxis["max"] = toDate;
     const series = [];
@@ -206,32 +205,26 @@ const Dashboard = ({ props }) => {
     series.push(lowPriceData);
     series.push(highPriceData);
     series.push(closePriceData);
+    setSeries(series);
+    setOptions(options);
 
-    this.setState(
-      {
-        series: series,
-        options: options
-      },
-      () => { }
-    );
   };
 
-  const selectedPeriod = (e) => {
+  const selectedPeriodfn = (e) => {
     const days = e.currentTarget.value;
-    if (this.state.selectedPeriod === days) {
+    if (selectedPeriod === days) {
       return;
     }
-    this.setState({ selectedPeriod: days }, () => {
-      this.createGraph(days);
-    });
+    setSelectedPeriod(days);
+    createGraph(days);
   };
 
   return (
     <Root className={classes.root}>
-      {this.state.loading ? (
+      {loading ? (
         <Loader.Audio sx={{ paddingLeft: "50%" }} />
       ) : (
-        this.state.error !== true && (
+        error !== true && (
           <div>
             <Divider />
             <Divider />
@@ -241,11 +234,11 @@ const Dashboard = ({ props }) => {
                 key="7"
                 value="7"
                 className={classes.button}
-                onClick={this.selectedPeriod}
+                onClick={selectedPeriodfn}
                 sx={{
                   backgroundColor:
-                    this.state.selectedPeriod == 7 ? "green" : "",
-                  color: this.state.selectedPeriod == 7 ? "white" : ""
+                    selectedPeriod == 7 ? "green" : "",
+                  color: selectedPeriod == 7 ? "white" : ""
                 }}
                 selected
               >
@@ -255,11 +248,11 @@ const Dashboard = ({ props }) => {
                 key="30"
                 value="30"
                 className={classes.button}
-                onClick={this.selectedPeriod}
+                onClick={selectedPeriodfn}
                 sx={{
                   backgroundColor:
-                    this.state.selectedPeriod == 30 ? "green" : "",
-                  color: this.state.selectedPeriod == 30 ? "white" : ""
+                    selectedPeriod == 30 ? "green" : "",
+                  color: selectedPeriod == 30 ? "white" : ""
                 }}
               >
                 1M
@@ -268,11 +261,11 @@ const Dashboard = ({ props }) => {
                 key="90"
                 value="90"
                 className={classes.button}
-                onClick={this.selectedPeriod}
+                onClick={selectedPeriodfn}
                 sx={{
                   backgroundColor:
-                    this.state.selectedPeriod == 90 ? "green" : "",
-                  color: this.state.selectedPeriod == 90 ? "white" : ""
+                    selectedPeriod == 90 ? "green" : "",
+                  color: selectedPeriod == 90 ? "white" : ""
                 }}
               >
                 3M
@@ -281,11 +274,11 @@ const Dashboard = ({ props }) => {
                 key="180"
                 value="180"
                 className={classes.button}
-                onClick={this.selectedPeriod}
+                onClick={selectedPeriodfn}
                 sx={{
                   backgroundColor:
-                    this.state.selectedPeriod == 180 ? "green" : "",
-                  color: this.state.selectedPeriod == 180 ? "white" : ""
+                    selectedPeriod == 180 ? "green" : "",
+                  color: selectedPeriod == 180 ? "white" : ""
                 }}
               >
                 6M
@@ -294,11 +287,11 @@ const Dashboard = ({ props }) => {
                 key="360"
                 value="360"
                 className={classes.button}
-                onClick={this.selectedPeriod}
+                onClick={selectedPeriodfn}
                 sx={{
                   backgroundColor:
-                    this.state.selectedPeriod == 360 ? "green" : "",
-                  color: this.state.selectedPeriod == 360 ? "white" : ""
+                    selectedPeriod == 360 ? "green" : "",
+                  color: selectedPeriod == 360 ? "white" : ""
                 }}
               >
                 1Y
@@ -307,11 +300,11 @@ const Dashboard = ({ props }) => {
                 key="1800"
                 value="1800"
                 className={classes.button}
-                onClick={this.selectedPeriod}
+                onClick={selectedPeriodfn}
                 sx={{
                   backgroundColor:
-                    this.state.selectedPeriod == 1800 ? "green" : "",
-                  color: this.state.selectedPeriod == 1800 ? "white" : ""
+                    selectedPeriod == 1800 ? "green" : "",
+                  color: selectedPeriod == 1800 ? "white" : ""
                 }}
               >
                 5Y
@@ -320,11 +313,11 @@ const Dashboard = ({ props }) => {
                 key="all"
                 value="all"
                 className={classes.button}
-                onClick={this.selectedPeriod}
+                onClick={selectedPeriodfn}
                 sx={{
                   backgroundColor:
-                    this.state.selectedPeriod == "all" ? "green" : "",
-                  color: this.state.selectedPeriod == "all" ? "white" : ""
+                    selectedPeriod == "all" ? "green" : "",
+                  color: selectedPeriod == "all" ? "white" : ""
                 }}
               >
                 All
@@ -332,8 +325,8 @@ const Dashboard = ({ props }) => {
             </ButtonGroup>
             <div className={classes.divchart}>
               <Chart
-                options={this.state.options}
-                series={this.state.series}
+                options={options}
+                series={series}
                 key="chart"
                 className={classes.chart}
               />

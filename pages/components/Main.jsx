@@ -57,7 +57,7 @@ const Main = () => {
       .then((s) => {
         if (s.status === 200) {
           setCompanyNames(s.data.details);
-          localStorage.setItem("companyNames", JSON.stringify(this.state.companyNames));
+          localStorage.setItem("companyNames", JSON.stringify(companyNames));
         } else {
           setCompanyNames([]);
         }
@@ -73,7 +73,7 @@ const Main = () => {
       return;
     }
     setSelectedCompany(val);
-    navigate("/companydetails/" + this.state.selectedCompany);
+    navigate("/companydetails/" + selectedCompany);
   };
 
   const logged = JSON.parse(localStorage.getItem("logged"));
@@ -118,9 +118,9 @@ const Main = () => {
             id="search for companies"
             freeSolo
             onChange={(e, val) => {
-              this.selectedCompanyfn(e, val);
+              selectedCompanyfn(e, val);
             }}
-            options={this.state.companyNames.map(
+            options={companyNames.map(
               (companyname) => companyname
             )}
             renderInput={(params) => (
