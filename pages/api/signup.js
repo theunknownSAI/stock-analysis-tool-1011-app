@@ -2,37 +2,42 @@ const bcrypt = require("bcrypt");
 import connectToMongo from "../../utils/connectMongo";
 
 async function run(email, password, firstName, lastName) {
+
+  let message = "";
+  let statusCode = 200;
+
   try {
-    const {client, db} = await connectToMongo();
+    const { db } = await connectToMongo();
     const col = db.collection("userdetails");
+
     let passwordHash = "";
+
     await bcrypt.hash(password, 10).then(async (hash) => {
       passwordHash = hash;
     });
-    // Construct a document
+
     let personDocument = {
       firstName: firstName,
       lastName: lastName,
       email: email,
       password: passwordHash,
     };
-    // Find if already present document
-    const present = await col.findOne({ email: email });
-    let status = "";
-    if (present == null) {
-      // Insert a single document, wait for promise so we can read it back
-      const p = await col.insertOne(personDocument);
-      status = "account created successfully";
+    const document = await col.findOne({ email: email });
+    if (document == null) {
+      await col.insertOne(personDocument);
+      message = "Account Created Successfully";
+      statusCode = 200;
     } else {
-      status = "account already exists";
+      message = "Account Already Exists";
+      statusCode = 404
     }
-    // await client.close();
-    return status;
   } catch (err) {
     console.log(err.stack);
-
-    return "account creation error";
+    message = "Account Creation Error";
+    statusCode = 500;
   }
+
+  return { message, statusCode };
 }
 
 export default async (req, res, next) => {
@@ -41,16 +46,18 @@ export default async (req, res, next) => {
     const password = req.query["password"];
     const firstName = req.query["firstName"];
     const lastName = req.query["lastName"];
+    console.log(req);
     await run(email, password, firstName, lastName)
-      .then((status) => {
-        res.send({ status: status });
+      .then((response) => {
+        console.log(response);
+        res.status(response.statusCode).send({ message: response.message });
       })
       .catch((e) => {
         console.log(e);
-        res.send({ status: "account creation error" });
+        res.status(500).send({ message: "Account Creation Error" });
       });
   } catch (error) {
     console.log(error);
-    res.status(404).send({ status: "account creation error" });
+    res.status(500).send({ message: "Account Creation Error" });
   }
 };
