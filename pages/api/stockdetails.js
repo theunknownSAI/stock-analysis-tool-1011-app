@@ -38,24 +38,24 @@ export default async (req, res, next) => {
                     }, {});
                     stockdetails.push(result);
                   }
-                  res.send(stockdetails);
+                  res.status(200).send({ details: stockdetails, message: "success" });
                 }
               })
               .catch((error) => {
                 console.log(error);
-                res.status(404).send({ error: "error" });
+                res.status(500).send({ details: [], message: "Error" });
               });
           } else {
-            res.status(404).send({ error: "error" });
+            res.status(500).send({ details: [], message: "Error" });
           }
         })
         .catch((error) => {
           console.log(error);
-          res.status(404).send({ error: "error" });
+          res.status(500).send({ details: [], message: "Error" });
         });
     }
   } catch (error) {
     console.log(error);
-    res.status(404).send({ error: "error" });
+    res.status(500).send({ details: [], message: "Error" });
   }
 };
