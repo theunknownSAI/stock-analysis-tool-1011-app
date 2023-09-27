@@ -1,8 +1,7 @@
 import { Paper, Typography } from "@mui/material";
 import { createTheme, styled } from '@mui/material/styles';
 import axios from "axios";
-import moment from "moment";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as Loader from "react-loader-spinner";
 import { NavLink } from "react-router-dom";
 
@@ -33,102 +32,92 @@ const Root = styled('div')(({ theme }) => ({
   }
 }));
 
-class Revenue extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      topCompaniesRevenue:
-        JSON.parse(localStorage.getItem("topCompaniesRevenue")) || [],
-      num: JSON.parse(localStorage.getItem("num")) || 30,
-      loading: false,
-    };
-  }
+const Revenue = () => {
 
-  componentDidMount = () => {
-    const num = JSON.parse(localStorage.getItem("num"));
-    const topCompaniesRevenue = JSON.parse(
-      localStorage.getItem("topCompaniesRevenue")
-    );
-    // const curdate = moment().format("DD-MM-YYYY");
-    // const prevdate =
-    //   localStorage.getItem("date") == null
-    //     ? curdate
-    //     : localStorage.getItem("date");
+  const storedRevenue = localStorage.getItem("topCompaniesRevenue");
 
+  const [topCompaniesRevenue, setTopCompaniesRevenue] = useState(storedRevenue === undefined || storedRevenue == null ? [] : JSON.parse(storedRevenue));
+  const storedNum = localStorage.getItem("num");
+  const [num, setNum] = useState(storedNum === undefined || storedNum === null ? storedNum : 30);
+  const [loading, setLoading] = useState(false);
+
+  useEffect = (() => {
     if (
       topCompaniesRevenue != null &&
-      topCompaniesRevenue.length !== 0 
+      topCompaniesRevenue.length !== 0
       // &&       prevdate == curdate
     ) {
       return;
     }
+    getpreviousdaystockdetails();
 
-    this.setState({ loading: true }, () => { });
-    axios
+  }, []);
+
+  const getpreviousdaystockdetails = async () => {
+
+    setLoading(true);
+
+    await axios
       .get("/api/previousdaystockdetails")
       .then((s) => {
         if (s.status === 200) {
-          let companyStockDetails = s.data;
+          let companyStockDetails = s.data.details;
           companyStockDetails.sort((a, b) => {
             return a["Revenue"] - b["Revenue"];
           });
-          companyStockDetails = companyStockDetails.slice(0, this.state.num);
-          let topCompaniesRevenue = [];
+          companyStockDetails = companyStockDetails.slice(0, num);
+          let topCompaniesRevenuedetails = [];
           for (let index = 0; index < companyStockDetails.length; index++) {
             const element = companyStockDetails[index];
-            topCompaniesRevenue.push(element["Company"]);
+            topCompaniesRevenuedetails.push(element["Company"]);
           }
-          this.setState(
-            { topCompaniesRevenue: topCompaniesRevenue, loading: false },
-            () => {
-              localStorage.setItem(
-                "topCompaniesRevenue",
-                JSON.stringify(this.state.topCompaniesRevenue)
-              );
-            }
+          setTopCompaniesRevenue(topCompaniesRevenuedetails);
+          setLoading(false);
+          localStorage.setItem(
+            "topCompaniesRevenue",
+            JSON.stringify(topCompaniesRevenuedetails)
           );
         } else {
-          this.setState({ topCompaniesRevenue: [], loading: false }, () => { });
+          setTopCompaniesRevenue([]);
+          setLoading(false);
         }
       })
       .catch((e) => {
         console.log(e);
-        this.setState({ topCompaniesRevenue: [], loading: false }, () => { });
+        setTopCompaniesRevenue([]);
+        setLoading(false);
       });
-  };
-
-  render() {
-    return (
-      <Root className={classes.root}>
-        {this.state.loading ? (
-          <Loader.Audio sx={{ paddingLeft: "50%" }} />
-        ) : (
-          <div>
-            <Paper elevation={0} className={classes.paper}>
-              <Typography variant="h4">
-                Top {this.state.num} Companies Revenue wise
-              </Typography>
-            </Paper>
-            {this.state.topCompaniesRevenue.map((company) => {
-              return (
-                <NavLink
-                  className={classes.navlink}
-                  key={company.toString()}
-                  to={{
-                    pathname: "/companydetails/" + company,
-                  }}
-                >
-                  <Paper elevation={0} className={classes.paper}>
-                    <Typography variant="h6">{company}</Typography>
-                  </Paper>
-                </NavLink>
-              );
-            })}
-          </div>
-        )}
-      </Root>
-    );
   }
+  return (
+    <Root className={classes.root}>
+      {loading ? (
+        <Loader.Audio sx={{ paddingLeft: "50%" }} />
+      ) : (
+        <div>
+          <Paper elevation={0} className={classes.paper}>
+            <Typography variant="h4">
+              Top {num} Companies Revenue wise
+            </Typography>
+          </Paper>
+          {topCompaniesRevenue.map((company) => {
+            return (
+              <NavLink
+                className={classes.navlink}
+                key={company.toString()}
+                to={{
+                  pathname: "/companydetails/" + company,
+                }}
+              >
+                <Paper elevation={0} className={classes.paper}>
+                  <Typography variant="h6">{company}</Typography>
+                </Paper>
+              </NavLink>
+            );
+          })}
+        </div>
+      )}
+    </Root>
+  );
 }
 
 export default Revenue;
