@@ -233,7 +233,7 @@ class Dashboard extends React.Component {
         .get("/api/sp500")
         .then((s) => {
           if (s.status === 200) {
-            this.setState({ sp500ChartDetails: s.data, loading: false }, () => {
+            this.setState({ sp500ChartDetails: s.data.details, loading: false }, () => {
               localStorage.setItem(
                 "sp500ChartDetails",
                 JSON.stringify(this.state.sp500ChartDetails)
