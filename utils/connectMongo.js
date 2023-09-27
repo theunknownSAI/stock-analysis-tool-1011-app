@@ -12,8 +12,6 @@ const connectToMongo = async () => {
 
     const MONGO_URI = process.env.MONGO_URI;
 
-    console.log(MONGO_URI);
-
     const MONGODB_DB = "stock-analysis-tool-1011";
 
     let client = new MongoClient(MONGO_URI);

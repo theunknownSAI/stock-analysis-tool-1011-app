@@ -60,7 +60,6 @@ const Top = () => {
           let { data } = response;
           let { details } = data;
           let topCompanies = details;
-          console.log(topCompanies);
           setLoading(false);
           setTopCompanies(topCompanies);
           localStorage.setItem("topCompanies", JSON.stringify(topCompanies));
@@ -76,7 +75,6 @@ const Top = () => {
       });
   }
 
-  console.log(topCompanies);
   return (
     <Root className={classes.root}>
       {loading ? (

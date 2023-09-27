@@ -46,10 +46,8 @@ export default async (req, res, next) => {
     const password = req.query["password"];
     const firstName = req.query["firstName"];
     const lastName = req.query["lastName"];
-    console.log(req);
     await run(email, password, firstName, lastName)
       .then((response) => {
-        console.log(response);
         res.status(response.statusCode).send({ message: response.message });
       })
       .catch((e) => {

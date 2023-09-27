@@ -32,23 +32,23 @@ const classes = {
 
 const Root = styled('div')(({ theme }) => ({
   [`& .${classes.root}`]: {
-  }, 
+  },
   [`& .${classes.grid1}`]: {
     flexGrow: 1
-  }, 
+  },
   [`& .${classes.paper}`]: {
     textAlign: "center",
     color: theme.palette.text.secondary
-  }, 
+  },
   [`& .${classes.link}`]: {
     textDecoration: "initial"
-  }, 
+  },
   [`& .${classes.grid}`]: {
     "&:hover": {
       backgroundColor: "#F4E4C1",
       color: "#E4C580"
     }
-  }, 
+  },
   [`& .${classes.typography}`]: {
     padding: 20
   },
@@ -128,7 +128,7 @@ class NavigationBar extends React.Component {
     const logged = JSON.parse(localStorage.getItem("logged"));
     // let details = JSON.parse(localStorage.getItem("details")) || [];
 
-    let details = [JSON.parse(localStorage.getItem("firstName")),JSON.parse(localStorage.getItem("lastName"))]
+    let details = [JSON.parse(localStorage.getItem("firstName")), JSON.parse(localStorage.getItem("lastName"))]
 
     // const firstName = JSON.parse(localStorage.getItem("firstName"));
     // const lastName = JSON.parse(localStorage.getItem("lastName"));
@@ -136,7 +136,6 @@ class NavigationBar extends React.Component {
     // const email = JSON.parse(localStorage.getItem("email"));
     // details.push(userName);
     // details.push(email);
-    // console.log(details);
     return (
       <Root className={classes.root}>
         <Grid container className={classes.grid1} spacing={1}>
@@ -144,11 +143,11 @@ class NavigationBar extends React.Component {
             <NavLink
               to="/home"
               className={classes.link}
-              style= {
-                ({isActive}) => {
-                    return {
-                        color : isActive ? "blue":""
-                    }
+              style={
+                ({ isActive }) => {
+                  return {
+                    color: isActive ? "blue" : ""
+                  }
                 }
               }
             >
@@ -161,11 +160,11 @@ class NavigationBar extends React.Component {
             <NavLink
               to="/about"
               className={classes.link}
-              style= {
-                ({isActive}) => {
-                    return {
-                        color : isActive ? "blue":""
-                    }
+              style={
+                ({ isActive }) => {
+                  return {
+                    color: isActive ? "blue" : ""
+                  }
                 }
               }
             >
@@ -176,7 +175,7 @@ class NavigationBar extends React.Component {
           </Grid>
           <Grid item className={classes.grid}>
             <Tooltip
-            classes={{ tooltip: classes.tooltip }}
+              classes={{ tooltip: classes.tooltip }}
               title={
                 <Typography variant="h6" className={classes.primary}>
                   to compare two or more companies
@@ -186,11 +185,11 @@ class NavigationBar extends React.Component {
               <NavLink
                 to="/comparison"
                 className={classes.link}
-                style= {
-                  ({isActive}) => {
-                      return {
-                          color : isActive ? "blue":""
-                      }
+                style={
+                  ({ isActive }) => {
+                    return {
+                      color: isActive ? "blue" : ""
+                    }
                   }
                 }
               >
@@ -212,11 +211,11 @@ class NavigationBar extends React.Component {
               <NavLink
                 to="/simulation"
                 className={classes.link}
-                style= {
-                  ({isActive}) => {
-                      return {
-                          color : isActive ? "blue":""
-                      }
+                style={
+                  ({ isActive }) => {
+                    return {
+                      color: isActive ? "blue" : ""
+                    }
                   }
                 }
               >
@@ -231,11 +230,11 @@ class NavigationBar extends React.Component {
               <NavLink
                 to="/login"
                 className={classes.link}
-                style= {
-                  ({isActive}) => {
-                      return {
-                          color : isActive ? "blue":""
-                      }
+                style={
+                  ({ isActive }) => {
+                    return {
+                      color: isActive ? "blue" : ""
+                    }
                   }
                 }
               >
@@ -252,11 +251,11 @@ class NavigationBar extends React.Component {
               <NavLink
                 to="/signup"
                 className={classes.link}
-                style= {
-                  ({isActive}) => {
-                      return {
-                          color : isActive ? "blue":""
-                      }
+                style={
+                  ({ isActive }) => {
+                    return {
+                      color: isActive ? "blue" : ""
+                    }
                   }
                 }
               >

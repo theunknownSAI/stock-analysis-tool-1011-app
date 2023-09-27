@@ -165,16 +165,15 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount = () => {
-    const {router} = this.props;
-    const {params} = router;
-    
+    const { router } = this.props;
+    const { params } = router;
+
     let company = "";
     if ("company" in params) {
       company = params.company;
     } else {
       company = this.props.company;
     }
-    // console.log(localStorage.getItem("company"));
     const prevcompany = localStorage.getItem("company") === undefined ? null : localStorage.getItem("company");
     // const curdate = moment().format("DD-MM-YYYY");
     // const prevdate =
