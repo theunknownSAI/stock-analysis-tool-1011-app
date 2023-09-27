@@ -1,6 +1,6 @@
 import { Paper, Typography } from "@mui/material";
 import { createTheme, styled } from '@mui/material/styles';
-import React from "react";
+import React, { useState } from "react";
 
 import Dashboard from "./Dashboard";
 
@@ -24,23 +24,16 @@ const Root = styled('div')(({ theme }) => ({
   }
 }));
 
-class SP500 extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { sp500: [] };
-  }
-  componentDidMount = () => {
-  };
-  render() {
-    return (
-      <Root className={classes.root}>
-        <Paper elevation={0} className={classes.paper} align="center">
-          <Typography variant="h4">{"SP 500"}</Typography>
-        </Paper>
-        <Dashboard company="sp500" />
-      </Root>
-    );
-  }
+const SP500 = () => {
+  const [sp500, setSP500] = useState([]);
+  return (
+    <Root className={classes.root}>
+      <Paper elevation={0} className={classes.paper} align="center">
+        <Typography variant="h4">{"SP 500"}</Typography>
+      </Paper>
+      <Dashboard company="sp500" />
+    </Root>
+  );
 }
 
 export default SP500;
