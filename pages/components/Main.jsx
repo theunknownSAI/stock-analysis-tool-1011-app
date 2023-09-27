@@ -6,10 +6,11 @@ import {
 } from "@mui/material";
 import { createTheme, styled } from '@mui/material/styles';
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { withRouter } from "../../utils/WithRouter"
 
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import { useNavigate } from "react-router-dom";
 
 const PREFIX = "SP500";
 const theme = createTheme();
@@ -39,123 +40,113 @@ const Root = styled('div')(({ theme }) => ({
   }
 }));
 
-class Main extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      companyNames: JSON.parse(localStorage.getItem("companyNames")) || []
-    };
-  }
+const Main = () => {
 
-  componentDidMount = () => {
-    const companyNames = JSON.parse(localStorage.getItem("companyNames"));
+  const storedCompanyNames = localStorage.getItem("companyNames");
+  const [companyNames, setCompanyNames] = useState(storedCompanyNames === null || storedCompanyNames === undefined ? [] : storedCompanyNames);
+  const [selectedCompany, setSelectedCompany] = useState("");
+
+  useEffect = (() => {
     if (companyNames != null) {
       return;
     }
-    this.getCompanyNames();
-  };
+    getCompanyNames();
+  }, []);
 
-  getCompanyNames = () => {
+  const getCompanyNames = () => {
     axios
       .get("/api/companynames")
       .then((s) => {
         if (s.status === 200) {
-          this.setState({ companyNames: s.data }, () => {
-            localStorage.setItem(
-              "companyNames",
-              JSON.stringify(this.state.companyNames)
-            );
-          });
+          setCompanyNames(s.data.details);
+          localStorage.setItem("companyNames", JSON.stringify(this.state.companyNames));
         } else {
-          this.setState({ companyNames: [] });
+          setCompanyNames([]);
         }
       })
       .catch((e) => console.log(e));
   };
 
-  selectedCompany = (e, val) => {
-    const { router } = this.props;
-    const { navigate } = router;
+  const { navigate } = useNavigate();
+
+  const selectedCompanyfn = (e, val) => {
     if (val === null) {
       navigate("/");
       return;
     }
-    this.setState({ selectedCompany: val }, () => {
-      navigate("/companydetails/" + this.state.selectedCompany);
-    });
+    setSelectedCompany(val);
+    navigate("/companydetails/" + this.state.selectedCompany);
   };
 
-  render() {
-    const logged = JSON.parse(localStorage.getItem("logged"));
-    return (
-      <Root className={classes.root}>
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          alignItems="center"
-        >
-          <Grid item>
-            <Grid container direction="row" justify="center" alignItems="center">
-              <Grid item>
-                <Typography
-                  variant="h4"
-                  sx={{
-                    fontFamily: "cursive",
-                    fontSize: 50
-                  }}
-                >
-                  Stock Vestor
-                </Typography>
-              </Grid>
-              <Grid item>
-                <TrendingUpIcon sx={{ fontSize: 80 }} />
-              </Grid>
+  const logged = JSON.parse(localStorage.getItem("logged"));
+  return (
+    <Root className={classes.root}>
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="center"
+      >
+        <Grid item>
+          <Grid container direction="row" justify="center" alignItems="center">
+            <Grid item>
+              <Typography
+                variant="h4"
+                sx={{
+                  fontFamily: "cursive",
+                  fontSize: 50
+                }}
+              >
+                Stock Vestor
+              </Typography>
+            </Grid>
+            <Grid item>
+              <TrendingUpIcon sx={{ fontSize: 80 }} />
             </Grid>
           </Grid>
-          <Grid item>
-            <Typography variant="h4">
-              Stock analysis tool for investors in India.
-            </Typography>
-          </Grid>
-          <Grid item>
-
-            <Autocomplete
-              // disabled={logged != true}
-              sx={{
-                width: 400
-              }}
-              id="search for companies"
-              freeSolo
-              onChange={(e, val) => {
-                this.selectedCompany(e, val);
-              }}
-              options={this.state.companyNames.map(
-                (companyname) => companyname
-              )}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="search for companies"
-                  margin="normal"
-                  variant="outlined"
-                  InputLabelProps={{
-                    sx: { color: "#ff0000" }
-                  }}
-                  InputProps={{
-                    ...params.InputProps,
-                    classes: {
-                      notchedOutline: classes.notchedOutline
-                    }
-                  }}
-                />
-              )}
-            />
-          </Grid>
         </Grid>
-      </Root>
-    );
-  }
+        <Grid item>
+          <Typography variant="h4">
+            Stock analysis tool for investors in India.
+          </Typography>
+        </Grid>
+        <Grid item>
+
+          <Autocomplete
+            // disabled={logged != true}
+            sx={{
+              width: 400
+            }}
+            id="search for companies"
+            freeSolo
+            onChange={(e, val) => {
+              this.selectedCompanyfn(e, val);
+            }}
+            options={this.state.companyNames.map(
+              (companyname) => companyname
+            )}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="search for companies"
+                margin="normal"
+                variant="outlined"
+                InputLabelProps={{
+                  sx: { color: "#ff0000" }
+                }}
+                InputProps={{
+                  ...params.InputProps,
+                  classes: {
+                    notchedOutline: classes.notchedOutline
+                  }
+                }}
+              />
+            )}
+          />
+        </Grid>
+      </Grid>
+    </Root>
+  );
 }
 
 export default withRouter(Main);

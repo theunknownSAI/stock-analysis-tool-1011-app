@@ -15,15 +15,10 @@ const Root = styled('div')(({ theme }) => ({
   },
 }));
 
-class Performance extends React.Component {
-  componentDidMount = () => {
-  };
-
-  render() {
-    return <Root className={classes.root}>
-      <Typography variant="h4">Performance</Typography>
-    </Root>
-  }
+const Performance = () => {
+  return <Root className={classes.root}>
+    <Typography variant="h4">Performance</Typography>
+  </Root>
 }
 
 export default Performance;

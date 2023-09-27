@@ -14,7 +14,7 @@ import {
 } from "@mui/x-data-grid";
 import axios from "axios";
 import moment from "moment";
-import React from "react";
+import React, { useState } from "react";
 import * as Loader from "react-loader-spinner";
 
 const PREFIX = "Simulation";
@@ -36,22 +36,15 @@ const Root = styled('div')(({ theme }) => ({
   }
 }));
 
-class Simulation extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      cols: JSON.parse(localStorage.getItem("cols")) || [],
-      loading: false,
-      tooltipopen: false,
-      days: JSON.parse(localStorage.getItem("days")) || "",
-      rows: JSON.parse(localStorage.getItem("rows")) || []
-    };
-  }
+const Simulation = () => {
 
-  componentDidMount = () => {
-  };
+  const [cols, setCols] = useState(JSON.parse(localStorage.getItem("cols")));
+  const [loading, setLoading] = useState(false);
+  const [tooltipopen, settooltipopen] = useState(false);
+  const [days, setDays] = useState(JSON.parse(localStorage.getItem("days")));
+  const [rows, setRows] = useState(JSON.parse(localStorage.getItem("rows")));
 
-  onSelectDays = async (e) => {
+  const onSelectDays = async (e) => {
     const days = e.target.value;
     const prevdays = localStorage.getItem("days");
     // const curdate = moment().format("DD-MM-YYYY");
@@ -63,16 +56,14 @@ class Simulation extends React.Component {
     // if (days == prevdays && prevdate == curdate) {
     //   return;
     // }
-    this.setState({ days: days }, () => {
-      localStorage.setItem("days", JSON.stringify(this.state.days));
-    });
-
-    this.setState({ loading: true }, () => { });
+    setDays(days);
+    localStorage.setItem("days", JSON.stringify(days));
+    setLoading(true);
     await axios
       .get("/api/simulationtop" + "?" + "days=" + days)
       .then((s) => {
         if (s.status === 200) {
-          let response = s.data;
+          let response = s.data.details;
           const rows = response;
           let cols = [];
           Object.keys(rows[0]).map((key) => {
@@ -89,21 +80,26 @@ class Simulation extends React.Component {
               cols.splice(i, 1);
             }
           }
-          this.setState({ rows: rows, cols: cols, loading: false }, () => {
-            localStorage.setItem("rows", JSON.stringify(this.state.rows));
-            localStorage.setItem("cols", JSON.stringify(this.state.cols));
-          });
+          setRows(rows);
+          setCols(cols);
+          setLoading(false);
+          localStorage.setItem("rows", JSON.stringify(rows));
+          localStorage.setItem("cols", JSON.stringify(cols));
         } else {
-          this.setState({ rows: [], cols: [], loading: false }, () => { });
+          setRows([]);
+          setCols([]);
+          setLoading(false);
         }
       })
       .catch((e) => {
-        this.setState({ rows: [], cols: [], loading: false }, () => { });
+        setRows([]);
+        setCols([]);
+        setLoading(false);
         console.log(e);
       });
   };
 
-  exportToCSV = () => {
+  const exportToCSV = () => {
     return (
       <GridToolbarContainer>
         <GridToolbarExport />
@@ -111,71 +107,67 @@ class Simulation extends React.Component {
     );
   };
 
-  render() {
-    // const today = new Date();
-    let logged = JSON.parse(localStorage.getItem("logged"));
-    return (
-      <Root className={classes.root}>
-        <Tooltip
-          open={this.state.tooltipopen}
-          classes={{ tooltip: classes.tooltip }}
-          title={
-            <Typography variant="h6" className={classes.primary}>
-              sign in to access
-            </Typography>
-          }
-          interactive
-        >
-          <FormControl sx={{ minWidth: "150px" }} variant="outlined">
-            <InputLabel>days</InputLabel>
-            <Select
-              sx={{ width: "100%" }}
-              labelId="days"
-              id="days"
-              onChange={(e) => {
-                const val = e.target.value;
-                if (logged === true) {
-                  this.onSelectDays(e);
-                } else {
-                  this.setState({
-                    days: val,
-                    tooltipopen: true
-                  });
-                }
-              }}
-              value={this.state.days}
-            >
-              {[30, 60, 90, 180, 360, 720].map((period) => {
-                return (
-                  <MenuItem key={period.toString()} value={period}>
-                    {period}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
-        </Tooltip>
+  // const today = new Date();
+  let logged = JSON.parse(localStorage.getItem("logged"));
+  return (
+    <Root className={classes.root}>
+      <Tooltip
+        open={tooltipopen}
+        classes={{ tooltip: classes.tooltip }}
+        title={
+          <Typography variant="h6" className={classes.primary}>
+            sign in to access
+          </Typography>
+        }
+        interactive
+      >
+        <FormControl sx={{ minWidth: "150px" }} variant="outlined">
+          <InputLabel>days</InputLabel>
+          <Select
+            sx={{ width: "100%" }}
+            labelId="days"
+            id="days"
+            onChange={(e) => {
+              const val = e.target.value;
+              if (logged === true) {
+                onSelectDays(e);
+              } else {
+                setDays(val);
+                settooltipopen(true);
+              }
+            }}
+            value={days}
+          >
+            {[30, 60, 90, 180, 360, 720].map((period) => {
+              return (
+                <MenuItem key={period.toString()} value={period}>
+                  {period}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
+      </Tooltip>
 
-        {this.state.loading ? (
-          <Loader.Audio />
-        ) : (
-          this.state.rows != 0 && (
-            <DataGrid
-              rows={this.state.rows}
-              columns={this.state.cols}
-              autoHeight
-              disableSelectionOnClick
-              // hideFooterPagination
-              // hideFooter
-              components={{
-                Toolbar: this.exportToCSV
-              }}
-            />
-          )
-        )}
-      </Root>
-    );
-  }
+      {loading ? (
+        <Loader.Audio />
+      ) : (
+        rows != 0 && (
+          <DataGrid
+            rows={rows}
+            columns={cols}
+            autoHeight
+            disableSelectionOnClick
+            // hideFooterPagination
+            // hideFooter
+            components={{
+              Toolbar: exportToCSV
+            }}
+          />
+        )
+      )}
+    </Root>
+  );
 }
 
 export default Simulation;

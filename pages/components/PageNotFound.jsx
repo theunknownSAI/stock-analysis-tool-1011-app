@@ -15,17 +15,12 @@ const Root = styled('div')(({ theme }) => ({
   },
 }));
 
-class PageNotFound extends React.Component {
-  componentDidMount = () => {
-  };
-
-  render() {
-    return (
-      <Root className={classes.root}>
-        <Typography variant="h4">PageNotFound</Typography>
-      </Root>
-    );
-  }
+const PageNotFound = () => {
+  return (
+    <Root className={classes.root} >
+      <Typography variant="h4">PageNotFound</Typography>
+    </Root>
+  );
 }
 
 export default PageNotFound;

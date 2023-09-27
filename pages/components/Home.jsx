@@ -13,16 +13,14 @@ import {
   Typography
 } from "@mui/material";
 import clsx from "clsx";
-import React from "react";
+import React, { useState } from "react";
 import {
   Navigate,
   Route,
   Routes
 } from "react-router-dom";
-import { withRouter } from "../../utils/WithRouter";
 
 import { createTheme, styled } from '@mui/material/styles';
-import moment from "moment";
 import About from "./About";
 import CompanyDetails from "./CompanyDetails";
 import Comparison from "./Comparison";
@@ -126,158 +124,132 @@ const Root = styled('div')(({ theme }) => ({
   }
 }));
 
-class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false
-    };
-  }
+const Home = () => {
 
-  componentDidMount = () => {
-    // const curdate =
-    //   localStorage.getItem("date") == null
-    //     ? moment().format("DD-MM-YYYY")
-    //     : localStorage.getItem("date");
-    // localStorage.setItem("date", curdate);
-  };
+  const [open, setOpen] = useState(false);
 
-  handleDrawerOpen = () => {
-    this.setState({ open: true });
-  };
+  let logged = JSON.parse(localStorage.getItem("logged"));
 
-  handleDrawerClose = () => {
-    this.setState({ open: false });
-  };
-
-  modifyOpen = (e) => {
-    this.setState({ open: false });
-  };
-  render() {
-    const open = this.state.open;
-    let logged = JSON.parse(localStorage.getItem("logged"));
-
-    return (
-      <Root className={classes.root} >
-        <CssBaseline />
-        <AppBar
-          position="relative"
-          className={clsx(classes.appBar, {
-            [classes.appBarShift]: open
-          })}
-          sx={{ backgroundColor: "#15DB95", color: "#0D19A3" }}
+  return (
+    <Root className={classes.root} >
+      <CssBaseline />
+      <AppBar
+        position="relative"
+        className={clsx(classes.appBar, {
+          [classes.appBarShift]: open
+        })}
+        sx={{ backgroundColor: "#15DB95", color: "#0D19A3" }}
+      >
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={() => { setOpen(true); }}
+            edge="start"
+            className={clsx(classes.menuButton, open && classes.hide)}
+          >
+            <MenuIcon />
+          </IconButton>
+          <NavigationBar />
+        </Toolbar>
+      </AppBar>
+      <div className={classes.sidebar}>
+        <Drawer
+          className={classes.drawer}
+          variant="persistent"
+          anchor="left"
+          open={open}
+          classes={{
+            paper: classes.drawerPaper
+          }}
         >
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={this.handleDrawerOpen}
-              edge="start"
-              className={clsx(classes.menuButton, open && classes.hide)}
-            >
-              <MenuIcon />
+          <div
+            className={classes.drawerHeader}
+            sx={{ backgroundColor: "#15DB95", color: "#0D19A3" }}
+          >
+            <Typography variant="h4">Stock Vestor</Typography>
+            <IconButton onClick={() => { setOpen(false); }} className={classes.largeIcon}>
+              {theme.direction === "ltr" ? (
+                <ChevronLeftIcon />
+              ) : (
+                <ChevronRightIcon />
+              )}
             </IconButton>
-            <NavigationBar />
-          </Toolbar>
-        </AppBar>
-        <div className={classes.sidebar}>
-          <Drawer
-            className={classes.drawer}
-            variant="persistent"
-            anchor="left"
-            open={open}
-            classes={{
-              paper: classes.drawerPaper
-            }}
-          >
-            <div
-              className={classes.drawerHeader}
-              sx={{ backgroundColor: "#15DB95", color: "#0D19A3" }}
-            >
-              <Typography variant="h4">Stock Vestor</Typography>
-              <IconButton onClick={this.handleDrawerClose} className={classes.largeIcon}>
-                {theme.direction === "ltr" ? (
-                  <ChevronLeftIcon />
+          </div>
+          <Divider />
+          <SideBar />
+        </Drawer>
+        <main
+          className={clsx(classes.content, {
+            [classes.contentShift]: open
+          })}
+        >
+          <Routes>
+            <Route exact path="/" element={<Main />} />
+            <Route exact path="/home" element={<Main />} />
+            <Route
+              exact
+              path="/login"
+              element={
+                logged === null || logged === false ? (
+                  <Login />
                 ) : (
-                  <ChevronRightIcon />
-                )}
-              </IconButton>
-            </div>
-            <Divider />
-            <SideBar />
-          </Drawer>
-          <main
-            className={clsx(classes.content, {
-              [classes.contentShift]: open
-            })}
-          >
-            <Routes>
-              <Route exact path="/" element={<Main />} />
-              <Route exact path="/home" element={<Main />} />
-              <Route
-                exact
-                path="/login"
-                element={
-                  logged === null || logged === false ? (
-                    <Login />
-                  ) : (
-                    <Navigate to="/home" replace />
-                  )
-                }
-              />
-              <Route
-                exact
-                path="/signup"
-                element={
-                  logged === null || logged === false ? (
-                    <SignUp />
-                  ) : (
-                    <Navigate to="/home" replace />
-                  )
-                }
-              />
-              <Route exact path="/about" element={<About />} />
-              <Route
-                exact
-                path="/top/:num/:type"
-                element={<Top/>}
-              />
-              <Route
-                exact
-                path="/sectors"
-                element={<Sectors />}
-              />
-              <Route
-                exact
-                path="/companydetails/:company"
-                element={<CompanyDetails/>}
-              />
-              <Route
-                exact
-                path="/revenue"
-                element={<Revenue />}
-              />
-              <Route
-                exact
-                path="/sp500"
-                element={<SP500 />}
-              />
-              <Route
-                exact
-                path="/comparison"
-                element={<Comparison />}
-              />
-              <Route
-                exact
-                path="/simulation"
-                element={<Simulation />}
-              />
-              <Route element={<PageNotFound />} />
-            </Routes>
-          </main>
-        </div>
-      </Root>
-    );
-  }
+                  <Navigate to="/home" replace />
+                )
+              }
+            />
+            <Route
+              exact
+              path="/signup"
+              element={
+                logged === null || logged === false ? (
+                  <SignUp />
+                ) : (
+                  <Navigate to="/home" replace />
+                )
+              }
+            />
+            <Route exact path="/about" element={<About />} />
+            <Route
+              exact
+              path="/top/:num/:type"
+              element={<Top />}
+            />
+            <Route
+              exact
+              path="/sectors"
+              element={<Sectors />}
+            />
+            <Route
+              exact
+              path="/companydetails/:company"
+              element={<CompanyDetails />}
+            />
+            <Route
+              exact
+              path="/revenue"
+              element={<Revenue />}
+            />
+            <Route
+              exact
+              path="/sp500"
+              element={<SP500 />}
+            />
+            <Route
+              exact
+              path="/comparison"
+              element={<Comparison />}
+            />
+            <Route
+              exact
+              path="/simulation"
+              element={<Simulation />}
+            />
+            <Route element={<PageNotFound />} />
+          </Routes>
+        </main>
+      </div>
+    </Root >
+  );
 }
-export default withRouter(Home);
+export default Home;
