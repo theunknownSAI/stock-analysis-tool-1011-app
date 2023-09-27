@@ -78,7 +78,7 @@ const Login = () => {
     }
 
     await axios
-      .get("/api/auth/?" + "email=" + email + "&" + "password=" + password)
+      .get("/api/signin/?" + "email=" + email + "&" + "password=" + password)
       .then((response) => {
         const { data } = response;
         const { details } = data;
