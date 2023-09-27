@@ -49,27 +49,20 @@ const Login = () => {
   const [loginStatus, setLoginStatus] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+
   const navigate = useNavigate();
+
   useEffect(() => {
     localStorage.removeItem("email");
     localStorage.removeItem("password");
     localStorage.removeItem("firstName");
     localStorage.removeItem("lastName");
+    localStorage.removeItem("logged");
   }, []);
 
   const verifyAndLogin = async () => {
 
-
-
     setLoginStatus("");
-
-    const prevemail = JSON.parse(localStorage.getItem("email"));
-    const prevpassword = JSON.parse(localStorage.getItem("password"));
-
-    if (prevemail == email && prevpassword == password) {
-      localStorage.setItem("logged", JSON.stringify(true));
-      return;
-    }
 
     const isValidEmail = validator.isEmpty(email);
     const isValidPassword = validator.isEmpty(password);
@@ -175,4 +168,4 @@ const Login = () => {
   );
 }
 
-export default withRouter(Login);
+export default Login;
