@@ -13,11 +13,14 @@ import {
 import { createTheme, styled } from '@mui/material/styles';
 import axios from "axios";
 import moment from "moment";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as Loader from "react-loader-spinner";
 
 import { withRouter } from "../../utils/WithRouter";
 import Dashboard from "./Dashboard";
+
+import { necessarykeys, otherkeys } from "../../utils/constants";
+import { useParams } from "react-router-dom";
 
 const theme = createTheme();
 
@@ -57,139 +60,90 @@ const Root = styled('div')(({ theme }) => ({
   }
 }));
 
-class CompanyDetails extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      companyDetails: JSON.parse(localStorage.getItem("companyDetails")) || [],
-      companyCurrentDayStockDetails:
-        JSON.parse(localStorage.getItem("companyCurrentDayStockDetails")) || [],
-      selectedCompany:
-        JSON.parse(localStorage.getItem("selectedCompany")) || "",
-      companydetailsloading: false,
-      stockdetailsloading: false,
-      suggest: JSON.parse(localStorage.getItem("suggest")) || "",
-      necessarykeys: [
-        "Date",
-        "Open Price",
-        "High Price",
-        "Low Price",
-        "Close Price"
-      ],
-      otherkeys: [
-        "WAP",
-        "No.of Shares",
-        "No. of Trades",
-        "Total Turnover (Rs.)",
-        "% Deli. Qty to Traded Qty",
-        "Spread High-Low",
-        "Spread Close-Open"
-      ],
-      stockdetails: JSON.parse(localStorage.getItem("stockdetails")) || []
-    };
-  }
+const CompanyDetails = () => {
 
-  componentDidMount = () => {
+  const storedCompanyDetails = localStorage.getItem("companyDetails");
+  const storedcompanyCurrentDayStockDetails = localStorage.getItem("companyCurrentDayStockDetails");
+  const storedSelectedCompany = localStorage.getItem("selectedCompany");
+  const storedSuggest = localStorage.getItem("suggest");
+  const storedStockdetails = localStorage.getItem("stockdetails");
 
-    const { router } = this.props;
-    const { params } = router;
-    const { company } = params;
+  const [companyDetails, setCompanyDetails] = useState(storedCompanyDetails === undefined || storedCompanyDetails == null ? [] : JSON.parse(storedCompanyDetails));
+  const [companyCurrentDayStockDetails, setCompanyCurrentDayStockDetails] = useState(storedcompanyCurrentDayStockDetails === undefined || storedcompanyCurrentDayStockDetails == null ? [] : JSON.parse(storedcompanyCurrentDayStockDetails));
+  const [selectedCompany, setSelectedCompany] = useState(storedSelectedCompany === undefined || storedSelectedCompany == null ? "" : JSON.parse(storedSelectedCompany));
+  const [companydetailsloading, setCompanydetailsloading] = useState(false);
+  const [stockdetailsloading, setStockdetailsloading] = useState(false);
+  const [suggest, setSuggest] = useState(storedSuggest === undefined || storedSuggest === null ? "" : JSON.parse(storedSuggest));
+  const [stockdetails, setStockdetails] = useState(storedStockdetails === undefined || storedStockdetails === null ? [] : JSON.parse(storedStockdetails));
+
+  const params = useParams();
+  const { company } = params;
+
+  useEffect = (() => {
 
     const prevcompany = JSON.parse(localStorage.getItem("selectedCompany"));
-    // const curdate = moment().format("DD-MM-YYYY");
-    // const prevdate =
-    //   localStorage.getItem("date") == null
-    //     ? curdate
-    //     : localStorage.getItem("date");
-
-    // if (prevcompany === company && prevdate === curdate) {
-    //   return;
-    // }
 
     if (prevcompany === company) {
       return;
     }
 
-    this.setState({ selectedCompany: company }, () => {
-      localStorage.setItem(
-        "selectedCompany",
-        JSON.stringify(this.state.selectedCompany)
-      );
-      this.getDetails(this.state.selectedCompany);
-    });
+    setSelectedCompany(company);
+
+    localStorage.setItem("selectedCompany", JSON.stringify(selectedCompany));
+    getDetails(selectedCompany);
+  }, [company]);
+
+  const getDetails = async (company) => {
+    getCompanyDetails(company);
+    getStockDetails(company);
+    getSuggestion(company);
   };
 
-  getDetails = async (company) => {
-    this.getCompanyDetails(company);
-    this.getStockDetails(company);
-    this.getSuggestion(company);
-  };
-
-  getCompanyDetails = async (company) => {
-    this.setState({ companydetailsloading: true }, () => { });
+  const getCompanyDetails = async (company) => {
+    setCompanydetailsloading(true);
     await axios
       .get("/api/companydetails?company=" + company)
       .then((s) => {
         if (s.status === 200) {
           let companyDetails = s.data;
-
-          this.setState(
-            { companyDetails: companyDetails, companydetailsloading: false },
-            () => {
-              localStorage.setItem(
-                "companyDetails",
-                JSON.stringify(this.state.companyDetails)
-              );
-            }
-          );
+          setCompanyDetails(companyDetails);
+          setCompanydetailsloading(false);
+          localStorage.setItem("companyDetails", JSON.stringify(companyDetails));
         } else {
-          this.setState(
-            { companyDetails: [], companydetailsloading: false },
-            () => { }
-          );
+          setCompanyDetails([]);
+          setCompanydetailsloading(false);
         }
       })
       .catch((e) => {
         console.log(e);
-        this.setState(
-          { companyDetails: [], companydetailsloading: false },
-          () => { }
-        );
+        setCompanyDetails([]);
+        setCompanydetailsloading(false);
       });
   };
 
-  getStockDetails = async (company) => {
-    this.setState({ stockdetailsloading: true }, () => { });
+  const getStockDetails = async (company) => {
+    setStockdetailsloading(true);
     await axios
       .get("/api/previousdaystockdetails?company=" + company)
       .then((s) => {
         if (s.status === 200) {
-          this.setState(
-            { stockdetails: s.data.details, stockdetailsloading: false },
-            () => {
-              localStorage.setItem(
-                "stockdetails",
-                JSON.stringify(this.state.stockdetails)
-              );
-            }
-          );
+          setStockdetails(stockdetails);
+          setStockdetailsloading(false);
+          localStorage.setItem("stockdetails", JSON.stringify(stockdetails));
+
         } else {
-          this.setState(
-            { stockdetails: [], stockdetailsloading: false },
-            () => { }
-          );
+          setStockdetails([]);
+          setStockdetailsloading(false);
         }
       })
       .catch((e) => {
         console.log(e);
-        this.setState(
-          { stockdetails: [], stockdetailsloading: false },
-          () => { }
-        );
+        setStockdetails([]);
+        setStockdetailsloading(false);
       });
   };
 
-  getSuggestion = async (company) => {
+  const getSuggestion = async (company) => {
     await axios
       .get("/api/suggest?company=" + company)
       .then((t) => {
@@ -198,9 +152,8 @@ class CompanyDetails extends React.Component {
           if (suggest.length === 0) {
             suggest = "hold";
           }
-          this.setState({ suggest: suggest }, () => {
-            localStorage.setItem("suggest", JSON.stringify(this.state.suggest));
-          });
+          setSuggest(suggest);
+          localStorage.setItem("suggest", JSON.stringify(suggest));
         }
       })
       .catch((e) => {
@@ -208,39 +161,103 @@ class CompanyDetails extends React.Component {
       });
   };
 
-  render() {
-    return (
-      <Root className={classes.root}>
-        {this.state.selectedCompany !== "" && (
-          <div>
-            <Paper elevation={3} className={classes.paper}>
-              <Typography variant="h4">
-                {this.state.selectedCompany}
-              </Typography>
-            </Paper>
-            <Divider />
-            {this.state.companydetailsloading === true ? (
-              <Loader.Audio sx={{ paddingLeft: "50%" }} />
-            ) : (
-              <Grid
-                container
-                spacing={3}
-                justify="center"
-                alignItems="center"
-              >
-                <Grid item>
+  return (
+    <Root className={classes.root}>
+      {selectedCompany !== "" && (
+        <div>
+          <Paper elevation={3} className={classes.paper}>
+            <Typography variant="h4">
+              {selectedCompany}
+            </Typography>
+          </Paper>
+          <Divider />
+          {companydetailsloading === true ? (
+            <Loader.Audio sx={{ paddingLeft: "50%" }} />
+          ) : (
+            <Grid
+              container
+              spacing={3}
+              justify="center"
+              alignItems="center"
+            >
+              <Grid item>
+                <TableContainer component={Paper}>
+                  <Table>
+                    <TableBody>
+                      {Object.keys(companyDetails).map((key) => {
+                        if (companyDetails[key] === null) {
+                          return <span key={key.toString()}></span>;
+                        }
+                        return (
+                          <TableRow className={classes.allitems}>
+                            <TableCell>{key}</TableCell>
+                            <TableCell align="right">
+                              {companyDetails[key]}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Grid>
+              <Grid item>
+                <TableContainer component={Paper}>
+                  <Table>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>
+                          <Typography variant="h4">SUGGESTION</Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell
+                          sx={{
+                            background:
+                              suggest == "sell" ? "green" : "red"
+                          }}
+                        >
+                          <Typography variant="h4">SELL</Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell
+                          sx={{
+                            background:
+                              suggest == "buy" ? "green" : "red"
+                          }}
+                        >
+                          <Typography variant="h4">BUY</Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell
+                          sx={{
+                            background:
+                              suggest == "hold" ? "green" : "red"
+                          }}
+                        >
+                          <Typography variant="h4">HOLD</Typography>
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Grid>
+              <Grid item>
+                {stockdetailsloading == true ||
+                  stockdetails.length == 0 ? (
+                  <Loader.Audio sx={{ paddingLeft: "50%" }} />
+                ) : (
                   <TableContainer component={Paper}>
                     <Table>
                       <TableBody>
-                        {Object.keys(this.state.companyDetails).map((key) => {
-                          if (this.state.companyDetails[key] === null) {
-                            return <span key={key.toString()}></span>;
-                          }
+                        {necessarykeys.map((key) => {
                           return (
                             <TableRow className={classes.allitems}>
                               <TableCell>{key}</TableCell>
                               <TableCell align="right">
-                                {this.state.companyDetails[key]}
+                                {stockdetails[key]}
                               </TableCell>
                             </TableRow>
                           );
@@ -248,108 +265,42 @@ class CompanyDetails extends React.Component {
                       </TableBody>
                     </Table>
                   </TableContainer>
-                </Grid>
-                <Grid item>
-                  <TableContainer component={Paper}>
-                    <Table>
-                      <TableBody>
-                        <TableRow>
-                          <TableCell>
-                            <Typography variant="h4">SUGGESTION</Typography>
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell
-                            sx={{
-                              background:
-                                this.state.suggest == "sell" ? "green" : "red"
-                            }}
-                          >
-                            <Typography variant="h4">SELL</Typography>
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell
-                            sx={{
-                              background:
-                                this.state.suggest == "buy" ? "green" : "red"
-                            }}
-                          >
-                            <Typography variant="h4">BUY</Typography>
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell
-                            sx={{
-                              background:
-                                this.state.suggest == "hold" ? "green" : "red"
-                            }}
-                          >
-                            <Typography variant="h4">HOLD</Typography>
-                          </TableCell>
-                        </TableRow>
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </Grid>
-                <Grid item>
-                  {this.state.stockdetailsloading == true ||
-                    this.state.stockdetails.length == 0 ? (
-                    <Loader.Audio sx={{ paddingLeft: "50%" }} />
-                  ) : (
-                    <TableContainer component={Paper}>
-                      <Table>
-                        <TableBody>
-                          {this.state.necessarykeys.map((key) => {
-                            return (
-                              <TableRow className={classes.allitems}>
-                                <TableCell>{key}</TableCell>
-                                <TableCell align="right">
-                                  {this.state.stockdetails[key]}
-                                </TableCell>
-                              </TableRow>
-                            );
-                          })}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  )}
-                  <Tooltip
-                    classes={{ tooltip: classes.tooltip }}
-                    placement="bottom"
-                    title={
-                      <TableRow>
-                        {this.state.otherkeys.map((key) => {
-                          return (
-                            <TableRow>
-                              <TableCell>{key}</TableCell>
-                              <TableCell align="right">
-                                {this.state.stockdetails[key]}
-                              </TableCell>
-                            </TableRow>
-                          );
-                        })}
-                      </TableRow>
-                    }
-                    interactive
-                  >
-                    <Button variant="contained" color="primary">
-                      more details
-                    </Button>
-                  </Tooltip>
-                </Grid>
+                )}
+                <Tooltip
+                  classes={{ tooltip: classes.tooltip }}
+                  placement="bottom"
+                  title={
+                    <TableRow>
+                      {otherkeys.map((key) => {
+                        return (
+                          <TableRow>
+                            <TableCell>{key}</TableCell>
+                            <TableCell align="right">
+                              {stockdetails[key]}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableRow>
+                  }
+                  interactive
+                >
+                  <Button variant="contained" color="primary">
+                    more details
+                  </Button>
+                </Tooltip>
               </Grid>
-            )}
-          </div>
-        )}
-
-        {this.state.selectedCompany !== "" &&
-          this.state.stockdetails.length !== 0 && (
-            <Dashboard company={this.state.selectedCompany} key="dashboard" />
+            </Grid>
           )}
-      </Root>
-    );
-  }
+        </div>
+      )}
+
+      {selectedCompany !== "" &&
+        stockdetails.length !== 0 && (
+          <Dashboard company={selectedCompany} key="dashboard" />
+        )}
+    </Root>
+  );
 }
 
 export default withRouter(CompanyDetails);

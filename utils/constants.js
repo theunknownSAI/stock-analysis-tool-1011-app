@@ -121,3 +121,21 @@ export const stockkeys = [
     "Spread High-Low",
     "Spread Close-Open"
 ]
+
+export const necessarykeys = [
+    "Date",
+    "Open Price",
+    "High Price",
+    "Low Price",
+    "Close Price"
+]
+
+export const otherkeys = [
+    "WAP",
+    "No.of Shares",
+    "No. of Trades",
+    "Total Turnover (Rs.)",
+    "% Deli. Qty to Traded Qty",
+    "Spread High-Low",
+    "Spread Close-Open"
+]
