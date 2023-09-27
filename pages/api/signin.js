@@ -10,8 +10,6 @@ async function run(email, password) {
 
   try {
     const { db } = await connectToMongo();
-    console.log("Connected correctly to server");
-
     const col = await db.collection("userdetails");
     document = await col.findOne({ email: email });
 
