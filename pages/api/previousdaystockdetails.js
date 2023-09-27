@@ -12,7 +12,7 @@ export default async (req, res, next) => {
       "https://raw.githubusercontent.com/saikr789/stock-analysis-tool-1011-data/master/Data/Stock/previousdaystockdetails.csv";
     let company = req.query["company"];
     if (company === undefined) {
-      axios
+      await axios
         .get(previousdaystockdetailsURL)
         .then((t) => {
           if (t.status === 200) {
@@ -29,18 +29,18 @@ export default async (req, res, next) => {
               }, {});
               previousdaystockdetails.push(result);
             }
-            res.send(previousdaystockdetails);
+            res.status(200).send({ details: previousdaystockdetails, message: "success" });
           } else {
-            res.status(404).send({ error: "error" });
+            res.status(404).send({ details: [], message: "Error" });
           }
         })
         .catch((error) => {
           console.log(error);
-          res.status(404).send({ error: "error" });
+          res.status(404).send({ details: [], message: "Error" });
         });
     } else {
       company = company.toUpperCase();
-      axios
+      await axios
         .get(companywithidURL)
         .then((s) => {
           if (s.status === 200) {
@@ -62,7 +62,7 @@ export default async (req, res, next) => {
                           field.replace(/(\r\n|\n|\r)/gm, "");
                         return result;
                       }, {});
-                      res.send(result);
+                      res.status(200).send({ details: result, message: "success" });
                       break;
                     }
                   }
@@ -70,19 +70,19 @@ export default async (req, res, next) => {
               })
               .catch((error) => {
                 console.log(error);
-                res.status(404).send({ error: "error" });
+                res.status(500).send({ details: [], message: "Error" });
               });
           } else {
-            res.status(404).send({ error: "error" });
+            res.status(500).send({ details: [], message: "Error" });
           }
         })
         .catch((error) => {
           console.log(error);
-          res.status(404).send({ error: "error" });
+          res.status(500).send({ details: [], message: "Error" });
         });
     }
   } catch (error) {
     console.log(error);
-    res.status(404).send({ error: "error" });
+    res.status(500).send({ details: [], message: "Error" });
   }
 };
