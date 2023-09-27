@@ -1,10 +1,9 @@
 import { Button, Grid, TextField, Typography } from "@mui/material";
 import { createTheme, styled } from '@mui/material/styles';
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, } from "react-router-dom";
 
-import { withRouter } from "../../utils/WithRouter";
 
 import validator from "validator";
 
@@ -43,39 +42,38 @@ const Root = styled('div')(({ theme }) => ({
     "& .MuiFormHelperText-root": {
       display: "flex",
       justifyContent: "flex-end",
-      width:"180px"
+      width: "180px"
     },
   }
 }));
 
-class SignUp extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-      firstName: "",
-      lastName: "",
-      firstNameError: "",
-      lastNameError: "",
-      emailError: "",
-      passwordError: "",
-      signupstatus: "",
-    };
-  }
-  componentDidMount = () => {
+const SignUp = () => {
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [firstNameError, setFirstNameError] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [signupStatus, setSignupStatus] = useState("");
+
+  useEffect(() => {
     localStorage.removeItem("email");
     localStorage.removeItem("password");
     localStorage.removeItem("firstName");
     localStorage.removeItem("lastName");
-  };
+    localStorage.removeItem("logged");
+  }, []);
 
-  verifyAndCreate = () => {
-    this.setState({ signupstatus: "" }, () => {});
-    const isValidFirstName = validator.isAlpha(this.state["firstName"]);
-    const isValidLastName = validator.isAlpha(this.state["lastName"]);
-    const isValidEmail = validator.isEmail(this.state["email"]);
-    const isValidPassword = validator.isStrongPassword(this.state["password"]);
+  const verifyAndCreate = () => {
+    setSignupStatus("");
+
+    const isValidFirstName = validator.isAlpha(firstName);
+    const isValidLastName = validator.isAlpha(lastName);
+    const isValidEmail = validator.isEmail(email);
+    const isValidPassword = validator.isStrongPassword(password);
 
     const firstNameError =
       isValidFirstName == true ? "" : "only alphabets allowed";
@@ -86,15 +84,11 @@ class SignUp extends React.Component {
       isValidPassword == true
         ? ""
         : "minLength=8, minLowercase=1, minUppercase=1, minNumbers=1, minSymbols=1";
-    this.setState(
-      {
-        firstNameError,
-        lastNameError,
-        emailError,
-        passwordError,
-      },
-      () => {}
-    );
+
+    setFirstNameError(firstNameError);
+    setLastNameError(lastNameError);
+    setEmailError(emailError);
+    setPasswordError(passwordError);
 
     const isvalid =
       isValidFirstName &&
@@ -106,152 +100,138 @@ class SignUp extends React.Component {
     if (isvalid == false) {
       return;
     }
-    const prevemail = JSON.parse(localStorage.getItem("email"));
-    const prevpassword = JSON.parse(localStorage.getItem("password"));
-    if (prevemail == email && prevpassword == password) {
-      localStorage.setItem("logged", JSON.stringify(true));
-      return;
-    }
+
     let params =
-      "email=" +
-      this.state.email +
+      "email=" + email +
       "&" +
-      "password=" +
-      this.state.password +
+      "password=" + password +
       "&" +
-      "firstName=" +
-      this.state.firstName +
+      "firstName=" + firstName +
       "&" +
-      "lastName=" +
-      this.state.lastName;
+      "lastName=" + lastName;
 
     axios
       .get("/api/signup?" + params)
-      .then((s) => {
-        this.setState(
-          {
-            email: "",
-            password: "",
-            firstName: "",
-            lastName: "",
-            signupstatus: s.data["status"],
-          },
-          () => {}
-        );
+      .then((response) => {
+        const { data } = response;
+        const { message } = data;
+        setFirstName("");
+        setLastName("");
+        setEmail("");
+        setPassword("");
+        setSignupStatus(message);
       })
       .catch((e) => {
         console.log(e);
       });
   };
 
-  render() {
-    const logged = JSON.parse(localStorage.getItem("logged"));
-    return (
-      <Root className={classes.root}>
-        <Grid container direction="column" justify="center" alignItems="center">
-          <Grid item>
-            <Typography component="h6" variant="h6">
-              {this.state.signupstatus}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <TextField
-              autoComplete="fname"
-              margin="normal"
-              name="firstName"
-              variant="outlined"
-              required
-              fullWidth
-              id="firstName"
-              label="First Name"
-              autoFocus
-              value={this.state.firstName}
-              onChange={(e) => {
-                this.setState({ firstName: e.target.value });
-              }}
-              error={this.state.firstNameError.length !== 0 ? true : false}
-              helperText={this.state.firstNameError}
-            />
-          </Grid>
-          <Grid item>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="lastName"
-              label="Last Name"
-              name="lastName"
-              autoComplete="lname"
-              value={this.state.lastName}
-              onChange={(e) => {
-                this.setState({ lastName: e.target.value });
-              }}
-              error={this.state.lastNameError.length !== 0 ? true : false}
-              helperText={this.state.lastNameError}
-            />
-          </Grid>
-          <Grid item>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              value={this.state.email}
-              onChange={(e) => {
-                this.setState({ email: e.target.value });
-              }}
-              error={this.state.emailError.length !== 0 ? true : false}
-              helperText={this.state.emailError}
-            />
-          </Grid>
-          <Grid item>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={this.state.password}
-              onChange={(e) => {
-                this.setState({ password: e.target.value });
-              }}
-              error={this.state.passwordError.length !== 0 ? true : false}
-              helperText={this.state.passwordError}
-              className = {classes.helperText}
-            />
-          </Grid>
-          <Grid item>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={this.verifyAndCreate}
-            >
-            Sign Up
-            </Button>
-          </Grid>
-          <Grid item>
-            <NavLink to="/login" sx={{ color: "blue" }}>
-              <Typography variant="h6" sx={{ color: "blue" }}>
-                {"Already have an account? Sign in"}
-              </Typography>
-            </NavLink>
-          </Grid>
+  const logged = localStorage.getItem("logged");
+  return (
+    <Root className={classes.root}>
+      <Grid container direction="column" justify="center" alignItems="center">
+        <Grid item>
+          <Typography component="h6" variant="h6">
+            {signupStatus}
+          </Typography>
         </Grid>
-      </Root>
-    );
-  }
+        <Grid item>
+          <TextField
+            autoComplete="fname"
+            margin="normal"
+            name="firstName"
+            variant="outlined"
+            required
+            fullWidth
+            id="firstName"
+            label="First Name"
+            autoFocus
+            value={firstName}
+            onChange={(e) => {
+              setFirstName(e.target.value);
+            }}
+            error={firstNameError.length !== 0 ? true : false}
+            helperText={firstNameError}
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="lastName"
+            label="Last Name"
+            name="lastName"
+            autoComplete="lname"
+            value={lastName}
+            onChange={(e) => {
+              setLastName(e.target.value);
+            }}
+            error={lastNameError.length !== 0 ? true : false}
+            helperText={lastNameError}
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value)
+            }}
+            error={emailError.length !== 0 ? true : false}
+            helperText={emailError}
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            error={passwordError.length !== 0 ? true : false}
+            helperText={passwordError}
+            className={classes.helperText}
+          />
+        </Grid>
+        <Grid item>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={verifyAndCreate}
+          >
+            Sign Up
+          </Button>
+        </Grid>
+        <Grid item>
+          <NavLink to="/login" sx={{ color: "blue" }}>
+            <Typography variant="h6" sx={{ color: "blue" }}>
+              {"Already have an account? Sign in"}
+            </Typography>
+          </NavLink>
+        </Grid>
+      </Grid>
+    </Root>
+  );
 }
 
-export default withRouter(SignUp);
+export default SignUp;
