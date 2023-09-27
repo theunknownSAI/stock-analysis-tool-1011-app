@@ -6,12 +6,9 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 import { Button, ButtonGroup, Divider } from "@mui/material";
 import { createTheme, styled } from '@mui/material/styles';
-import moment from "moment";
-import { withRouter } from "../../utils/WithRouter";
-
 import * as Loader from "react-loader-spinner";
-import { dashboardOptions } from "../../utils/constants";
 import { useParams } from "react-router-dom";
+import { dashboardOptions } from "../../utils/constants";
 
 const PREFIX = "Dashboard";
 const theme = createTheme();
@@ -348,4 +345,4 @@ const Dashboard = ({ props }) => {
   );
 }
 
-export default withRouter(Dashboard);
+export default Dashboard;

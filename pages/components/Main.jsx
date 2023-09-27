@@ -7,8 +7,6 @@ import {
 import { createTheme, styled } from '@mui/material/styles';
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { withRouter } from "../../utils/WithRouter"
-
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import { useNavigate } from "react-router-dom";
 
@@ -149,4 +147,4 @@ const Main = () => {
   );
 }
 
-export default withRouter(Main);
+export default Main;

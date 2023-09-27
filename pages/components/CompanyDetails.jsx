@@ -12,15 +12,13 @@ import {
 } from "@mui/material";
 import { createTheme, styled } from '@mui/material/styles';
 import axios from "axios";
-import moment from "moment";
 import React, { useEffect, useState } from "react";
 import * as Loader from "react-loader-spinner";
 
-import { withRouter } from "../../utils/WithRouter";
 import Dashboard from "./Dashboard";
 
-import { necessarykeys, otherkeys } from "../../utils/constants";
 import { useParams } from "react-router-dom";
+import { necessarykeys, otherkeys } from "../../utils/constants";
 
 const theme = createTheme();
 
@@ -303,4 +301,4 @@ const CompanyDetails = () => {
   );
 }
 
-export default withRouter(CompanyDetails);
+export default CompanyDetails;
