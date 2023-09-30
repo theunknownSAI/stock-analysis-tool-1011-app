@@ -75,7 +75,7 @@ const Comparison = () => {
       .catch((error) => console.log(error));
   };
 
-  onClickSubmit = async () => {
+  const onClickSubmit = async () => {
     if (selectedCompanies.length < 2) {
       setError("select atleast two companies");
       return;
