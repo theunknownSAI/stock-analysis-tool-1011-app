@@ -18,7 +18,7 @@ export default (req, res, next) => {
         if (s.status === 200) {
           const companies = s.data;
           if (company === undefined) {
-            res.send(companies);
+            res.status(500).send({ details: [], message: "Error" });
           } else {
             company = company.toUpperCase();
             res.status(200).send({ details: companies[company], message: "success" });
